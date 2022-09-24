@@ -19,7 +19,7 @@ fun Homepage(navController: NavController){
         Button(onClick = {
             navController.navigate(NavigationRoute.CarInfo.route)
         }) {
-            Text(text = "carinfo")
+            Text(text = "Carinfo")
         }
         Button(onClick = {
             navController.navigate(NavigationRoute.Checkout.route)
