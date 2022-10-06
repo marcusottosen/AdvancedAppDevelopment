@@ -1,17 +1,15 @@
 package com.example.advancedappdevelopment.data.util
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.advancedappdevelopment.data.model.NavigationRoute
 import com.example.advancedappdevelopment.ui.view.pages.CarInfo
 import com.example.advancedappdevelopment.ui.view.pages.Checkout
-import com.example.advancedappdevelopment.ui.view.pages.Homepage
+import com.example.advancedappdevelopment.ui.view.pages.AvailableVehiclesPage
 
 
 @ExperimentalMaterialApi
@@ -46,7 +44,7 @@ fun Navigation(navController: NavHostController) {
         }
         */
         composable(NavigationRoute.Homepage.route) {
-            Homepage(navController)
+            AvailableVehiclesPage(navController)
         }
         composable(NavigationRoute.CarInfo.route){
             CarInfo(navController)
