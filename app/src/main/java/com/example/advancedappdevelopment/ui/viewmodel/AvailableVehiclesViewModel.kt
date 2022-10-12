@@ -1,25 +1,11 @@
 package com.example.advancedappdevelopment.ui.viewmodel
-/*
-import androidx.compose.animation.*
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.TransformOrigin
-import androidx.compose.ui.unit.dp
-import com.example.advancedappdevelopment.R
-*/
-import androidx.compose.foundation.layout.Column
-import androidx.compose.runtime.*
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.runtime.Composable
 import com.example.advancedappdevelopment.ui.view.reusables.AvailableVehicleCard
 
 class AvailableVehiclesViewModel {
 
-    //@OptIn(ExperimentalAnimationApi::class)
     @Composable
     fun GetOverviewView(){
         /*Column {
@@ -62,6 +48,7 @@ class AvailableVehiclesViewModel {
                 )
             }
         }*/
+
         Column(){
             for (i in 0..5){
                 AvailableVehicleCard()

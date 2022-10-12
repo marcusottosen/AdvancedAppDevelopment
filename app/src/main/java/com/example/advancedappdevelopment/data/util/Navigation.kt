@@ -16,43 +16,33 @@ import com.example.advancedappdevelopment.ui.view.pages.AvailableVehiclesPage
 @ExperimentalFoundationApi
 @Composable
 fun Navigation(navController: NavHostController) {
+    println("navcontroller")
     NavHost(navController, startDestination = NavigationRoute.Homepage.route
     /*if (Firebase.auth.currentUser != null)
         NavigationRoute.LoadFromDB.route
     else
         "authenticationOption"*/
     ) {
-        /*
-        // Login pages
-        composable("authenticationOption") {
-            AuthenticationView(
-                register = remember(navController) { Action(navController) }.register,
-                login = remember(navController) { Action(navController) }.login
-            )
-        }
-        composable("register") {
-            RegisterView(
-                home = remember(navController) { Action(navController) }.home,
-                back = remember(navController) { Action(navController) }.navigateBack
-            )
-        }
-        composable("login") {
-            LoginView(
-                home = remember(navController) { Action(navController) }.home,
-                back = remember(navController) { Action(navController) }.navigateBack
-            )
-        }
-        */
+
+
         composable(NavigationRoute.Homepage.route) {
+            println("(nav to HomePage)")
             AvailableVehiclesPage(navController)
         }
         composable(NavigationRoute.CarInfo.route){
+            println("(nav to CarInfo)")
             CarInfo(navController)
         }
+        //Load before homepage is shown
+        composable(NavigationRoute.LoadFromDB.route) {
+            println("loading from db (go to loadFromDB)")
+            LoadFromDB(navController)
+        }
         composable(NavigationRoute.Checkout.route){
+            println("(nav to Checkout)")
             Checkout(navController)
         }
 
     }
 }
-// Change page with argument - check last project
+// Change page with argument: check last project

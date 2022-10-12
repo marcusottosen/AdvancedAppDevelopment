@@ -10,7 +10,7 @@ data class Vehicle(
     val battery: Byte = 0,
 
     val plate: String = "",
-    val range: String = "",
+    val range: Short = 0,
     val bootSpace: Short = 0,
     val seats: Short = 0,
 ) : Parcelable

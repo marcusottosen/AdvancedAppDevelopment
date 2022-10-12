@@ -16,10 +16,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.example.advancedappdevelopment.data.model.NavigationRoute
 import com.example.advancedappdevelopment.R
+import com.example.advancedappdevelopment.data.model.NavigationRoute
 import com.example.advancedappdevelopment.ui.viewmodel.AvailableVehiclesViewModel
 
 
@@ -93,7 +92,7 @@ fun PageTop(){
                     }
                     item {
                         Button(
-                            onClick = { /*TODO*/ },
+                            onClick = { print("HELLOO WORLD") },
                             Modifier.padding(bottom = 20.dp, start = 10.dp, end = 10.dp),
                             shape = RoundedCornerShape(12.dp),
                             colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.inactive))

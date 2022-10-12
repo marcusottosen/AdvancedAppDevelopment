@@ -1,18 +1,15 @@
 package com.example.advancedappdevelopment
 
-import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.*
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.navigation.compose.rememberNavController
 import com.example.advancedappdevelopment.data.util.Navigation
 import com.example.advancedappdevelopment.ui.theme.AdvancedAppDevelopmentTheme
+import com.google.firebase.FirebaseApp
 
 
 class MainActivity : ComponentActivity() {
@@ -20,15 +17,10 @@ class MainActivity : ComponentActivity() {
     @ExperimentalFoundationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        FirebaseApp.initializeApp(this)
         setContent {
             AdvancedAppDevelopmentTheme {
                 MainScreen()
-                /*Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    MainScreen()
-                }*/
             }
         }
     }
