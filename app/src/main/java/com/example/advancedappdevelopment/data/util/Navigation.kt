@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.advancedappdevelopment.data.model.NavigationRoute
+import com.example.advancedappdevelopment.data.model.firebaseAdapter.VehicleDBModel
 import com.example.advancedappdevelopment.ui.view.pages.CarInfo
 import com.example.advancedappdevelopment.ui.view.pages.Checkout
 import com.example.advancedappdevelopment.ui.view.pages.AvailableVehiclesPage
@@ -17,7 +18,7 @@ import com.example.advancedappdevelopment.ui.view.pages.AvailableVehiclesPage
 @Composable
 fun Navigation(navController: NavHostController) {
     println("navcontroller")
-    NavHost(navController, startDestination = NavigationRoute.Homepage.route
+    NavHost(navController, startDestination = NavigationRoute.LoadFromDB.route
     /*if (Firebase.auth.currentUser != null)
         NavigationRoute.LoadFromDB.route
     else
@@ -35,7 +36,9 @@ fun Navigation(navController: NavHostController) {
         }
         //Load before homepage is shown
         composable(NavigationRoute.LoadFromDB.route) {
-            println("loading from db (go to loadFromDB)")
+            println("Calling VehicleDB")
+            //val vehicles = VehicleDBModel()
+            //vehicles.loadVehiclesFromDB(navController)
             LoadFromDB(navController)
         }
         composable(NavigationRoute.Checkout.route){

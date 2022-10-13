@@ -19,8 +19,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         FirebaseApp.initializeApp(this)
         setContent {
+            MainScreen()
             AdvancedAppDevelopmentTheme {
-                MainScreen()
             }
         }
     }
@@ -31,5 +31,5 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
-        Navigation(navController = navController)
+    Navigation(navController = navController)
 }

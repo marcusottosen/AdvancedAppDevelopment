@@ -4,6 +4,8 @@ import android.content.ContentValues
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.NavController
+import com.example.advancedappdevelopment.data.model.NavigationRoute
 import com.example.advancedappdevelopment.data.model.dataClass.Vehicle
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.ktx.firestore
@@ -16,11 +18,13 @@ class VehicleDBModel{
     private val _loading = MutableLiveData(true)
     val loading: LiveData<Boolean> = _loading
 
-    fun loadVehiclesFromDB(): MutableList<Vehicle>{ //db: FirebaseFirestore
+    fun loadVehiclesFromDB(navController: NavController): MutableList<Vehicle>{ //db: FirebaseFirestore
+        println("loadVehiclesFromDB starting")
+
         val db = Firebase.firestore
 
         db.collection("vehicles")
-            .orderBy("carNum", Query.Direction.ASCENDING)
+            //.orderBy("carNum", Query.Direction.ASCENDING)
             .get()
             .addOnSuccessListener { result ->
                 vehicles.clear()
@@ -41,7 +45,9 @@ class VehicleDBModel{
             }
             .addOnCompleteListener{
                 if (it.isSuccessful){
-                    _loading.value = false
+                    println("Successful. Navigating to home from loadVehiclesFromDB")
+                    //navController.navigate(NavigationRoute.CarInfo.route)
+                    //_loading.value = false
                 }
             }
             .addOnFailureListener{exception ->
