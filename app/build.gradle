@@ -75,8 +75,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx'
 
     // Calendar
-    //implementation "io.github.boguszpawlowski.composecalendar:composecalendar:<latest-version>"
+    implementation "io.github.boguszpawlowski.composecalendar:composecalendar:0.5.1"
     // separate artifact with utilities for working with kotlinx-datetime
-    //implementation "io.github.boguszpawlowski.composecalendar:kotlinx-datetime:<latest-version>"
+    implementation "io.github.boguszpawlowski.composecalendar:kotlinx-datetime:0.5.1"
 
 }

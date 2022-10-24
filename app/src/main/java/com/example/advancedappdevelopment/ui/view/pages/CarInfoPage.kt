@@ -1,9 +1,7 @@
 package com.example.advancedappdevelopment.ui.view.pages
 
 import android.widget.CalendarView
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -33,10 +31,16 @@ import androidx.navigation.NavController
 import com.example.advancedappdevelopment.R
 import com.example.advancedappdevelopment.data.model.NavigationRoute
 import com.example.advancedappdevelopment.data.model.dataClass.Vehicle
+import io.github.boguszpawlowski.composecalendar.SelectableCalendar
+import io.github.boguszpawlowski.composecalendar.rememberSelectableCalendarState
+import io.github.boguszpawlowski.composecalendar.selection.DynamicSelectionState
+import io.github.boguszpawlowski.composecalendar.selection.SelectionMode
 import java.util.*
 
 @Composable
 fun CarInfo(vehicle: Vehicle, navController: NavController){
+    val calendarState = rememberSelectableCalendarState()
+
     Scaffold(
         floatingActionButton = {
             ExtendedFloatingActionButton(
@@ -89,7 +93,7 @@ fun CarInfo(vehicle: Vehicle, navController: NavController){
 
                     Box( // Vehicle details
                         modifier = Modifier
-                            .padding(30.dp, 0.dp, 30.dp, 20.dp)
+                            .padding(30.dp, 0.dp, 30.dp)
                             .height(150.dp)
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(12.dp))
@@ -125,6 +129,7 @@ fun CarInfo(vehicle: Vehicle, navController: NavController){
                             }
                         }
                     }
+                    /*
                     Box(modifier = Modifier
                         .padding(30.dp, 0.dp, 30.dp, 20.dp)
                         .height(300.dp)
@@ -158,12 +163,59 @@ fun CarInfo(vehicle: Vehicle, navController: NavController){
                             )
 
                         }
+                    }*/
+
+                    Spacer(modifier = Modifier.padding(top = 20.dp))
+
+                    // https://github.com/boguszpawlowski/ComposeCalendar
+                    Box(modifier = Modifier
+                        .padding(30.dp, 0.dp, 30.dp, 20.dp)
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(colorResource(R.color.light_gray)))
+                    {
+
+                        Column(
+                            Modifier.padding(20.dp)
+                        ) {
+                            SelectableCalendar(calendarState = calendarState)
+
+                            SelectionControls(selectionState = calendarState.selectionState)
+                        }
+
                     }
+                    Spacer(modifier = Modifier.padding(100.dp))
                 }
             }
         }
     )
 }
+
+@Composable
+private fun SelectionControls(
+    selectionState: DynamicSelectionState,
+) {
+    Text(
+        text = "Calendar Selection Mode",
+        style = MaterialTheme.typography.h5,
+    )
+    SelectionMode.values().forEach { selectionMode ->
+        Row(modifier = Modifier.fillMaxWidth()) {
+            RadioButton(
+                selected = selectionState.selectionMode == selectionMode,
+                onClick = { selectionState.selectionMode = selectionMode }
+            )
+            Text(text = selectionMode.name)
+            Spacer(modifier = Modifier.height(4.dp))
+        }
+    }
+
+    Text(
+        text = "Selection: ${selectionState.selection.joinToString { it.toString() }}",
+        style = MaterialTheme.typography.h6,
+    )
+}
+
 
 
 @Composable
