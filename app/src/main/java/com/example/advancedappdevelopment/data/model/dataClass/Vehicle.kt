@@ -8,7 +8,6 @@ data class Vehicle(
     val carNum: Byte = 0,
     val carName: String = "",
     val battery: Byte = 0,
-
     val plate: String = "",
     val range: Short = 0,
     val bootSpace: Short = 0,

@@ -7,6 +7,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.advancedappdevelopment.data.model.NavigationRoute
+import com.example.advancedappdevelopment.data.model.dataClass.Vehicle
 import com.example.advancedappdevelopment.data.model.firebaseAdapter.VehicleDBModel
 import com.example.advancedappdevelopment.ui.view.pages.CarInfo
 import com.example.advancedappdevelopment.ui.view.pages.Checkout
@@ -30,10 +31,10 @@ fun Navigation(navController: NavHostController) {
             println("(nav to HomePage)")
             AvailableVehiclesPage(navController)
         }
-        composable(NavigationRoute.CarInfo.route){
+        /*composable(NavigationRoute.CarInfo.route){
             println("(nav to CarInfo)")
             CarInfo(navController)
-        }
+        }*/
         //Load before homepage is shown
         composable(NavigationRoute.LoadFromDB.route) {
             println("Calling VehicleDB")
@@ -45,6 +46,16 @@ fun Navigation(navController: NavHostController) {
             println("(nav to Checkout)")
             Checkout(navController)
         }
+        composable(NavigationRoute.CarInfo.route) {
+            val eventModel =
+                navController.previousBackStackEntry?.arguments?.getParcelable<Vehicle>("vehicle")
+            eventModel?.let {
+                CarInfo(vehicle = it, navController = navController)
+            }
+        }
+
+
+
 
     }
 }

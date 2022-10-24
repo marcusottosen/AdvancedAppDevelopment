@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.advancedappdevelopment.R
 import com.example.advancedappdevelopment.data.model.NavigationRoute
+import com.example.advancedappdevelopment.data.model.dataClass.Vehicle
 import com.example.advancedappdevelopment.ui.viewmodel.AvailableVehiclesViewModel
 
 
@@ -37,17 +38,9 @@ fun AvailableVehiclesPage(navController: NavController){
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(start = 30.dp, top = 10.dp),
             )
-            viewModel.GetOverviewView()
+            viewModel.GetOverviewView(navController)
         }
         item {
-            Text(text = "HOME")
-            Button(onClick = {
-                navController.navigate(NavigationRoute.CarInfo.route) {
-                    launchSingleTop = true
-                }
-            }) {
-                Text(text = "Carinfo")
-            }
             Button(onClick = {
                 navController.navigate(NavigationRoute.Checkout.route)
             }) {
@@ -98,7 +91,7 @@ fun PageTop(){
                             colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.inactive))
                         ) {
                             Text(
-                                text = "Taastrupp sportsklub",
+                                text = "Taastrup sportsklub",
                                 color = Color.White,
                                 fontWeight = FontWeight.Bold
                             )
@@ -117,4 +110,9 @@ fun PageTop(){
             )
         }
     }
+}
+
+fun gotoVehicleDetails(vehicle: Vehicle, navController: NavController) {
+    navController.currentBackStackEntry?.arguments?.putParcelable("vehicle", vehicle)
+    navController.navigate(NavigationRoute.CarInfo.route)
 }

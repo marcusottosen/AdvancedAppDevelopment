@@ -6,4 +6,5 @@
     <color name="inactive">#333333</color>
     <color name="background">#FFFFFFFF</color>
     <color name="black">#FF000000</color>
+    <color name="light_gray">#EBEBEB</color>
 </resources>

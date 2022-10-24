@@ -17,11 +17,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.advancedappdevelopment.R
+import com.example.advancedappdevelopment.data.model.dataClass.Vehicle
+import com.example.advancedappdevelopment.ui.view.pages.gotoVehicleDetails
 
 
 @Composable
-fun AvailableVehicleCard() {
+fun AvailableVehicleCard(
+    vehicle: Vehicle,
+    navController: NavController
+) {
 
     Card(
         modifier = Modifier
@@ -29,7 +35,7 @@ fun AvailableVehicleCard() {
             .height(85.dp)
             .fillMaxWidth()
             .clickable {
-                //gotoTrainingDetails(training, navController)
+                gotoVehicleDetails(vehicle, navController)
             },
         shape = RoundedCornerShape(9.dp),
         backgroundColor = colorResource(R.color.background),
@@ -38,15 +44,15 @@ fun AvailableVehicleCard() {
         Row {
             Column(modifier = Modifier.width(95.dp)) {
                 Text(
-                    text = "Car 1",
+                    text = "Car ${vehicle.carNum}",
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(10.dp, 0.dp, 10.dp),
-                    fontSize = 20.sp
+                    modifier = Modifier.padding(10.dp, 20.dp, 10.dp),
+                    fontSize = 16.sp
                 )
                 Text(
-                    text = "Renault Zoe",
+                    text = vehicle.carName,
                     fontSize = 11.sp,
-                    modifier = Modifier.padding(10.dp, 18.dp, 5.dp),
+                    modifier = Modifier.padding(10.dp, 5.dp, 5.dp),
                     color = Color.DarkGray
                 )
             }
@@ -62,7 +68,7 @@ fun AvailableVehicleCard() {
                                 .padding(top = 5.dp)
                         ) {
                             Text(
-                                text = "100%",
+                                text = "${vehicle.battery}%",
                                 modifier = Modifier.padding(start = 5.dp),
                                 fontSize = 11.sp,
                                 color = Color.DarkGray
@@ -97,8 +103,6 @@ fun AvailableVehicleCard() {
                     .padding(start = 210.dp)
                     .height(85.dp)
             )
-
-
         }
     }
 }

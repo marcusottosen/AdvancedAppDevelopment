@@ -1,13 +1,16 @@
 package com.example.advancedappdevelopment.ui.viewmodel
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavController
+import com.example.advancedappdevelopment.data.model.firebaseAdapter.vehicles
 import com.example.advancedappdevelopment.ui.view.reusables.AvailableVehicleCard
 
 class AvailableVehiclesViewModel {
 
     @Composable
-    fun GetOverviewView(){
+    fun GetOverviewView(navController: NavController){
         /*Column {
             var showRed by remember { mutableStateOf(true) }
             var showGreen by remember { mutableStateOf(true) }
@@ -50,8 +53,14 @@ class AvailableVehiclesViewModel {
         }*/
 
         Column(){
-            for (i in 0..5){
-                AvailableVehicleCard()
+            if (vehicles.size > 0) {
+                println("vehicle size: " + vehicles.size)
+                for (i in 0 until vehicles.size) {
+                    AvailableVehicleCard(
+                        vehicle = vehicles[i],
+                        navController = navController
+                    )
+                }
             }
         }
     }
