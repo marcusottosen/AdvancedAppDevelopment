@@ -1,41 +1,33 @@
 package com.example.advancedappdevelopment.ui.view.pages
 
-import android.widget.CalendarView
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidView
 import androidx.navigation.NavController
 import com.example.advancedappdevelopment.R
 import com.example.advancedappdevelopment.data.model.NavigationRoute
 import com.example.advancedappdevelopment.data.model.dataClass.Vehicle
+import com.example.advancedappdevelopment.ui.view.reusables.MyCalendarView
 import io.github.boguszpawlowski.composecalendar.SelectableCalendar
 import io.github.boguszpawlowski.composecalendar.rememberSelectableCalendarState
 import io.github.boguszpawlowski.composecalendar.selection.DynamicSelectionState
 import io.github.boguszpawlowski.composecalendar.selection.SelectionMode
-import java.util.*
 
 @Composable
 fun CarInfo(vehicle: Vehicle, navController: NavController){
@@ -178,45 +170,16 @@ fun CarInfo(vehicle: Vehicle, navController: NavController){
                         Column(
                             Modifier.padding(20.dp)
                         ) {
-                            SelectableCalendar(calendarState = calendarState)
-
-                            SelectionControls(selectionState = calendarState.selectionState)
+                            MyCalendarView()
                         }
-
                     }
+
                     Spacer(modifier = Modifier.padding(100.dp))
                 }
             }
         }
     )
 }
-
-@Composable
-private fun SelectionControls(
-    selectionState: DynamicSelectionState,
-) {
-    Text(
-        text = "Calendar Selection Mode",
-        style = MaterialTheme.typography.h5,
-    )
-    SelectionMode.values().forEach { selectionMode ->
-        Row(modifier = Modifier.fillMaxWidth()) {
-            RadioButton(
-                selected = selectionState.selectionMode == selectionMode,
-                onClick = { selectionState.selectionMode = selectionMode }
-            )
-            Text(text = selectionMode.name)
-            Spacer(modifier = Modifier.height(4.dp))
-        }
-    }
-
-    Text(
-        text = "Selection: ${selectionState.selection.joinToString { it.toString() }}",
-        style = MaterialTheme.typography.h6,
-    )
-}
-
-
 
 @Composable
 fun CarInfoPageTop(navController: NavController){
