@@ -18,7 +18,7 @@ class VehicleDBModel{
     private val _loading = MutableLiveData(true)
     val loading: LiveData<Boolean> = _loading
 
-    fun loadVehiclesFromDB(navController: NavController): MutableList<Vehicle>{ //db: FirebaseFirestore
+    fun loadVehiclesFromDB(): MutableList<Vehicle>{ //db: FirebaseFirestore
         println("loadVehiclesFromDB starting")
 
         val db = Firebase.firestore
@@ -31,6 +31,7 @@ class VehicleDBModel{
                 for (doc in result){
                     vehicles.add(
                         Vehicle(
+                            association = doc["association"] as String,
                             carNum = (doc["carNum"] as Number).toByte(),
                             carName = doc["carName"] as String,
                             battery = (doc["battery"] as Number).toByte(),

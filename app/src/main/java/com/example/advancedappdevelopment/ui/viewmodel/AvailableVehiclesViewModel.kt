@@ -1,16 +1,28 @@
 package com.example.advancedappdevelopment.ui.viewmodel
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.lazy.LazyColumn
+import android.annotation.SuppressLint
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.AnimationVector1D
+import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.NavController
 import com.example.advancedappdevelopment.data.model.firebaseAdapter.vehicles
 import com.example.advancedappdevelopment.ui.view.reusables.AvailableVehicleCard
+import kotlinx.coroutines.launch
 
 class AvailableVehiclesViewModel {
 
     @Composable
-    fun GetOverviewView(navController: NavController){
+    fun GetAssociations(){
+    }
+
+	@Composable
+    fun GetVehicleOverviewView(
+		navController: NavController,
+		showAssociation: String
+	){
         /*Column {
             var showRed by remember { mutableStateOf(true) }
             var showGreen by remember { mutableStateOf(true) }
@@ -52,18 +64,33 @@ class AvailableVehiclesViewModel {
             }
         }*/
 
-        Column(){
-            if (vehicles.size > 0) {
-                println("vehicle size: " + vehicles.size)
-                for (i in 0 until vehicles.size) {
-                    AvailableVehicleCard(
-                        vehicle = vehicles[i],
-                        navController = navController
+
+		if (vehicles.size > 0) {
+			for (i in 0 until vehicles.size) {
+				if (vehicles[i].association == showAssociation) {
+					AvailableVehicleCard(
+						vehicle = vehicles[i],
+						navController = navController,
+						//scale = scale
+					)
+				}
+			}
+		}
+    }
+
+}
+
+/*
+                coroutineScope.launch {
+                    scale.animateTo(
+                        scaleDown,
+                        animationSpec = tween(animationDuration),
+                    )
+                    scale.animateTo(
+                        1f,
+                        animationSpec = tween(animationDuration),
                     )
                 }
-            }
-        }
-    }
-}
+ */
 
 
