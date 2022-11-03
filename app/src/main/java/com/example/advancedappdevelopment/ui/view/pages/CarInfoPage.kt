@@ -1,14 +1,20 @@
 package com.example.advancedappdevelopment.ui.view.pages
 
-import androidx.compose.foundation.*
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -24,14 +30,16 @@ import com.example.advancedappdevelopment.R
 import com.example.advancedappdevelopment.data.model.NavigationRoute
 import com.example.advancedappdevelopment.data.model.dataClass.Vehicle
 import com.example.advancedappdevelopment.ui.view.reusables.MyCalendarView
-import io.github.boguszpawlowski.composecalendar.SelectableCalendar
+import com.example.advancedappdevelopment.ui.view.reusables.TimePicker
+import com.example.advancedappdevelopment.ui.view.reusables.TimePickers
+import com.example.advancedappdevelopment.ui.viewmodel.CalendarViewModel
 import io.github.boguszpawlowski.composecalendar.rememberSelectableCalendarState
-import io.github.boguszpawlowski.composecalendar.selection.DynamicSelectionState
-import io.github.boguszpawlowski.composecalendar.selection.SelectionMode
 
 @Composable
 fun CarInfo(vehicle: Vehicle, navController: NavController){
     val calendarState = rememberSelectableCalendarState()
+    val viewModel = remember { CalendarViewModel() }
+
 
     Scaffold(
         floatingActionButton = {
@@ -161,7 +169,7 @@ fun CarInfo(vehicle: Vehicle, navController: NavController){
 
                     // https://github.com/boguszpawlowski/ComposeCalendar
                     Box(modifier = Modifier
-                        .padding(30.dp, 0.dp, 30.dp, 20.dp)
+                        .padding(30.dp, 0.dp)
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(12.dp))
                         .background(colorResource(R.color.light_gray)))
@@ -170,9 +178,35 @@ fun CarInfo(vehicle: Vehicle, navController: NavController){
                         Column(
                             Modifier.padding(20.dp)
                         ) {
-                            MyCalendarView()
+                            MyCalendarView(viewModel)
                         }
                     }
+
+                    Spacer(modifier = Modifier.padding(top = 20.dp))
+
+                    Box(modifier = Modifier
+                        .padding(30.dp, 0.dp)
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(12.dp))
+                        .background(colorResource(R.color.light_gray)))
+                    {
+
+                        Column(
+                            Modifier.padding(20.dp)
+                        ) {
+                            Row(modifier = Modifier.fillMaxWidth(), Arrangement.SpaceEvenly) {
+                                Text(text = "Night", fontWeight= FontWeight.SemiBold)
+                                Text(text = "Morning", fontWeight= FontWeight.SemiBold)
+                                Text(text = "Afternoon", fontWeight= FontWeight.SemiBold)
+                                Text(text = "Evening", fontWeight= FontWeight.SemiBold)
+
+                            }
+                            //TimePicker()
+                            TimePickers(viewModel)
+
+                        }
+                    }
+
 
                     Spacer(modifier = Modifier.padding(100.dp))
                 }
