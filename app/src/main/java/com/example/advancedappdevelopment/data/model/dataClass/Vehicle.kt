@@ -5,6 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Vehicle(
+    val association: String = "",
     val carNum: Byte = 0,
     val carName: String = "",
     val battery: Byte = 0,

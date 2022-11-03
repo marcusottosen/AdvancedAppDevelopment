@@ -53,7 +53,7 @@ fun MyCalendarView(){
         )
 
         Text(
-            text = "Selected recipes price: $chosenDate",
+            text = "Date chosen: $chosenDate",
             style = MaterialTheme.typography.h6,
         )
 
