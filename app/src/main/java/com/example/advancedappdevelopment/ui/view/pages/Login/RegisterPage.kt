@@ -155,7 +155,9 @@ fun RegisterPage(navController: NavController, viewModel: RegisterViewModel = vi
 
                         //Spacer
                         Spacer(modifier = Modifier.height(50.dp))
-
+                        //TODO: Kun signup med kode over 6 karaktere.
+                        //TODO: Toastbesked ved mismatchende kodeer.
+                        //TODO: Toastbesked ved tommefelter i stedet for crash.
                         Button(
                             onClick = { viewModel.registerUser() },
                             modifier = Modifier
