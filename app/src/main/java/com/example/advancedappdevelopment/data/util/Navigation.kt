@@ -13,9 +13,6 @@ import com.example.advancedappdevelopment.ui.view.pages.Login.LoginPage
 import com.example.advancedappdevelopment.ui.view.pages.Login.RegisterPage
 import com.example.advancedappdevelopment.ui.view.pages.login.LoginRegisterPage
 
-
-//@ExperimentalMaterialApi
-//@ExperimentalFoundationApi
 @Composable
 fun Navigation(navController: NavHostController) {
     println("navcontroller")
