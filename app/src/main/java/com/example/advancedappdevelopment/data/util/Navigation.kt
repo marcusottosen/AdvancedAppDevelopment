@@ -1,25 +1,25 @@
 package com.example.advancedappdevelopment.data.util
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.advancedappdevelopment.data.model.NavigationRoute
 import com.example.advancedappdevelopment.data.model.dataClass.Vehicle
-import com.example.advancedappdevelopment.data.model.firebaseAdapter.VehicleDBModel
 import com.example.advancedappdevelopment.ui.view.pages.CarInfo
 import com.example.advancedappdevelopment.ui.view.pages.Checkout
 import com.example.advancedappdevelopment.ui.view.pages.AvailableVehiclesPage
+import com.example.advancedappdevelopment.ui.view.pages.Login.LoginPage
+import com.example.advancedappdevelopment.ui.view.pages.Login.RegisterPage
+import com.example.advancedappdevelopment.ui.view.pages.login.LoginRegisterPage
 
 
-@ExperimentalMaterialApi
-@ExperimentalFoundationApi
+//@ExperimentalMaterialApi
+//@ExperimentalFoundationApi
 @Composable
 fun Navigation(navController: NavHostController) {
     println("navcontroller")
-    NavHost(navController, startDestination = NavigationRoute.LoadFromDB.route
+    NavHost(navController, startDestination = NavigationRoute.LoginRegisterPage.route
     /*if (Firebase.auth.currentUser != null)
         NavigationRoute.LoadFromDB.route
     else
@@ -52,6 +52,17 @@ fun Navigation(navController: NavHostController) {
             eventModel?.let {
                 CarInfo(vehicle = it, navController = navController)
             }
+        }
+
+        // Authentication pages
+        composable(NavigationRoute.LoginPage.route) {
+            LoginPage(navController)
+        }
+        composable(NavigationRoute.RegisterPage.route) {
+            RegisterPage(navController)
+        }
+        composable(NavigationRoute.LoginRegisterPage.route) {
+            LoginRegisterPage(navController)
         }
 
 
