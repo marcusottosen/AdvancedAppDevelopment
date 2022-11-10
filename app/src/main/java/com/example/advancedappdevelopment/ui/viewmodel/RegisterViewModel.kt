@@ -3,7 +3,6 @@ package com.example.advancedappdevelopment.ui.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.advancedappdevelopment.data.model.NavigationRoute
 import com.example.advancedappdevelopment.data.model.dataClass.User
 import com.example.advancedappdevelopment.data.model.firebaseAdapter.updateCurrentUser
 import com.google.firebase.auth.FirebaseAuth
@@ -20,7 +19,9 @@ class RegisterViewModel : ViewModel() {
     val loading: LiveData<Boolean> = _loading
 
     private val _registerSucces = MutableLiveData(false)
-    val registerSucess: LiveData<Boolean> = _registerSucces
+    val registerSuccess: LiveData<Boolean> = _registerSucces
+    val _showRegisterSucces = MutableLiveData(false)
+    val showRegisterSucess: LiveData<Boolean> = _showRegisterSucces
 
 
     private val _name = MutableLiveData("")
@@ -70,10 +71,12 @@ class RegisterViewModel : ViewModel() {
                                 ))
                             updateCurrentUser()
                         }
+                        _showRegisterSucces.value = true
                         _registerSucces.value = true
                         _loading.value = false
                     }
                     .addOnFailureListener {
+                        _showRegisterSucces.value = true
                         _registerSucces.value = false
 
                     }

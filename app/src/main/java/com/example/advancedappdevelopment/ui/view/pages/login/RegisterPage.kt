@@ -3,15 +3,12 @@ package com.example.advancedappdevelopment.ui.view.pages.login
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.Interaction
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.MaterialTheme.colors
-import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
@@ -43,22 +40,13 @@ fun RegisterPage(navController: NavController, viewModel: RegisterViewModel = vi
     val context = LocalContext.current
 
     val loading: Boolean by viewModel.loading.observeAsState(initial = false)
-    val registerSuccess: Boolean by viewModel.registerSucess.observeAsState(initial = false)
+    val registerSuccess: Boolean by viewModel.registerSuccess.observeAsState(initial = false)
+    val showRegisterSucess: Boolean by viewModel.showRegisterSucess.observeAsState(initial = false)
 
     val name: String by viewModel.name.observeAsState("")
     val email: String by viewModel.email.observeAsState("")
     val password: String by viewModel.password.observeAsState("")
     val passwordCheck: String by viewModel.passwordCheck.observeAsState("")
-
-    fun registerUser() {
-        viewModel.registerUser()
-        if (!registerSuccess) {
-            Toast.makeText(context, "Noget gik galt. Tjek venligst at email er korrekt", Toast.LENGTH_LONG).show()
-        } else {
-            Toast.makeText(context, "Du er nu oprettet. Kør forsigtigt", Toast.LENGTH_LONG).show()
-            //navController.navigate(NavigationRoute.Homepage.route)
-        }
-    }
 
     Box(
         contentAlignment = Alignment.Center,
@@ -67,6 +55,16 @@ fun RegisterPage(navController: NavController, viewModel: RegisterViewModel = vi
         // Disable page when loading and display icon
         if (loading) { CircularProgressIndicator(color = Color.Magenta) }
         else {
+            if (!registerSuccess and showRegisterSucess) {
+                Toast.makeText(context, "Noget gik galt. Tjek venligst at email er korrekt", Toast.LENGTH_LONG).show()
+                viewModel._showRegisterSucces.value = false
+            }
+            if (registerSuccess and showRegisterSucess) {
+                Toast.makeText(context, "Du er nu oprettet. Kør forsigtigt", Toast.LENGTH_LONG).show()
+                viewModel._showRegisterSucces.value = false
+                //TODO: Crasher pt. app'en at navigere til Homepage to authentication-branch
+                navController.navigate(NavigationRoute.Homepage.route)
+            }
             // To enable scrolling when keyboard is shown
             LazyColumn(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -187,7 +185,7 @@ fun RegisterPage(navController: NavController, viewModel: RegisterViewModel = vi
                         if ((name.isNotEmpty()) and (email.isNotEmpty()) and (password.length >=6) and (password == passwordCheck)) {
                             // Enabled button
                             Button(
-                                onClick = { registerUser() },
+                                onClick = { viewModel.registerUser() },
                                 modifier = Modifier
                                     .width(340.dp)
                                     .height(60.dp)
