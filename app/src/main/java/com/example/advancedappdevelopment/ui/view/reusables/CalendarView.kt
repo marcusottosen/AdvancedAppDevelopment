@@ -160,8 +160,13 @@ fun TimePickers(viewModel: CalendarViewModel, vehicle: Vehicle){
                 }
             }
 
+            if (hourIsBooked)
+                chosenTime = false
+
             Button(
-                onClick = {chosenTime =! chosenTime},
+                onClick = {
+                    if (!hourIsBooked)
+                        chosenTime =! chosenTime},
                 Modifier
                     .padding(5.dp, 0.dp)
                     .clip(RoundedCornerShape(10.dp)),   // && bookingHourStarts.contains(index)

@@ -44,7 +44,7 @@ fun CarInfo(vehicle: Vehicle, navController: NavController){
                 text = { Text(text = "Book Now", color = Color.Black) },
                 onClick = { navController.navigate(NavigationRoute.Checkout.route) },
                 icon = { Icon(Icons.Filled.ArrowForward, "", tint = Color.Black)},
-                modifier = Modifier.padding(bottom = 60.dp),
+                modifier = Modifier.padding(bottom = 20.dp),
                 backgroundColor = colorResource(id = R.color.primary)
             )
         },
