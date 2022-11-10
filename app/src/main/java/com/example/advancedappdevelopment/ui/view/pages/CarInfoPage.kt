@@ -55,7 +55,7 @@ fun CarInfo(vehicle: Vehicle, navController: NavController){
                     CarInfoPageTop(navController)
                 }
                 item {
-                    println("car info:")
+                    /*println("car info:")
                     println(vehicle.bookingStart.toString())
                     println(getDay(vehicle.bookingStart[0]))
                     println(vehicle.bookingEnd.toString())
@@ -65,6 +65,7 @@ fun CarInfo(vehicle: Vehicle, navController: NavController){
                     println(startDate.time)
                     println(startDate.date)
                     println(startDate.hours)
+                     */
 
                     Text(
                         text = "Car ${vehicle.carNum} - ${vehicle.carName}",
@@ -210,7 +211,7 @@ fun CarInfo(vehicle: Vehicle, navController: NavController){
 
                             }
                             //TimePicker()
-                            TimePickers(viewModel)
+                            TimePickers(viewModel, vehicle)
 
                         }
                     }

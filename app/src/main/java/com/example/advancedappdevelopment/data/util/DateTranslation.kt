@@ -40,6 +40,11 @@ fun getTime(timestamp: com.google.firebase.Timestamp): String {
 	return "${hour}:${minute}"
 }
 
+//13
+fun getHour(timestamp: com.google.firebase.Timestamp): Int {
+	return timestamp.toDate().hours
+}
+
 //mandag
 fun getWeekDay(timestamp: com.google.firebase.Timestamp): String {
 	val c: Calendar = Calendar.getInstance()

@@ -19,8 +19,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.advancedappdevelopment.R
+import com.example.advancedappdevelopment.data.model.dataClass.Vehicle
 import com.example.advancedappdevelopment.ui.viewmodel.CalendarViewModel
-import com.example.advancedappdevelopment.ui.viewmodel.CarBookedFullDay
+import com.example.advancedappdevelopment.ui.viewmodel.CarBookedDay
+import com.example.bkskjold.data.util.getHour
 import io.github.boguszpawlowski.composecalendar.SelectableCalendar
 import io.github.boguszpawlowski.composecalendar.day.DayState
 import io.github.boguszpawlowski.composecalendar.rememberSelectableCalendarState
@@ -49,7 +51,7 @@ fun MyCalendarView(viewModel: CalendarViewModel){
             dayContent = { dayState ->
                 BookedDay(
                     state = dayState,
-                    carBookedFullDay = vehicles.firstOrNull { it.date == dayState.date },
+                    carBookedDay = vehicles.firstOrNull { it.date == dayState.date },
                 )
             }
         )
@@ -121,10 +123,18 @@ fun TimePicker(){   //Same as TimerPickers but instead made with rows and column
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TimePickers(viewModel: CalendarViewModel){
-    val hourList = listOf("01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00",
-        "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00",
-        "20:00", "21:00", "22:00", "23:00", "24:00")
+fun TimePickers(viewModel: CalendarViewModel, vehicle: Vehicle){
+    // List of all booked dates
+    val bookedDatesAsString = mutableListOf<String>()
+    for (i in 0 until viewModel.bookedDates.size){
+        bookedDatesAsString.add(viewModel.bookedDates[i].date.toString())
+    }
+
+    val bookingHourStarts = mutableListOf<Int>()
+    for (i in 0 until vehicle.bookingStart.size){
+        bookingHourStarts.add(getHour(vehicle.bookingStart[i]))
+    }
+
 
     LazyVerticalGrid(
         cells = GridCells.Fixed(4),
@@ -132,41 +142,56 @@ fun TimePickers(viewModel: CalendarViewModel){
         verticalArrangement = Arrangement.Bottom,
         horizontalArrangement = Arrangement.End
     ) {
-        items(hourList.size) { index ->
+        items(viewModel.hourList.size) { index ->
             var chosenTime by remember { mutableStateOf(false)}
+
+            var isOnDate = false
+            if (bookedDatesAsString.contains(viewModel.chosenDate.value)){
+                isOnDate = true
+            }
+            var hourIsBooked = false
+
+            for (hourlist in viewModel.bookedHoursPerDay){          // For each booking
+                if (hourlist[0] == viewModel.chosenDate.value){     // and if the date of the booking matches the chosen date
+                    for (i in 1 until hourlist.size){        // then for each booked hour on the date
+                        if (hourlist[i] == index)                   // if the hour equals the button index
+                            hourIsBooked = true                     // true that the hour is booked
+                    }
+                }
+            }
 
             Button(
                 onClick = {chosenTime =! chosenTime},
                 Modifier
                     .padding(5.dp, 0.dp)
-                    .clip(RoundedCornerShape(10.dp)),
-                colors =
-                if (chosenTime)
+                    .clip(RoundedCornerShape(10.dp)),   // && bookingHourStarts.contains(index)
+                colors =    //viewModel.bookedDates[2].date.toString() == viewModel.chosenDate.value && getHour(vehicle.bookingStart[2]) == index
+                //if (bookedDatesAsString.contains(viewModel.chosenDate.value) && viewModel.bookedHoursPerDay[0].contains(0)) {
+                if (hourIsBooked) {
+                    ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.secondary))
+                }
+                else if (chosenTime)    // if hour is pressed. change color to primary
                     ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.primary))
                 else
                     ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.background)),
                 contentPadding = PaddingValues(0.dp)
             ) {
-                Text(text = hourList[index],
+                Text(text = viewModel.hourList[index],
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(0.dp)
                 )
-
             }
         }
     }
 }
 
-
-
-
 /**
- * Custom implementation of DayContent, which shows a dot if there is an recipe planned for this day.
+ * Custom implementation of DayContent, which shows a dot if there is a booking that day.
  */
 @Composable
 fun BookedDay(
     state: DayState<DynamicSelectionState>,
-    carBookedFullDay: CarBookedFullDay?,
+    carBookedDay: CarBookedDay?,
     modifier: Modifier = Modifier,
 ) {
     val date = state.date
@@ -192,7 +217,7 @@ fun BookedDay(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(text = date.dayOfMonth.toString())
-            if (carBookedFullDay != null) {
+            if (carBookedDay != null) {
                 Box(
                     modifier = Modifier
                         .size(10.dp)
@@ -200,7 +225,7 @@ fun BookedDay(
                         .background(colorResource(R.color.secondary))
                 )
                 Text(
-                    text = carBookedFullDay.text,
+                    text = carBookedDay.text,
                     fontSize = 8.sp,
                 )
             }
