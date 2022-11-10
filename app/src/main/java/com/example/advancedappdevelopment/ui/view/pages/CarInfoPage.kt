@@ -1,13 +1,10 @@
 package com.example.advancedappdevelopment.ui.view.pages
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -30,15 +27,15 @@ import com.example.advancedappdevelopment.R
 import com.example.advancedappdevelopment.data.model.NavigationRoute
 import com.example.advancedappdevelopment.data.model.dataClass.Vehicle
 import com.example.advancedappdevelopment.ui.view.reusables.MyCalendarView
-import com.example.advancedappdevelopment.ui.view.reusables.TimePicker
 import com.example.advancedappdevelopment.ui.view.reusables.TimePickers
 import com.example.advancedappdevelopment.ui.viewmodel.CalendarViewModel
+import com.example.bkskjold.data.util.getDay
 import io.github.boguszpawlowski.composecalendar.rememberSelectableCalendarState
 
 @Composable
 fun CarInfo(vehicle: Vehicle, navController: NavController){
     val calendarState = rememberSelectableCalendarState()
-    val viewModel = remember { CalendarViewModel() }
+    val viewModel = remember { CalendarViewModel(vehicle) }
 
 
     Scaffold(
@@ -58,6 +55,17 @@ fun CarInfo(vehicle: Vehicle, navController: NavController){
                     CarInfoPageTop(navController)
                 }
                 item {
+                    println("car info:")
+                    println(vehicle.bookingStart.toString())
+                    println(getDay(vehicle.bookingStart[0]))
+                    println(vehicle.bookingEnd.toString())
+                    println("car info as kotlin date")
+                    val startDate = vehicle.bookingStart[0].toDate()
+                    println(startDate)
+                    println(startDate.time)
+                    println(startDate.date)
+                    println(startDate.hours)
+
                     Text(
                         text = "Car ${vehicle.carNum} - ${vehicle.carName}",
                         fontWeight = FontWeight.Bold,

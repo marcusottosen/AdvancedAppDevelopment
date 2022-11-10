@@ -4,10 +4,8 @@ import android.content.ContentValues
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.navigation.NavController
-import com.example.advancedappdevelopment.data.model.NavigationRoute
 import com.example.advancedappdevelopment.data.model.dataClass.Vehicle
-import com.google.firebase.firestore.Query
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -31,6 +29,8 @@ class VehicleDBModel{
                 for (doc in result){
                     vehicles.add(
                         Vehicle(
+                            bookingStart = doc["bookingStart"] as MutableList<Timestamp>,
+                            bookingEnd = doc["bookingEnd"] as MutableList<Timestamp>,
                             association = doc["association"] as String,
                             carNum = (doc["carNum"] as Number).toByte(),
                             carName = doc["carName"] as String,

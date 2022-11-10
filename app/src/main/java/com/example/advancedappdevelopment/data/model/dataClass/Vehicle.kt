@@ -1,10 +1,13 @@
 package com.example.advancedappdevelopment.data.model.dataClass
 
 import android.os.Parcelable
+import com.google.firebase.Timestamp
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Vehicle(
+    val bookingStart: MutableList<Timestamp>,
+    val bookingEnd: MutableList<Timestamp>,
     val association: String = "",
     val carNum: Byte = 0,
     val carName: String = "",

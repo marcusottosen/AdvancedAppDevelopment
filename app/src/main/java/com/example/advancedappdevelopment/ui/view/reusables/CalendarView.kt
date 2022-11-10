@@ -27,8 +27,9 @@ import io.github.boguszpawlowski.composecalendar.rememberSelectableCalendarState
 import io.github.boguszpawlowski.composecalendar.selection.DynamicSelectionState
 import io.github.boguszpawlowski.composecalendar.selection.SelectionMode
 
-// https://github.com/boguszpawlowski/ComposeCalendar
-
+/**
+ * Calendar item from https://github.com/boguszpawlowski/ComposeCalendar
+ */
 @Composable
 fun MyCalendarView(viewModel: CalendarViewModel){
     //val viewModel = remember { CalendarViewModel() }
@@ -154,7 +155,6 @@ fun TimePickers(viewModel: CalendarViewModel){
             }
         }
     }
-
 }
 
 
