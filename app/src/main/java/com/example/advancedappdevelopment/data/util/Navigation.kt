@@ -1,16 +1,16 @@
 package com.example.advancedappdevelopment.data.util
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.advancedappdevelopment.data.model.NavigationRoute
 import com.example.advancedappdevelopment.data.model.dataClass.Vehicle
 import com.example.advancedappdevelopment.ui.view.pages.CarInfo
-import com.example.advancedappdevelopment.ui.view.pages.Checkout
 import com.example.advancedappdevelopment.ui.view.pages.AvailableVehiclesPage
-import com.example.advancedappdevelopment.ui.view.pages.Login.LoginPage
-import com.example.advancedappdevelopment.ui.view.pages.Login.RegisterPage
+import com.example.advancedappdevelopment.ui.view.pages.login.LoginPage
+import com.example.advancedappdevelopment.ui.view.pages.login.RegisterPage
 import com.example.advancedappdevelopment.ui.view.pages.login.LoginRegisterPage
 
 
@@ -42,10 +42,12 @@ fun Navigation(navController: NavHostController) {
             //vehicles.loadVehiclesFromDB(navController)
             LoadFromDB(navController)
         }
+        /*
         composable(NavigationRoute.Checkout.route){
             println("(nav to Checkout)")
             Checkout(navController)
         }
+        */
         composable(NavigationRoute.CarInfo.route) {
             val eventModel =
                 navController.previousBackStackEntry?.arguments?.getParcelable<Vehicle>("vehicle")

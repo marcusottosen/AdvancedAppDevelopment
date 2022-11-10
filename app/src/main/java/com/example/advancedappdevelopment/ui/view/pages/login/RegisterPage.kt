@@ -1,15 +1,20 @@
-package com.example.advancedappdevelopment.ui.view.pages.Login
+package com.example.advancedappdevelopment.ui.view.pages.login
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.Interaction
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme.colors
+import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
-import androidx.compose.material.icons.outlined.Menu
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -17,25 +22,43 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.advancedappdevelopment.data.model.NavigationRoute
 import com.example.advancedappdevelopment.ui.viewmodel.RegisterViewModel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
+
+// Register with ViewModel, but with two functions in onClick
+
+
 
 @Composable
 fun RegisterPage(navController: NavController, viewModel: RegisterViewModel = viewModel()) {
+    val context = LocalContext.current
 
     val loading: Boolean by viewModel.loading.observeAsState(initial = false)
+    val registerSuccess: Boolean by viewModel.registerSucess.observeAsState(initial = false)
 
     val name: String by viewModel.name.observeAsState("")
     val email: String by viewModel.email.observeAsState("")
     val password: String by viewModel.password.observeAsState("")
     val passwordCheck: String by viewModel.passwordCheck.observeAsState("")
 
+    fun registerUser() {
+        viewModel.registerUser()
+        if (!registerSuccess) {
+            Toast.makeText(context, "Noget gik galt. Tjek venligst at email er korrekt", Toast.LENGTH_LONG).show()
+        } else {
+            Toast.makeText(context, "Du er nu oprettet. Kør forsigtigt", Toast.LENGTH_LONG).show()
+            //navController.navigate(NavigationRoute.Homepage.route)
+        }
+    }
 
     Box(
         contentAlignment = Alignment.Center,
@@ -118,7 +141,7 @@ fun RegisterPage(navController: NavController, viewModel: RegisterViewModel = vi
                                 .background(Color.White, RoundedCornerShape(50)),
                             value = password,
                             onValueChange = { viewModel.updatePassword(it) },
-                            placeholder = { Text(text = "Adgangskode") },
+                            placeholder = { Text(text = "Adgangskode (mindst 6 tegn)") },
                             shape = RoundedCornerShape(50),
                             colors = TextFieldDefaults.outlinedTextFieldColors(
                                 focusedBorderColor = Color.Magenta,
@@ -158,30 +181,64 @@ fun RegisterPage(navController: NavController, viewModel: RegisterViewModel = vi
                         //TODO: Kun signup med kode over 6 karaktere.
                         //TODO: Toastbesked ved mismatchende kodeer.
                         //TODO: Toastbesked ved tommefelter i stedet for crash.
-                        Button(
-                            onClick = { viewModel.registerUser() },
-                            modifier = Modifier
-                                .width(340.dp)
-                                .height(60.dp)
-                                .border(1.dp, Color.Black, RoundedCornerShape(50)),
-                            shape = RoundedCornerShape(50),
-                            elevation = null,
-                            colors = ButtonDefaults.buttonColors(
-                                backgroundColor = Color.Black
-                            )
-                        ) {
-                            Text(
-                                text = "Tilmeld",
-                                color = Color.White
-                            )
+
+
+
+                        if ((name.isNotEmpty()) and (email.isNotEmpty()) and (password.length >=6) and (password == passwordCheck)) {
+                            // Enabled button
+                            Button(
+                                onClick = { registerUser() },
+                                modifier = Modifier
+                                    .width(340.dp)
+                                    .height(60.dp)
+                                    .border(1.dp, Color.Black, RoundedCornerShape(50)),
+                                shape = RoundedCornerShape(50),
+                                elevation = null,
+                                colors = ButtonDefaults.buttonColors(
+                                    backgroundColor = Color.Black
+                                )
+                            ) {
+                                Text(
+                                    text = "Tilmeld",
+                                    color = Color.White
+                                )
+                            }
+                        } else {
+                            // Disabled button
+                            Button(
+                                onClick = {
+                                    // handle click events
+                                },
+                                interactionSource = NoRippleInteractionSource(),
+                                modifier = Modifier
+                                    .width(340.dp)
+                                    .height(60.dp)
+                                    .border(1.dp, Color.Gray, RoundedCornerShape(50)),
+                                shape = RoundedCornerShape(50),
+                                elevation = null,
+                                colors = ButtonDefaults.buttonColors(
+                                    backgroundColor = Color.Gray
+                                )
+                            ) {
+                                Text(text = "Tilmeld",
+                                color = Color.White)
+                            }
                         }
-
-
                     }
                 }
             }
         }
 
     }
+}
 
+// Disable Ripples
+// https://semicolonspace.com/jetpack-compose-disable-ripple-effect/#no-ripple-theme
+class NoRippleInteractionSource : MutableInteractionSource {
+
+    override val interactions: Flow<Interaction> = emptyFlow()
+
+    override suspend fun emit(interaction: Interaction) {}
+
+    override fun tryEmit(interaction: Interaction) = true
 }
