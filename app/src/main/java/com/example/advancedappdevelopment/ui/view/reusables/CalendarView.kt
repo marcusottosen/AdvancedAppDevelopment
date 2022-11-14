@@ -71,8 +71,10 @@ fun MyCalendarView(viewModel: CalendarViewModel){
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TimePicker(viewModel: CalendarViewModel, vehicle: Vehicle){
-    // List of all booked dates
-    val bookedDatesAsString = mutableListOf<String>()
+   // val chosenHours by remember {viewModel.chosenHours}
+
+    val bookedDatesAsString = mutableListOf<String>()    // List of all already-booked dates
+
     for (i in 0 until viewModel.bookedDates.size){
         bookedDatesAsString.add(viewModel.bookedDates[i].date.toString())
     }
@@ -89,31 +91,38 @@ fun TimePicker(viewModel: CalendarViewModel, vehicle: Vehicle){
         horizontalArrangement = Arrangement.End
     ) {
         items(viewModel.hourList.size) { index ->   // The following is for EACH hour-button
-            var chosenTime by remember { mutableStateOf(false)}
+            var chosenTime by remember { mutableStateOf(false) }
 
             var isOnDate = false
-            if (bookedDatesAsString.contains(viewModel.chosenDate.value)){
+            if (bookedDatesAsString.contains(viewModel.chosenDate.value)) {
                 isOnDate = true
             }
             var hourIsBooked = false
 
-            for (hourlist in viewModel.bookedHoursPerDay){          // For each booking
-                if (hourlist[0] == viewModel.chosenDate.value){     // and if the date of the booking matches the chosen date
-                    for (i in 1 until hourlist.size){        // then for each booked hour on the date
+            for (hourlist in viewModel.bookedHoursPerDay) {          // For each booking
+                if (hourlist[0] == viewModel.chosenDate.value) {     // and if the date of the booking matches the chosen date
+                    for (i in 1 until hourlist.size) {        // then for each booked hour on the date
                         if (hourlist[i] == index)                   // if the hour equals the button index
                             hourIsBooked = true                     // true that the hour is booked
                     }
                 }
             }
 
-            // If the hour is already booked that day, don't show it as chosen.
-            if (hourIsBooked)
+            // If the hour is already booked that day, don't show it as chosen and remove from picked hours
+            if (hourIsBooked) {
                 chosenTime = false
+                viewModel.chosenHours.remove(index)
+            }
 
             Button(
                 onClick = {
-                    if (!hourIsBooked)
-                        chosenTime =! chosenTime},
+                    if (!hourIsBooked)                          // If hour is already booked, remove it from picked hours
+                        chosenTime =! chosenTime
+                        if (!viewModel.chosenHours.contains(index))
+                            viewModel.chosenHours.add(index)
+                        else
+                            viewModel.chosenHours.remove(index)
+                          },
                 Modifier
                     .padding(5.dp, 0.dp)
                     .clip(RoundedCornerShape(10.dp)),

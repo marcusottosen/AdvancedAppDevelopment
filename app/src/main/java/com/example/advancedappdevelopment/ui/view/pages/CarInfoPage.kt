@@ -203,7 +203,7 @@ fun CarInfo(vehicle: Vehicle, navController: NavController){
                 horizontalArrangement = Arrangement.End
             ) {
                 Button(
-                    onClick = { /*TODO*/ },
+                    onClick = { println(viewModel.chosenHours.toString()) },
                     Modifier.padding(end = 30.dp),
                     shape = RoundedCornerShape(12.dp),
                     colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.primary))

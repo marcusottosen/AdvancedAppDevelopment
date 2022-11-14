@@ -19,8 +19,12 @@ data class CarBookedDay(
  * But with custom implementation
  */
 class CalendarViewModel(vehicle: Vehicle) : ViewModel() {
-    val bookedDates = mutableListOf<CarBookedDay>()
-    val bookedHoursPerDay = mutableListOf<MutableList<Any>>()
+    val bookedDates = mutableListOf<CarBookedDay>()             // Days that has already been booked
+    val bookedHoursPerDay = mutableListOf<MutableList<Any>>()   // Hours that has already been booked.
+    private val selectionFlow = MutableStateFlow(emptyList<LocalDate>())    // For calendar
+    val vehicleFlow = MutableStateFlow(bookedDates)                         // For calendar
+    var chosenDate = mutableStateOf(LocalDate.now().toString()) // The date the user has chosen
+    val chosenHours = mutableListOf<Int>()                      // The hours the user picked from the hour-picker
 
     init {
         // Add all timestamps from DB to the calendar
@@ -60,21 +64,16 @@ class CalendarViewModel(vehicle: Vehicle) : ViewModel() {
         }
         */
     }
-    private val selectionFlow = MutableStateFlow(emptyList<LocalDate>())
 
-    val vehicleFlow = MutableStateFlow(bookedDates)
     /*val selectedRecipesPriceFlow = vehicleFlow.combine(selectionFlow) { recipes, selection ->
         recipes.filter { it.date in selection }.sumOf { it.text }
     }*/
-
-    var chosenDate = mutableStateOf(LocalDate.now().toString())
 
     fun onSelectionChanged(selection: List<LocalDate>){
         selectionFlow.value = selection
         chosenDate.value = selectionFlow.value.toString()
         chosenDate.value = chosenDate.value.replace("[", "")    // By default [] surrounds the string
         chosenDate.value = chosenDate.value.replace("]", "")
-        println(chosenDate.value)
     }
 
     val hourList = listOf("00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00",
