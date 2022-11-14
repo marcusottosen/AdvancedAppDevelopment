@@ -1,5 +1,7 @@
 package com.example.advancedappdevelopment.ui.view.reusables
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -14,6 +16,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -28,6 +31,7 @@ import io.github.boguszpawlowski.composecalendar.day.DayState
 import io.github.boguszpawlowski.composecalendar.rememberSelectableCalendarState
 import io.github.boguszpawlowski.composecalendar.selection.DynamicSelectionState
 import io.github.boguszpawlowski.composecalendar.selection.SelectionMode
+import kotlinx.coroutines.launch
 
 /**
  * Calendar item from https://github.com/boguszpawlowski/ComposeCalendar
@@ -70,8 +74,13 @@ fun MyCalendarView(viewModel: CalendarViewModel){
  */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TimePicker(viewModel: CalendarViewModel, vehicle: Vehicle){
-   // val chosenHours by remember {viewModel.chosenHours}
+fun TimePicker(
+    viewModel: CalendarViewModel,
+    vehicle: Vehicle,
+    animationDuration: Int = 100,
+    scaleDown: Float = 0.9f
+){
+    // val chosenHours by remember {viewModel.chosenHours}
 
     val bookedDatesAsString = mutableListOf<String>()    // List of all already-booked dates
 
@@ -114,17 +123,37 @@ fun TimePicker(viewModel: CalendarViewModel, vehicle: Vehicle){
                 viewModel.chosenHours.remove(index)
             }
 
+            val coroutineScope = rememberCoroutineScope()
+            val scale = remember { Animatable(1f) }
+
             Button(
                 onClick = {
+                    coroutineScope.launch {
+                        scale.animateTo(
+                            scaleDown,
+                            animationSpec = tween(animationDuration),
+                        )
+                        scale.animateTo(
+                            1f,
+                            animationSpec = tween(animationDuration),
+                        )
+                    }
+
                     if (!hourIsBooked)                          // If hour is already booked, remove it from picked hours
                         chosenTime =! chosenTime
-                        if (!viewModel.chosenHours.contains(index))
-                            viewModel.chosenHours.add(index)
-                        else
-                            viewModel.chosenHours.remove(index)
-                          },
+                    if (!viewModel.chosenHours.contains(index) && !hourIsBooked)
+                        viewModel.chosenHours.add(index)
+                    else
+                        viewModel.chosenHours.remove(index)
+                },
                 Modifier
                     .padding(5.dp, 0.dp)
+                    .scale(scale =
+                    if (!hourIsBooked)
+                        scale.value
+                    else
+                        1f
+                    )
                     .clip(RoundedCornerShape(10.dp)),
                 colors =
                 if (hourIsBooked) {     // If hour is booked change color to red.
