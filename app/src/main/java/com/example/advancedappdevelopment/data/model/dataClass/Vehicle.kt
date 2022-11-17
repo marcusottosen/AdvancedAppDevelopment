@@ -18,6 +18,15 @@ data class Vehicle(
     val seats: Short = 0,
 ) : Parcelable
 
+// Used for data transfer between CarInfoPage and Checkout
+@Parcelize
+data class TempVehicle(
+    val vehicle: Vehicle,
+    val chosenDate: String,
+    val chosenHours: List<Int>
+) : Parcelable
+
+
 /* Idea to time management:
 
     var BookingStart: MutableList<com.google.firebase.Timestamp> = mutableListOf(),

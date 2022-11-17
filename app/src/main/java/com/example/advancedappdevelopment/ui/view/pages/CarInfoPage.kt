@@ -1,5 +1,6 @@
 package com.example.advancedappdevelopment.ui.view.pages
 
+import android.os.Parcelable
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -9,10 +10,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,11 +29,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.advancedappdevelopment.R
 import com.example.advancedappdevelopment.data.model.NavigationRoute
+import com.example.advancedappdevelopment.data.model.dataClass.TempVehicle
 import com.example.advancedappdevelopment.data.model.dataClass.Vehicle
 import com.example.advancedappdevelopment.ui.view.reusables.MyCalendarView
 import com.example.advancedappdevelopment.ui.view.reusables.TimePicker
 import com.example.advancedappdevelopment.ui.viewmodel.CalendarViewModel
 import io.github.boguszpawlowski.composecalendar.rememberSelectableCalendarState
+import kotlinx.parcelize.Parcelize
 
 @Composable
 fun CarInfo(vehicle: Vehicle, navController: NavController){
@@ -66,24 +69,27 @@ fun CarInfo(vehicle: Vehicle, navController: NavController){
                 fontSize = 20.sp
             )
 
-            Card(
-                // Header picture of vehicle
+            // Header picture of vehicle
+            Box(
                 modifier = Modifier
                     .padding(30.dp, 10.dp, 30.dp)
                     .height(150.dp)
-                    .fillMaxWidth(),
-                shape = RoundedCornerShape(12.dp),
-                backgroundColor = colorResource(R.color.light_gray),
+                    .fillMaxWidth()
+                    .clip(shape = RoundedCornerShape(12.dp))
+                    .background(colorResource(R.color.light_gray))
             ) {
-                Image(  //TODO Make rounder corners work?
-                    modifier = Modifier
-                        .padding(20.dp)
-                        .fillMaxHeight()
-                        .clip(RoundedCornerShape(12.dp)),
-                    painter = painterResource(id = R.drawable.renault_zoe),
-                    contentDescription = null,
-                    contentScale = ContentScale.FillHeight
-                )
+                Column(modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally) {
+                    Image(
+                        modifier = Modifier
+                            .padding(20.dp)
+                            .fillMaxHeight()
+                            .clip(RoundedCornerShape(12.dp)),
+                        painter = painterResource(id = R.drawable.renault_zoe),
+                        contentDescription = null,
+                        contentScale = ContentScale.FillHeight
+                    )
+                }
             }
         }
         item {          // Vehicle info
@@ -215,7 +221,7 @@ fun CarInfo(vehicle: Vehicle, navController: NavController){
 
 
                 Button(
-                    onClick = { gotoCheckoutInfo(vehicle, navController) },
+                    onClick = { gotoCheckoutInfo(vehicle, chosenDate, viewModel.chosenHours, navController) },
                     shape = RoundedCornerShape(12.dp),
                     colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.primary)),
                     enabled = chosenDate.isNotEmpty() && viewModel.chosenHours.size > 0
@@ -288,7 +294,35 @@ fun CarInfoPageTop(navController: NavController){
     }
 }
 
-fun gotoCheckoutInfo(vehicle: Vehicle, navController: NavController) {
-    navController.currentBackStackEntry?.arguments?.putParcelable("vehicle", vehicle)
+fun gotoCheckoutInfo(
+    vehicle: Vehicle,
+    chosenDate: String,
+    chosenHours: SnapshotStateList<Int>,
+    navController: NavController
+) {
+    val passVehicle = TempVehicle(
+        vehicle = vehicle,
+        chosenDate = chosenDate,
+        chosenHours = chosenHours.toList()
+    )
+    navController.currentBackStackEntry?.arguments?.putParcelable("tempVehicle", passVehicle)
     navController.navigate(NavigationRoute.Checkout.route)
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -100,3 +100,11 @@ fun getMonthFromNum(num: Int): String {
 	}
 	return month
 }
+
+fun getTimeFromInt(hour: Int): String{
+	var time = hour.toString()
+	if (hour < 10) {
+		time = "0$hour"
+	}
+	return "$time:00"
+}

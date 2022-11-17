@@ -47,13 +47,6 @@ fun AvailableVehiclesPage(navController: NavController){
                 viewModel.GetVehicleOverviewView(navController, associations[showAssociation.value].id)
             }
         }
-        item {
-            Button(onClick = {
-                navController.navigate(NavigationRoute.Checkout.route)
-            }) {
-                Text(text = "checkout")
-            }
-        }
     }
 }
 
