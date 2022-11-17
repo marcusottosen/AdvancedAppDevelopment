@@ -1,4 +1,4 @@
-package com.example.advancedappdevelopment.ui.view.pages.Login
+package com.example.advancedappdevelopment.ui.view.pages.login
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*

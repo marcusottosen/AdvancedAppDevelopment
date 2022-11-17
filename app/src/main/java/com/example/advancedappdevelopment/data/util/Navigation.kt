@@ -11,8 +11,11 @@ import com.example.advancedappdevelopment.ui.view.pages.CarInfo
 import com.example.advancedappdevelopment.ui.view.pages.Checkout
 import com.example.advancedappdevelopment.ui.view.pages.AvailableVehiclesPage
 import com.example.advancedappdevelopment.ui.view.pages.login.LoginPage
-import com.example.advancedappdevelopment.ui.view.pages.login.RegisterPage
 import com.example.advancedappdevelopment.ui.view.pages.login.LoginRegisterPage
+import com.example.advancedappdevelopment.ui.view.pages.login.RegisterPage
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 
 //@ExperimentalMaterialApi
@@ -20,7 +23,18 @@ import com.example.advancedappdevelopment.ui.view.pages.login.LoginRegisterPage
 @Composable
 fun Navigation(navController: NavHostController) {
     println("navcontroller")
-    NavHost(navController, startDestination = NavigationRoute.LoginRegisterPage.route
+
+    // Uncomment for at blive logget ud hver gang app'en genstartes
+    //FirebaseAuth.getInstance().signOut()
+
+    //var startingDestination
+    val startingDestination = if (FirebaseAuth.getInstance().currentUser != null) {
+        NavigationRoute.LoadFromDB.route
+    } else {
+        NavigationRoute.LoginRegisterPage.route
+    }
+
+    NavHost(navController, startDestination = startingDestination
     /*if (Firebase.auth.currentUser != null)
         NavigationRoute.LoadFromDB.route
     else
