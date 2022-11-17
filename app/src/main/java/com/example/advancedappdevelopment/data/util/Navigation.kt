@@ -25,7 +25,7 @@ fun Navigation(navController: NavHostController) {
     println("navcontroller")
 
     // Uncomment for at blive logget ud hver gang app'en genstartes
-    //FirebaseAuth.getInstance().signOut()
+    FirebaseAuth.getInstance().signOut()
 
     //var startingDestination
     val startingDestination = if (FirebaseAuth.getInstance().currentUser != null) {
