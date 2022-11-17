@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.advancedappdevelopment.data.model.NavigationRoute
+import com.example.advancedappdevelopment.data.model.dataClass.CurrentUser
 
 @Composable
 fun LoginRegisterPage(navController: NavController) {
@@ -36,7 +37,7 @@ fun LoginRegisterPage(navController: NavController) {
 
         // Login button
         Button(
-            onClick = { /*TODO*/ },
+            onClick = { navController.navigate(NavigationRoute.LoginPage.route) },
             modifier = Modifier
             .width(340.dp)
             .height(60.dp)

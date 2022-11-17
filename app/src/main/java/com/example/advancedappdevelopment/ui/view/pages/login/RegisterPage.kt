@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.advancedappdevelopment.data.model.NavigationRoute
+import com.example.advancedappdevelopment.data.model.dataClass.CurrentUser
 import com.example.advancedappdevelopment.ui.viewmodel.RegisterViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
@@ -41,7 +42,7 @@ fun RegisterPage(navController: NavController, viewModel: RegisterViewModel = vi
 
     val loading: Boolean by viewModel.loading.observeAsState(initial = false)
     val registerSuccess: Boolean by viewModel.registerSuccess.observeAsState(initial = false)
-    val showRegisterSucess: Boolean by viewModel.showRegisterSucess.observeAsState(initial = false)
+    val showRegisterSucess: Boolean by viewModel.showRegisterSuccess.observeAsState(initial = false)
 
     val name: String by viewModel.name.observeAsState("")
     val email: String by viewModel.email.observeAsState("")
@@ -57,15 +58,15 @@ fun RegisterPage(navController: NavController, viewModel: RegisterViewModel = vi
         else {
             if (!registerSuccess and showRegisterSucess) {
                 Toast.makeText(context, "Noget gik galt. Tjek venligst at email er korrekt", Toast.LENGTH_LONG).show()
-                viewModel._showRegisterSucces.value = false
+                viewModel._showRegisterSuccess.value = false
             }
             if (registerSuccess and showRegisterSucess) {
                 Toast.makeText(context, "Du er nu oprettet. Kør forsigtigt", Toast.LENGTH_LONG).show()
-                viewModel._showRegisterSucces.value = false
-                //TODO: Crasher pt. app'en at navigere til Homepage to authentication-branch
-                navController.navigate(NavigationRoute.Homepage.route)
+                viewModel._showRegisterSuccess.value = false
+                //TODO: Crasher pt. app'en at navigere til Homepage i authentication-branch
+                navController.navigate(NavigationRoute.LoginRegisterPage.route)
+                //navController.navigate(NavigationRoute.Homepage.route)
             }
-            // To enable scrolling when keyboard is shown
             LazyColumn(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
