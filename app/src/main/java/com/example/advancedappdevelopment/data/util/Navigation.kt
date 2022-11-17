@@ -1,6 +1,7 @@
 package com.example.advancedappdevelopment.data.util
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -9,14 +10,17 @@ import com.example.advancedappdevelopment.data.model.dataClass.Vehicle
 import com.example.advancedappdevelopment.ui.view.pages.CarInfo
 import com.example.advancedappdevelopment.ui.view.pages.Checkout
 import com.example.advancedappdevelopment.ui.view.pages.AvailableVehiclesPage
-import com.example.advancedappdevelopment.ui.view.pages.Login.LoginPage
-import com.example.advancedappdevelopment.ui.view.pages.Login.RegisterPage
-import com.example.advancedappdevelopment.ui.view.pages.Login.LoginRegisterPage
+import com.example.advancedappdevelopment.ui.view.pages.login.LoginPage
+import com.example.advancedappdevelopment.ui.view.pages.login.RegisterPage
+import com.example.advancedappdevelopment.ui.view.pages.login.LoginRegisterPage
 
+
+//@ExperimentalMaterialApi
+//@ExperimentalFoundationApi
 @Composable
 fun Navigation(navController: NavHostController) {
     println("navcontroller")
-    NavHost(navController, startDestination = NavigationRoute.LoadFromDB.route
+    NavHost(navController, startDestination = NavigationRoute.LoginRegisterPage.route
     /*if (Firebase.auth.currentUser != null)
         NavigationRoute.LoadFromDB.route
     else
@@ -25,14 +29,22 @@ fun Navigation(navController: NavHostController) {
 
 
         composable(NavigationRoute.Homepage.route) {
+            println("(nav to HomePage)")
             AvailableVehiclesPage(navController)
         }
-
+        /*composable(NavigationRoute.CarInfo.route){
+            println("(nav to CarInfo)")
+            CarInfo(navController)
+        }*/
         //Load before homepage is shown
         composable(NavigationRoute.LoadFromDB.route) {
+            println("Calling VehicleDB")
+            //val vehicles = VehicleDBModel()
+            //vehicles.loadVehiclesFromDB(navController)
             LoadFromDB(navController)
         }
         composable(NavigationRoute.Checkout.route){
+            println("(nav to Checkout)")
             Checkout(navController)
         }
         composable(NavigationRoute.CarInfo.route) {

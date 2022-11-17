@@ -1,5 +1,6 @@
-package com.example.advancedappdevelopment.ui.view.pages.Login
+package com.example.advancedappdevelopment.ui.view.pages.login
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -9,33 +10,33 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
-import androidx.compose.material.icons.outlined.Menu
-import androidx.compose.material.icons.outlined.Person
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.example.advancedappdevelopment.ui.viewmodel.RegisterViewModel
+import com.example.advancedappdevelopment.data.model.NavigationRoute
+import com.example.advancedappdevelopment.ui.viewmodel.LoginViewModel
+
 
 @Composable
-fun RegisterPage(navController: NavController, viewModel: RegisterViewModel = viewModel()) {
+fun LoginPage(navController: NavController, viewModel: LoginViewModel = viewModel()) {
+    val context = LocalContext.current
 
     val loading: Boolean by viewModel.loading.observeAsState(initial = false)
+    val loginSuccess: Boolean by viewModel.loginSuccess.observeAsState(initial = false)
+    val showLoginSucess: Boolean by viewModel.showLoginSuccess.observeAsState(initial = false)
 
-    val name: String by viewModel.name.observeAsState("")
     val email: String by viewModel.email.observeAsState("")
     val password: String by viewModel.password.observeAsState("")
-    val passwordCheck: String by viewModel.passwordCheck.observeAsState("")
-
 
     Box(
         contentAlignment = Alignment.Center,
@@ -44,7 +45,17 @@ fun RegisterPage(navController: NavController, viewModel: RegisterViewModel = vi
         // Disable page when loading and display icon
         if (loading) { CircularProgressIndicator(color = Color.Magenta) }
         else {
-            // To enable scrolling when keyboard is shown
+            if (!loginSuccess and showLoginSucess) {
+                Toast.makeText(context, "Noget gik galt. Tjek venligst at oplysninger er korrekt", Toast.LENGTH_LONG).show()
+                viewModel._showLoginSuccess.value = false
+            }
+            if (loginSuccess and showLoginSucess) {
+                Toast.makeText(context, "Velkommen tilbage. Kør forsigtigt", Toast.LENGTH_LONG).show()
+                viewModel._showLoginSuccess.value = false
+                //TODO: Crasher pt. app'en at navigere til Homepage to authentication-branch
+                navController.navigate(NavigationRoute.LoginRegisterPage.route)
+                //navController.navigate(NavigationRoute.Homepage.route)
+            }
             LazyColumn(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 modifier = Modifier
@@ -61,34 +72,13 @@ fun RegisterPage(navController: NavController, viewModel: RegisterViewModel = vi
                         verticalArrangement = Arrangement.Center
                     ) {
                         Text(
-                            text = "Tilmeld dig nemt, og kør nemt",
+                            text = "Godt at se dig igen",
                             fontSize = 20.sp,
                             fontWeight = FontWeight.Bold,
                         )
 
                         //Spacer
                         Spacer(modifier = Modifier.height(50.dp))
-
-                        OutlinedTextField(
-                            modifier = Modifier
-                                .width(340.dp)
-                                .height(60.dp)
-                                .background(Color.White, RoundedCornerShape(50)),
-                            value = name,
-                            onValueChange = { viewModel.updateName(it) },
-                            placeholder = { Text(text = "Navn") },
-                            shape = RoundedCornerShape(50),
-                            colors = TextFieldDefaults.outlinedTextFieldColors(
-                                focusedBorderColor = Color.Magenta,
-                                unfocusedBorderColor = Color.Black
-                            ),
-                            leadingIcon = {
-                                Icon(imageVector = Icons.Outlined.Person, contentDescription = "Navn")
-                            },
-                        )
-
-                        //Spacer
-                        Spacer(modifier = Modifier.height(10.dp))
 
                         OutlinedTextField(
                             modifier = Modifier
@@ -131,57 +121,53 @@ fun RegisterPage(navController: NavController, viewModel: RegisterViewModel = vi
                         )
 
                         //Spacer
-                        Spacer(modifier = Modifier.height(10.dp))
-
-                        OutlinedTextField(
-                            modifier = Modifier
-                                .width(340.dp)
-                                .height(60.dp)
-                                .background(Color.White, RoundedCornerShape(50)),
-                            value = passwordCheck,
-                            onValueChange = { viewModel.updatePasswordCheck(it) },
-                            placeholder = { Text(text = "Gentag dgangskode") },
-                            shape = RoundedCornerShape(50),
-                            colors = TextFieldDefaults.outlinedTextFieldColors(
-                                focusedBorderColor = Color.Magenta,
-                                unfocusedBorderColor = Color.Black
-                            ),
-                            leadingIcon = {
-                                Icon(imageVector = Icons.Outlined.Lock, contentDescription = "Adgangskode")
-                            },
-                            visualTransformation = PasswordVisualTransformation()
-                        )
-
-
-                        //Spacer
                         Spacer(modifier = Modifier.height(50.dp))
-                        //TODO: Kun signup med kode over 6 karaktere.
-                        //TODO: Toastbesked ved mismatchende kodeer.
-                        //TODO: Toastbesked ved tommefelter i stedet for crash.
-                        Button(
-                            onClick = { viewModel.registerUser() },
-                            modifier = Modifier
-                                .width(340.dp)
-                                .height(60.dp)
-                                .border(1.dp, Color.Black, RoundedCornerShape(50)),
-                            shape = RoundedCornerShape(50),
-                            elevation = null,
-                            colors = ButtonDefaults.buttonColors(
-                                backgroundColor = Color.Black
-                            )
-                        ) {
-                            Text(
-                                text = "Tilmeld",
-                                color = Color.White
-                            )
+
+
+                        if ((email.isNotEmpty()) and (password.length >=6)) {
+                            // Enabled button
+                            Button(
+                                onClick = { viewModel.loginUser() },
+                                modifier = Modifier
+                                    .width(340.dp)
+                                    .height(60.dp)
+                                    .border(1.dp, Color.Black, RoundedCornerShape(50)),
+                                shape = RoundedCornerShape(50),
+                                elevation = null,
+                                colors = ButtonDefaults.buttonColors(
+                                    backgroundColor = Color.Black
+                                )
+                            ) {
+                                Text(
+                                    text = "Login",
+                                    color = Color.White
+                                )
+                            }
+                        } else {
+                            // Disabled button
+                            Button(
+                                onClick = {
+                                    // handle click events
+                                },
+                                interactionSource = NoRippleInteractionSource(),
+                                modifier = Modifier
+                                    .width(340.dp)
+                                    .height(60.dp)
+                                    .border(1.dp, Color.Gray, RoundedCornerShape(50)),
+                                shape = RoundedCornerShape(50),
+                                elevation = null,
+                                colors = ButtonDefaults.buttonColors(
+                                    backgroundColor = Color.Gray
+                                )
+                            ) {
+                                Text(text = "Login",
+                                    color = Color.White)
+                            }
                         }
-
-
                     }
                 }
             }
         }
 
     }
-
 }

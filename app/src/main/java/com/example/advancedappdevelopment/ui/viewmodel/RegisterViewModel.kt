@@ -18,6 +18,12 @@ class RegisterViewModel : ViewModel() {
     private val _loading = MutableLiveData(false)
     val loading: LiveData<Boolean> = _loading
 
+    private val _registerSuccess = MutableLiveData(false)
+    val registerSuccess: LiveData<Boolean> = _registerSuccess
+    val _showRegisterSuccess = MutableLiveData(false)
+    val showRegisterSuccess: LiveData<Boolean> = _showRegisterSuccess
+
+
     private val _name = MutableLiveData("")
     val name: LiveData<String> = _name
     fun updateName(newFirstName: String) {
@@ -64,8 +70,16 @@ class RegisterViewModel : ViewModel() {
                                     signUpDate = com.google.firebase.Timestamp.now()
                                 ))
                             updateCurrentUser()
+                            _showRegisterSuccess.value = true
+                            _registerSuccess.value = true
+                            _loading.value = false
                         }
+                    }
+                    .addOnFailureListener {
+                        _showRegisterSuccess.value = true
+                        _registerSuccess.value = false
                         _loading.value = false
+
                     }
             }
         }

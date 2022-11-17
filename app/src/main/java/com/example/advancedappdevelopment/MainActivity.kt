@@ -13,6 +13,8 @@ import com.google.firebase.FirebaseApp
 
 
 class MainActivity : ComponentActivity() {
+    //@ExperimentalMaterialApi
+    //@ExperimentalFoundationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         FirebaseApp.initializeApp(this)
@@ -24,6 +26,8 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+//@ExperimentalMaterialApi
+//@ExperimentalFoundationApi
 @Composable
 fun MainScreen() {
     val navController = rememberNavController()
