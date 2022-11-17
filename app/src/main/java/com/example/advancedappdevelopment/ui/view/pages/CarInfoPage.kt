@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,7 +20,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -35,6 +38,7 @@ import io.github.boguszpawlowski.composecalendar.rememberSelectableCalendarState
 fun CarInfo(vehicle: Vehicle, navController: NavController){
     val calendarState = rememberSelectableCalendarState()
     val viewModel = remember { CalendarViewModel(vehicle) }
+    val chosenDate by remember {viewModel.chosenDate}
 
     LazyColumn(modifier = Modifier.fillMaxSize()
     ){
@@ -199,21 +203,52 @@ fun CarInfo(vehicle: Vehicle, navController: NavController){
 
         item {
             Row(
-                modifier = Modifier.fillMaxSize(),
-                horizontalArrangement = Arrangement.End
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(end = 30.dp),
+                horizontalArrangement = Arrangement.End,
             ) {
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.End
+                    ) {
+
+
                 Button(
-                    onClick = { println(viewModel.chosenHours.toString()) },
-                    Modifier.padding(end = 30.dp),
+                    onClick = { gotoCheckoutInfo(vehicle, navController) },
                     shape = RoundedCornerShape(12.dp),
-                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.primary))
+                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.primary)),
+                    enabled = chosenDate.isNotEmpty() && viewModel.chosenHours.size > 0
                 ) {
                     Text(
                         text = "Book vehicle",
                         fontWeight = FontWeight.Bold
                     )
                 }
+           /* }
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(end = 30.dp),
+                horizontalArrangement = Arrangement.End,
+            ) {*/
+                    Text(text =
+                    if(chosenDate.isEmpty() && viewModel.chosenHours.isEmpty())
+                        "Please pick one or more hours \n" +
+                                " Please pick a date"
+                    else if (viewModel.chosenHours.size < 1)
+                        "Please pick one or more hours \n "
+                    else if (chosenDate.isEmpty())
+                        "Please pick a date \n "
+                    else
+                        " \n ",
+                        textAlign = TextAlign.Right,
+                        fontWeight = FontWeight.Light,
+                        fontStyle = FontStyle.Italic
+                    )
+                }
             }
+
             Spacer(modifier = Modifier.padding(top = 60.dp))
         }
     }
@@ -251,4 +286,9 @@ fun CarInfoPageTop(navController: NavController){
             )
         }
     }
+}
+
+fun gotoCheckoutInfo(vehicle: Vehicle, navController: NavController) {
+    navController.currentBackStackEntry?.arguments?.putParcelable("vehicle", vehicle)
+    navController.navigate(NavigationRoute.Checkout.route)
 }

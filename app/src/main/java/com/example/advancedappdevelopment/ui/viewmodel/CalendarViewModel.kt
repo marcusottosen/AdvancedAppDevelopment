@@ -1,4 +1,5 @@
 package com.example.advancedappdevelopment.ui.viewmodel
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.example.advancedappdevelopment.data.model.dataClass.Vehicle
@@ -23,8 +24,8 @@ class CalendarViewModel(vehicle: Vehicle) : ViewModel() {
     val bookedHoursPerDay = mutableListOf<MutableList<Any>>()   // Hours that has already been booked.
     private val selectionFlow = MutableStateFlow(emptyList<LocalDate>())    // For calendar
     val vehicleFlow = MutableStateFlow(bookedDates)                         // For calendar
-    var chosenDate = mutableStateOf(LocalDate.now().toString()) // The date the user has chosen
-    val chosenHours = mutableListOf<Int>()                      // The hours the user picked from the hour-picker
+    var chosenDate = mutableStateOf(String()) // The date the user has chosen
+    val chosenHours = mutableStateListOf<Int>()                      // The hours the user picked from the hour-picker
 
     init {
         // Add all timestamps from DB to the calendar
@@ -34,7 +35,7 @@ class CalendarViewModel(vehicle: Vehicle) : ViewModel() {
                     getYear(vehicle.bookingStart[i]),
                     getMonthNum(vehicle.bookingStart[i]),
                     getDay(vehicle.bookingStart[i])
-                ), "Full")
+                ), "")
                 )
             }
         }

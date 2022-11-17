@@ -8,9 +8,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import com.example.advancedappdevelopment.data.model.NavigationRoute
+import com.example.advancedappdevelopment.data.model.dataClass.Vehicle
 
 @Composable
-fun Checkout(navController: NavController){
+fun Checkout(vehicle: Vehicle, navController: NavController){
     Column(
         modifier = Modifier
             .fillMaxSize()

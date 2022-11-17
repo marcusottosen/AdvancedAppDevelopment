@@ -33,12 +33,19 @@ fun Navigation(navController: NavHostController) {
             LoadFromDB(navController)
         }
         composable(NavigationRoute.Checkout.route){
-            Checkout(navController)
-        }
-        composable(NavigationRoute.CarInfo.route) {
-            val eventModel =
+            val carModel =
                 navController.previousBackStackEntry?.arguments?.getParcelable<Vehicle>("vehicle")
-            eventModel?.let {
+            carModel?.let {
+                Checkout(vehicle = it, navController = navController)
+            }
+        }
+
+
+
+        composable(NavigationRoute.CarInfo.route) {
+            val carModel =
+                navController.previousBackStackEntry?.arguments?.getParcelable<Vehicle>("vehicle")
+            carModel?.let {
                 CarInfo(vehicle = it, navController = navController)
             }
         }
