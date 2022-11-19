@@ -1,11 +1,10 @@
 package com.example.advancedappdevelopment.ui.view.pages
 
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,7 +16,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -32,9 +33,19 @@ import com.example.advancedappdevelopment.R
 import com.example.advancedappdevelopment.data.model.NavigationRoute
 import com.example.advancedappdevelopment.data.model.dataClass.TempVehicle
 import com.example.bkskjold.data.util.getTimeFromInt
+import kotlinx.coroutines.launch
 
 @Composable
-fun Checkout(vehicle: TempVehicle, navController: NavController) {
+fun Checkout(
+    vehicle: TempVehicle,
+    navController: NavController,
+    animationDuration: Int = 100,
+    scaleDown: Float = 0.95f
+) {
+    val checkoutOption = remember { mutableStateOf(true) }
+    val coroutineScope = rememberCoroutineScope()
+    val scale = remember { Animatable(1f) }
+
     LazyColumn(
         modifier = Modifier.fillMaxSize()
     ) {
@@ -175,7 +186,7 @@ fun Checkout(vehicle: TempVehicle, navController: NavController) {
         ) {
             Text(text = "Checkout",
                 color = Color.Black,
-            modifier = Modifier.padding(7.dp))
+                modifier = Modifier.padding(7.dp))
         }
     }
 
@@ -183,19 +194,20 @@ fun Checkout(vehicle: TempVehicle, navController: NavController) {
         val interactionSource = MutableInteractionSource()  //Removes ripple-effect when transparent box is pressed
 
         Column() {
-            Box(
+            Box(    // Transparent box as back button field
                 Modifier
                     .height(size)
                     .fillMaxWidth()
-                    .clickable (
+                    .clickable(
                         interactionSource = interactionSource,
                         indication = null
-                            ) {
+                    ) {
                         sizeState = 0.dp
-                        active = false }
+                        active = false
+                    }
                     .background(Color.Transparent),
             )
-            Box(
+            Box(    // gray box
                 modifier = Modifier
                     .height(size)
                     .fillMaxWidth()
@@ -203,26 +215,134 @@ fun Checkout(vehicle: TempVehicle, navController: NavController) {
                     .background(colorResource(id = R.color.dark_gray))
             ) {
                 Column(Modifier.fillMaxSize(), Arrangement.SpaceEvenly) {
-                    Box(
+                    Box(    // MobilePay (true
                         modifier = Modifier
                             .height(120.dp)
                             .padding(20.dp)
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(10.dp))
-                            .background(colorResource(id = R.color.secondary))
+                            .border(
+                                2.dp,
+                                if (checkoutOption.value)
+                                    SolidColor(colorResource(id = R.color.primary))
+                                else SolidColor(colorResource(id = R.color.dark_gray)),
+                                shape = RoundedCornerShape(10.dp)
+                            )
+                            .background(Color(0xFF5572f2)) // 5572f2
+                            .clickable {
+                                checkoutOption.value = true
+                                coroutineScope.launch {
+                                    scale.animateTo(
+                                        scaleDown,
+                                        animationSpec = tween(animationDuration),
+                                    )
+                                    scale.animateTo(
+                                        1f,
+                                        animationSpec = tween(animationDuration),
+                                    )
+                                }
+                            }
+                            .scale( scale =
+                            if (checkoutOption.value)
+                                scale.value
+                            else
+                                1f)
+
                     ) {
-                        Text(text = "MobilePay")
+                        Row(
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(start = 30.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Box(modifier = Modifier
+                                .size(20.dp)
+                                .clip(RoundedCornerShape(100.dp))
+                                .background(
+                                    if (checkoutOption.value)
+                                        colorResource(id = R.color.dark_gray)
+                                    else
+                                        colorResource(id = R.color.light_gray)
+                                )
+                            )
+                            Image(
+                                modifier = Modifier
+                                    .padding(10.dp, 20.dp, 10.dp, 20.dp),
+                                painter = painterResource(id = R.drawable.mobilepay_logo_white),
+                                contentDescription = null,
+                                contentScale = ContentScale.FillHeight
+                            )
+                            Text(
+                                text = "MobilePay",
+                                color = Color.White,
+                                fontSize = 18.sp
+                            )
+                        }
                     }
 
-                    Box(
+                    Box(    // MasterCard (false)
                         modifier = Modifier
                             .height(120.dp)
                             .padding(20.dp)
                             .fillMaxWidth()
                             .clip(RoundedCornerShape(10.dp))
-                            .background(colorResource(id = R.color.light_gray))
+                            .border(
+                                2.dp,
+                                if (!checkoutOption.value)
+                                    SolidColor(colorResource(id = R.color.primary))
+                                else SolidColor(colorResource(id = R.color.dark_gray)),
+                                shape = RoundedCornerShape(10.dp)
+                            )
+                            .background(Color.White) // 5572f2
+                            .clickable {
+                                checkoutOption.value = false
+                                coroutineScope.launch {
+                                    scale.animateTo(
+                                        scaleDown,
+                                        animationSpec = tween(animationDuration),
+                                    )
+                                    scale.animateTo(
+                                        1f,
+                                        animationSpec = tween(animationDuration),
+                                    )
+                                }
+                            }
+                            .scale( scale =
+                            if (!checkoutOption.value)
+                                scale.value
+                            else
+                                1f)
+
                     ) {
-                        Text(text = "Credit Card")
+                        Row(
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(start = 30.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Box(modifier = Modifier
+                                .size(20.dp)
+                                .clip(RoundedCornerShape(100.dp))
+                                .background(
+                                    if (!checkoutOption.value)
+                                        colorResource(id = R.color.dark_gray)
+                                    else
+                                        colorResource(id = R.color.light_gray)
+                                )
+                            )
+                            Image(
+                                modifier = Modifier
+                                    .padding(10.dp, 22.dp, 10.dp, 22.dp),
+                                painter = painterResource(id = R.drawable.mastercard_logo),
+                                contentDescription = null,
+                                contentScale = ContentScale.FillHeight
+                            )
+                            Text(
+                                text = "MasterCard",
+                                color = Color.Black,
+                                fontSize = 18.sp
+                            )
+                        }
                     }
 
                     Box(
@@ -239,7 +359,7 @@ fun Checkout(vehicle: TempVehicle, navController: NavController) {
                             colors = ButtonDefaults.buttonColors(colorResource(id = R.color.primary))
                         ) {
                             Text(
-                                text = "Checkout",
+                                text = "Proceed",
                                 color = Color.Black,
                                 modifier = Modifier.padding(7.dp)
                             )
@@ -249,20 +369,25 @@ fun Checkout(vehicle: TempVehicle, navController: NavController) {
             }
         }
     }
-   /* AnimatedVisibility(
-        visible = active,
-        modifier = Modifier.fillMaxWidth(),
-        enter = slideInVertically() + fadeIn()
+    /* AnimatedVisibility(
+		 visible = active,
+		 modifier = Modifier.fillMaxWidth(),
+		 enter = slideInVertically() + fadeIn()
 
-    ) {
-        //RoundedRect()
-        AvailableVehicleCard(vehicle = vehicle.vehicle, navController = navController)
-    }*/
+	 ) {
+		 //RoundedRect()
+		 AvailableVehicleCard(vehicle = vehicle.vehicle, navController = navController)
+	 }*/
 }
 
-
+/**
+ * Pop-up panel with payment options
+ */
+/*
 @Composable
 fun BuyPanel(size: Dp, sizeState: Dp){
+    val checkoutOption = remember { mutableStateOf(0) }
+
     Column() {
         Box(
             Modifier
@@ -271,26 +396,44 @@ fun BuyPanel(size: Dp, sizeState: Dp){
                 //.clickable { sizeState = 0.dp}
                 .background(Color.Transparent)
 
-        ) {
-
-        }
+        )
         Box(
             modifier = Modifier
                 .height(size)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(27.dp, 27.dp))
-                .background(Color.Green)
+                .background(Color(0xFF5572f2)) // 5572f2
         ) {
             Column(Modifier.fillMaxSize(), Arrangement.SpaceEvenly) {
-                Box(
+                Box(    // MobilePay option
                     modifier = Modifier
                         .height(120.dp)
                         .padding(20.dp)
                         .fillMaxWidth()
+                        .border(BorderStroke(4.dp, SolidColor(colorResource(id = R.color.primary))))
                         .clip(RoundedCornerShape(10.dp))
                         .background(Color.LightGray)
+                        .clickable { checkoutOption.value = 0 }
                 ) {
-                    Text(text = "MobilePay")
+                    Row(
+                        Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Box(modifier = Modifier
+                            .size(20.dp)
+                            .clip(RoundedCornerShape(100.dp))
+                            .background(Color.Red)
+                        )
+                        Image(
+                            modifier = Modifier
+                                .padding(20.dp)
+                                .size(80.dp),
+                            painter = painterResource(id = R.drawable.mobilepay_logo_white),
+                            contentDescription = null,
+                            contentScale = ContentScale.FillHeight
+                        )
+                        Text(text = "MobilePay")
+                    }
                 }
 
                 Box(
@@ -326,3 +469,4 @@ fun BuyPanel(size: Dp, sizeState: Dp){
         }
     }
 }
+*/
