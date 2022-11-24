@@ -1,21 +1,26 @@
 package com.example.advancedappdevelopment.ui.view.pages
 
 import android.annotation.SuppressLint
+import android.provider.ContactsContract.Profile
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.InspectableModifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -24,6 +29,7 @@ import com.example.advancedappdevelopment.R
 import com.example.advancedappdevelopment.data.model.NavigationRoute
 import com.example.advancedappdevelopment.data.model.dataClass.Vehicle
 import com.example.advancedappdevelopment.data.model.firebaseAdapter.associations
+import com.example.advancedappdevelopment.ui.view.pages.profile.ProfilePage
 import com.example.advancedappdevelopment.ui.viewmodel.AvailableVehiclesViewModel
 import kotlinx.coroutines.launch
 
@@ -37,7 +43,9 @@ fun AvailableVehiclesPage(navController: NavController){
             .fillMaxSize()
     ){
         item {
-            PageTop(showAssociation)   //The drawer design at the top of the page
+
+            PageTop(navController,showAssociation)
+            //The drawer design at the top of the page
             Text(
                 text = "Available vehicles",
                 fontWeight = FontWeight.Bold,
@@ -51,7 +59,7 @@ fun AvailableVehiclesPage(navController: NavController){
 }
 
 @Composable
-fun PageTop(
+fun PageTop( navController: NavController,
     showAssociation: MutableState<Int>,
     animationDuration: Int = 100,
     scaleDown: Float = 0.9f
@@ -66,12 +74,31 @@ fun PageTop(
         .fillMaxWidth()
         .wrapContentSize(Alignment.BottomCenter)) {
         Box(modifier = Modifier.fillMaxWidth()) {
+
             Box(
                 modifier = Modifier
                     .height(160.dp)
                     .fillMaxWidth()
                     .background(colorResource(R.color.dark_gray))
             ){
+                IconButton(
+                    onClick = { navController.navigate(NavigationRoute.ProfilePage.route)}
+                )   {
+                    Icon(
+                        imageVector = Icons.Filled.Person,
+                        tint = Color.White,
+                        contentDescription = "",
+
+
+
+
+
+
+                    )
+                    }
+
+
+
                 if (associations.size > 0) {
                     LazyRow(
                         modifier = Modifier
@@ -99,9 +126,9 @@ fun PageTop(
 
 
                                 if (showAssociation.value == i){
-                                Modifier
-                                    .padding(bottom = 20.dp, start = 10.dp, end = 10.dp)
-                                    .scale(scale = scale.value)}
+                                    Modifier
+                                        .padding(bottom = 20.dp, start = 10.dp, end = 10.dp)
+                                        .scale(scale = scale.value)}
                                 else Modifier.padding(bottom = 20.dp, start = 10.dp, end = 10.dp),
 
                                 shape = RoundedCornerShape(12.dp),
