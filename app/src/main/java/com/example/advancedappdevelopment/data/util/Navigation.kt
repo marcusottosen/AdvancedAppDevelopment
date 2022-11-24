@@ -1,5 +1,6 @@
 package com.example.advancedappdevelopment.data.util
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
@@ -28,15 +29,18 @@ fun Navigation(navController: NavHostController) {
         NavigationRoute.LoginRegisterPage.route
     }
 
-    NavHost(navController, startDestination = startingDestination
+    NavHost(
+        navController,
+        startDestination = startingDestination
     /*if (Firebase.auth.currentUser != null)
         NavigationRoute.LoadFromDB.route
     else
         "authenticationOption"*/
     ) {
 
-
         composable(NavigationRoute.Homepage.route) {
+            BackHandler(true) {
+            }
             AvailableVehiclesPage(navController)
         }
 
