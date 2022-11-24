@@ -10,6 +10,7 @@ import com.example.advancedappdevelopment.data.model.dataClass.TempVehicle
 import com.example.advancedappdevelopment.data.model.dataClass.Vehicle
 import com.example.advancedappdevelopment.ui.view.pages.CarInfo
 import com.example.advancedappdevelopment.ui.view.pages.AvailableVehiclesPage
+import com.example.advancedappdevelopment.ui.view.pages.Checkout
 import com.example.advancedappdevelopment.ui.view.pages.login.LoginPage
 import com.example.advancedappdevelopment.ui.view.pages.login.LoginRegisterPage
 import com.example.advancedappdevelopment.ui.view.pages.login.RegisterPage
