@@ -35,6 +35,7 @@ import com.example.advancedappdevelopment.R
 import com.example.advancedappdevelopment.data.model.NavigationRoute
 import com.example.advancedappdevelopment.data.model.dataClass.TempVehicle
 import com.example.advancedappdevelopment.data.util.LoadFromDB
+import com.example.advancedappdevelopment.ui.view.reusables.BuyAnimation
 import com.example.advancedappdevelopment.ui.viewmodel.CheckoutViewModel
 import com.example.bkskjold.data.util.getTimeFromInt
 import kotlinx.coroutines.launch
@@ -228,7 +229,7 @@ fun Checkout(
                     .background(colorResource(id = R.color.dark_gray))
             ) {
                 Column(Modifier.fillMaxSize(), Arrangement.SpaceEvenly) {
-                    Box(    // MobilePay (true
+                    Box(    // MobilePay (true)
                         modifier = Modifier
                             .height(120.dp)
                             .padding(20.dp)
@@ -373,12 +374,12 @@ fun Checkout(
                         Button(
                             onClick = {
                                 try {
-                                    viewmodel.updateVehicle()
+                                    //viewmodel.updateVehicle()
                                     Toast.makeText(context, "Booking created", Toast.LENGTH_SHORT).show()
                                 } catch (e: java.lang.Exception){
                                     Toast.makeText(context, "ERROR! Booking not created", Toast.LENGTH_SHORT).show()
                                 }
-                                navController.navigate(NavigationRoute.Homepage.route)
+                                //navController.navigate(NavigationRoute.Homepage.route)
                                       },
                             modifier = Modifier
                                 .align(Alignment.Center)
