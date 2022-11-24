@@ -374,12 +374,12 @@ fun Checkout(
                         Button(
                             onClick = {
                                 try {
-                                    //viewmodel.updateVehicle()
+                                    viewmodel.updateVehicle()
                                     Toast.makeText(context, "Booking created", Toast.LENGTH_SHORT).show()
                                 } catch (e: java.lang.Exception){
                                     Toast.makeText(context, "ERROR! Booking not created", Toast.LENGTH_SHORT).show()
                                 }
-                                //navController.navigate(NavigationRoute.Homepage.route)
+                                navController.navigate(NavigationRoute.Homepage.route)
                                       },
                             modifier = Modifier
                                 .align(Alignment.Center)

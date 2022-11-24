@@ -60,7 +60,9 @@ fun LoadFromDB(navController: NavController)  {
         //navController.navigate(NavigationRoute.Checkout.route)
     }*/
     scope.launch {
-        delay(1000)
+        while (vehiclesLoading)
+            delay(1000)
+        scope.cancel()
         navController.navigate((NavigationRoute.Homepage.route))
     }
 }
