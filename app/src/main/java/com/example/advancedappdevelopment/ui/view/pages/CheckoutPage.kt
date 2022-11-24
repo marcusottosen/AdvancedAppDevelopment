@@ -1,5 +1,6 @@
 package com.example.advancedappdevelopment.ui.view.pages
 
+import android.widget.Toast
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
@@ -20,6 +21,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
@@ -360,6 +362,7 @@ fun Checkout(
                             )
                         }
                     }
+                    val context = LocalContext.current
 
                     Box(
                         Modifier
@@ -367,7 +370,15 @@ fun Checkout(
                             .padding(top = 20.dp, bottom = 50.dp)
                     ) {
                         Button(
-                            onClick = {viewmodel.updateVehicle()},
+                            onClick = {
+                                try {
+                                    viewmodel.updateVehicle()
+                                    Toast.makeText(context, "Booking created", Toast.LENGTH_SHORT).show()
+                                } catch (e: java.lang.Exception){
+                                    Toast.makeText(context, "ERROR! Booking not created", Toast.LENGTH_SHORT).show()
+                                }
+                                navController.navigate(NavigationRoute.Homepage.route)
+                                      },
                             modifier = Modifier
                                 .align(Alignment.Center)
                                 .width(300.dp),

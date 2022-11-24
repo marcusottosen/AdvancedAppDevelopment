@@ -5,10 +5,12 @@ import android.util.Log
 import androidx.annotation.NonNull
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.NavController
 import com.example.advancedappdevelopment.data.model.dataClass.TempVehicle
 import com.example.advancedappdevelopment.data.model.dataClass.Vehicle
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentId
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -26,7 +28,7 @@ class VehicleDBModel{
         val db = Firebase.firestore
 
         db.collection("vehicles")
-            //.orderBy("carNum", Query.Direction.ASCENDING)
+            .orderBy("carNum", Query.Direction.ASCENDING)
             .get()
             .addOnSuccessListener { result ->
                 vehicles.clear()
@@ -90,4 +92,19 @@ fun updateVehicleDB(vehicle: Vehicle): Vehicle {
         }
 
     return vehicle
+}
+
+fun addVehicleToDB(item: Vehicle) {
+    val db = Firebase.firestore
+    db.collection("vehicles")
+        .add(item)
+        .addOnSuccessListener { documentReference ->
+            Log.d(
+                ContentValues.TAG,
+                "DocumentSnapshot added with ID: ${documentReference.id}"
+            )
+        }
+        .addOnFailureListener { e ->
+            Log.w(ContentValues.TAG, "Error adding document", e)
+        }
 }
