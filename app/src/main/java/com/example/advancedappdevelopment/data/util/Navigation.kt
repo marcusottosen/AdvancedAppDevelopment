@@ -6,9 +6,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.advancedappdevelopment.data.model.NavigationRoute
+import com.example.advancedappdevelopment.data.model.dataClass.TempVehicle
 import com.example.advancedappdevelopment.data.model.dataClass.Vehicle
 import com.example.advancedappdevelopment.ui.view.pages.CarInfo
-import com.example.advancedappdevelopment.ui.view.pages.Checkout
 import com.example.advancedappdevelopment.ui.view.pages.AvailableVehiclesPage
 import com.example.advancedappdevelopment.ui.view.pages.login.LoginPage
 import com.example.advancedappdevelopment.ui.view.pages.login.LoginRegisterPage
@@ -17,13 +17,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
-
-//@ExperimentalMaterialApi
-//@ExperimentalFoundationApi
 @Composable
 fun Navigation(navController: NavHostController) {
-    println("navcontroller")
-
     // Uncomment for at blive logget ud hver gang app'en genstartes
     //FirebaseAuth.getInstance().signOut()
 
@@ -43,28 +38,29 @@ fun Navigation(navController: NavHostController) {
 
 
         composable(NavigationRoute.Homepage.route) {
-            println("(nav to HomePage)")
             AvailableVehiclesPage(navController)
         }
-        /*composable(NavigationRoute.CarInfo.route){
-            println("(nav to CarInfo)")
-            CarInfo(navController)
-        }*/
+
         //Load before homepage is shown
         composable(NavigationRoute.LoadFromDB.route) {
-            println("Calling VehicleDB")
-            //val vehicles = VehicleDBModel()
-            //vehicles.loadVehiclesFromDB(navController)
             LoadFromDB(navController)
         }
+
+
         composable(NavigationRoute.Checkout.route){
-            println("(nav to Checkout)")
-            Checkout(navController)
+            val tempCarModel =
+            navController.previousBackStackEntry?.arguments?.getParcelable<TempVehicle>("tempVehicle")
+            tempCarModel?.let {
+                Checkout(vehicle = it, navController = navController)
+            }
         }
+
+
+
         composable(NavigationRoute.CarInfo.route) {
-            val eventModel =
+            val carModel =
                 navController.previousBackStackEntry?.arguments?.getParcelable<Vehicle>("vehicle")
-            eventModel?.let {
+            carModel?.let {
                 CarInfo(vehicle = it, navController = navController)
             }
         }

@@ -1,5 +1,7 @@
 package com.example.advancedappdevelopment.ui.view.reusables
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -14,28 +16,30 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.advancedappdevelopment.R
+import com.example.advancedappdevelopment.data.model.dataClass.Vehicle
 import com.example.advancedappdevelopment.ui.viewmodel.CalendarViewModel
-import com.example.advancedappdevelopment.ui.viewmodel.CarBookedFullDay
+import com.example.advancedappdevelopment.ui.viewmodel.CarBookedDay
+import com.example.bkskjold.data.util.getHour
 import io.github.boguszpawlowski.composecalendar.SelectableCalendar
 import io.github.boguszpawlowski.composecalendar.day.DayState
 import io.github.boguszpawlowski.composecalendar.rememberSelectableCalendarState
 import io.github.boguszpawlowski.composecalendar.selection.DynamicSelectionState
 import io.github.boguszpawlowski.composecalendar.selection.SelectionMode
+import kotlinx.coroutines.launch
 
-// https://github.com/boguszpawlowski/ComposeCalendar
-
+/**
+ * Calendar item from https://github.com/boguszpawlowski/ComposeCalendar
+ */
 @Composable
 fun MyCalendarView(viewModel: CalendarViewModel){
-    //val viewModel = remember { CalendarViewModel() }
     val vehicles by viewModel.vehicleFlow.collectAsState()
-    //val selectedPrice by viewModel.selectedRecipesPriceFlow.collectAsState(0)
     val chosenDate by remember {viewModel.chosenDate}
-
 
     val state = rememberSelectableCalendarState(
         confirmSelectionChange = { viewModel.onSelectionChanged(it); true },
@@ -48,82 +52,46 @@ fun MyCalendarView(viewModel: CalendarViewModel){
             dayContent = { dayState ->
                 BookedDay(
                     state = dayState,
-                    carBookedFullDay = vehicles.firstOrNull { it.date == dayState.date },
+                    carBookedDay = vehicles.firstOrNull { it.date == dayState.date },
                 )
             }
         )
 
         Spacer(modifier = Modifier.height(20.dp))
-        /*Text(
-            text = "Selected recipes price: $selectedPrice",
-            style = MaterialTheme.typography.h6,
-        )*/
-
         Text(
             text = "Date chosen: $chosenDate",
-            style = MaterialTheme.typography.h6,
+            style = MaterialTheme.typography.body1,
         )
 
         Spacer(modifier = Modifier.height(20.dp))
-        //SelectionControls(selectionState = calendarState.selectionState)
     }
 }
 
-@Composable
-fun TimePicker(){   //Same as TimerPickers but instead made with rows and columns
-    var time = 1
-
-    Row(modifier = Modifier.fillMaxSize(), Arrangement.SpaceEvenly) {
-        for (b in 0..3) {
-            Column(modifier = Modifier.fillMaxHeight(), Arrangement.SpaceEvenly) {
-                for (b in 0..5) {
-                    var chosenTime by remember { mutableStateOf(false)}
-
-                    Button(
-                        onClick = { chosenTime =! chosenTime },
-                        Modifier
-                            .padding(0.dp, 0.dp)
-                            .clip(RoundedCornerShape(10.dp)),
-                        colors =
-                        if (chosenTime)
-                            ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.primary))
-                        else
-                            ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.background))
-
-                    ) {
-                        Text(text = "$time:00",
-                            textAlign = TextAlign.Center)
-                        time++
-
-                    }
-                    /*Box(
-                        Modifier
-                            .padding(5.dp, 10.dp)
-                            .size(60.dp, 25.dp)
-                            .clip(RoundedCornerShape(10.dp))
-                            .border(
-                                1.dp,
-                                colorResource(R.color.dark_gray),
-                                shape = RoundedCornerShape(10.dp)
-                            )
-                            .background(colorResource(R.color.background)),
-                    ) {
-                        Text(text = "$time:00",
-                            textAlign = TextAlign.Center)
-                        time++
-                    }*/
-                }
-            }
-        }
-    }
-}
-
+/**
+ * Shows 24-hour time picker.
+ * Each hour can be clicked on making it green.
+ * Each hour already booked is red.
+ */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun TimePickers(viewModel: CalendarViewModel){
-    val hourList = listOf("01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00",
-        "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00",
-        "20:00", "21:00", "22:00", "23:00", "24:00")
+fun TimePicker(
+    viewModel: CalendarViewModel,
+    vehicle: Vehicle,
+    animationDuration: Int = 100,
+    scaleDown: Float = 0.9f
+){
+    // val chosenHours by remember {viewModel.chosenHours}
+
+    val bookedDatesAsString = mutableListOf<String>()    // List of all already-booked dates
+
+    for (i in 0 until viewModel.bookedDates.size){
+        bookedDatesAsString.add(viewModel.bookedDates[i].date.toString())
+    }
+
+    val bookingHourStarts = mutableListOf<Int>()
+    for (i in 0 until vehicle.bookingStart.size){
+        bookingHourStarts.add(getHour(vehicle.bookingStart[i]))
+    }
 
     LazyVerticalGrid(
         cells = GridCells.Fixed(4),
@@ -131,42 +99,88 @@ fun TimePickers(viewModel: CalendarViewModel){
         verticalArrangement = Arrangement.Bottom,
         horizontalArrangement = Arrangement.End
     ) {
-        items(hourList.size) { index ->
-            var chosenTime by remember { mutableStateOf(false)}
+        items(viewModel.hourList.size) { index ->   // The following is for EACH hour-button
+            var chosenTime by remember { mutableStateOf(false) }
+
+            var isOnDate = false
+            if (bookedDatesAsString.contains(viewModel.chosenDate.value)) {
+                isOnDate = true
+            }
+            var hourIsBooked = false
+
+            for (hourlist in viewModel.bookedHoursPerDay) {          // For each booking
+                if (hourlist[0] == viewModel.chosenDate.value) {     // and if the date of the booking matches the chosen date
+                    for (i in 1 until hourlist.size) {        // then for each booked hour on the date
+                        if (hourlist[i] == index)                   // if the hour equals the button index
+                            hourIsBooked = true                     // true that the hour is booked
+                    }
+                }
+            }
+
+            // If the hour is already booked that day, don't show it as chosen and remove from picked hours
+            if (hourIsBooked) {
+                chosenTime = false
+                viewModel.chosenHours.remove(index)
+            }
+
+            val coroutineScope = rememberCoroutineScope()
+            val scale = remember { Animatable(1f) }
 
             Button(
-                onClick = {chosenTime =! chosenTime},
+                onClick = {
+                    coroutineScope.launch {
+                        scale.animateTo(
+                            scaleDown,
+                            animationSpec = tween(animationDuration),
+                        )
+                        scale.animateTo(
+                            1f,
+                            animationSpec = tween(animationDuration),
+                        )
+                    }
+
+                    if (!hourIsBooked)                          // If hour is already booked, remove it from picked hours
+                        chosenTime =! chosenTime
+                    if (!viewModel.chosenHours.contains(index) && !hourIsBooked)
+                        viewModel.chosenHours.add(index)
+                    else
+                        viewModel.chosenHours.remove(index)
+                },
                 Modifier
                     .padding(5.dp, 0.dp)
+                    .scale(scale =
+                    if (!hourIsBooked)
+                        scale.value
+                    else
+                        1f
+                    )
                     .clip(RoundedCornerShape(10.dp)),
                 colors =
-                if (chosenTime)
+                if (hourIsBooked) {     // If hour is booked change color to red.
+                    ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.secondary))
+                }
+                else if (chosenTime)    // if hour is pressed. change color to primary.
                     ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.primary))
                 else
                     ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.background)),
                 contentPadding = PaddingValues(0.dp)
             ) {
-                Text(text = hourList[index],
+                Text(text = viewModel.hourList[index],
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(0.dp)
                 )
-
             }
         }
     }
-
 }
 
-
-
-
 /**
- * Custom implementation of DayContent, which shows a dot if there is an recipe planned for this day.
+ * Custom implementation of DayContent, which shows a dot if there is a booking that day.
  */
 @Composable
 fun BookedDay(
     state: DayState<DynamicSelectionState>,
-    carBookedFullDay: CarBookedFullDay?,
+    carBookedDay: CarBookedDay?,
     modifier: Modifier = Modifier,
 ) {
     val date = state.date
@@ -192,7 +206,7 @@ fun BookedDay(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(text = date.dayOfMonth.toString())
-            if (carBookedFullDay != null) {
+            if (carBookedDay != null) {
                 Box(
                     modifier = Modifier
                         .size(10.dp)
@@ -200,57 +214,10 @@ fun BookedDay(
                         .background(colorResource(R.color.secondary))
                 )
                 Text(
-                    text = carBookedFullDay.text,
+                    text = carBookedDay.text,
                     fontSize = 8.sp,
                 )
             }
         }
     }
 }
-/*
-@Composable
-private fun SelectionControls(
-    selectionState: DynamicSelectionState,
-) {
-    Text(
-        text = "Calendar Selection Mode",
-        style = MaterialTheme.typography.h5,
-    )
-/*
-    SelectionMode.values().forEach { selectionMode ->
-        Row(modifier = Modifier.fillMaxWidth()) {
-            RadioButton(
-                selected = selectionState.selectionMode == selectionMode,
-                onClick = { selectionState.selectionMode = selectionMode }
-            )
-            Text(text = selectionMode.name)
-            Spacer(modifier = Modifier.height(4.dp))
-        }
-    }*/
-
-    Row(modifier = Modifier.fillMaxWidth()) {
-        RadioButton(
-            selected = selectionState.selectionMode == SelectionMode.Single,
-            onClick = { selectionState.selectionMode = SelectionMode.Single }
-        )
-        Text(text = SelectionMode.Single.name)
-        Spacer(modifier = Modifier.height(4.dp))
-    }
-
-    Row(modifier = Modifier.fillMaxWidth()) {
-        RadioButton(
-            selected = selectionState.selectionMode == SelectionMode.Period,
-            onClick = { selectionState.selectionMode = SelectionMode.Period }
-        )
-        Text(text = SelectionMode.Period.name)
-        Spacer(modifier = Modifier.height(4.dp))
-    }
-
-    Text(
-        text = "Selection: ${selectionState.selection.joinToString { it.toString() }}",
-        style = MaterialTheme.typography.h6,
-    )
-}
-
-*/
-

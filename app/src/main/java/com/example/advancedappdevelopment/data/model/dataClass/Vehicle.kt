@@ -1,10 +1,13 @@
 package com.example.advancedappdevelopment.data.model.dataClass
 
 import android.os.Parcelable
+import com.google.firebase.Timestamp
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Vehicle(
+    val bookingStart: MutableList<Timestamp>,
+    val bookingEnd: MutableList<Timestamp>,
     val association: String = "",
     val carNum: Byte = 0,
     val carName: String = "",
@@ -14,6 +17,15 @@ data class Vehicle(
     val bootSpace: Short = 0,
     val seats: Short = 0,
 ) : Parcelable
+
+// Used for data transfer between CarInfoPage and Checkout
+@Parcelize
+data class TempVehicle(
+    val vehicle: Vehicle,
+    val chosenDate: String,
+    val chosenHours: List<Int>
+) : Parcelable
+
 
 /* Idea to time management:
 

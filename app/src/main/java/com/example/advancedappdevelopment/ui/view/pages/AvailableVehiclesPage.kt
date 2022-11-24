@@ -47,13 +47,6 @@ fun AvailableVehiclesPage(navController: NavController){
                 viewModel.GetVehicleOverviewView(navController, associations[showAssociation.value].id)
             }
         }
-        item {
-            Button(onClick = {
-                navController.navigate(NavigationRoute.Checkout.route)
-            }) {
-                Text(text = "checkout")
-            }
-        }
     }
 }
 
@@ -128,43 +121,6 @@ fun PageTop(
                         }
                     }
                 }
-
-                /*LazyRow(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(20.dp),
-                    verticalAlignment = Alignment.Bottom,
-                    horizontalArrangement = Arrangement.Center)
-                {
-                    item {
-                        Button(
-                            onClick = { /*TODO*/ },
-                            Modifier
-                                .padding(bottom = 20.dp, start = 10.dp, end = 10.dp),
-                            shape = RoundedCornerShape(12.dp),
-                            colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.primary))
-                        ) {
-                            Text(
-                                text = "Høje haver",
-                                fontWeight = FontWeight.Bold
-                            )
-                        }
-                    }
-                    item {
-                        Button(
-                            onClick = { print("HELLOO WORLD") },
-                            Modifier.padding(bottom = 20.dp, start = 10.dp, end = 10.dp),
-                            shape = RoundedCornerShape(12.dp),
-                            colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(R.color.inactive))
-                        ) {
-                            Text(
-                                text = "Taastrup sportsklub",
-                                color = Color.White,
-                                fontWeight = FontWeight.Bold
-                            )
-                        }
-                    }
-                }*/
             }
 
             Box(
