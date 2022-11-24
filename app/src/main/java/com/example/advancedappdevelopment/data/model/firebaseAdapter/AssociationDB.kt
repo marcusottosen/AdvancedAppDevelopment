@@ -42,7 +42,7 @@ class AssociationDBModel{
                 if (it.isSuccessful){
                     println("Successful. Navigating to home from loadAssociationsFromDB")
                     //navController.navigate(NavigationRoute.CarInfo.route)
-                    //_loading.value = false
+                    _loading.value = false
                 }
             }
             .addOnFailureListener{exception ->

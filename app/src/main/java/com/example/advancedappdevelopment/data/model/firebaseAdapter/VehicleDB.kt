@@ -22,7 +22,7 @@ class VehicleDBModel{
     private val _loading = MutableLiveData(true)
     val loading: LiveData<Boolean> = _loading
 
-    fun loadVehiclesFromDB(): MutableList<Vehicle>{ //db: FirebaseFirestore
+    fun loadVehiclesFromDB(): MutableList<Vehicle>{
         println("loadVehiclesFromDB starting")
 
         val db = Firebase.firestore
@@ -54,7 +54,7 @@ class VehicleDBModel{
                 if (it.isSuccessful){
                     println("Successful. Navigating to home from loadVehiclesFromDB")
                     //navController.navigate(NavigationRoute.CarInfo.route)
-                    //_loading.value = false
+                    _loading.value = false
                 }
             }
             .addOnFailureListener{exception ->

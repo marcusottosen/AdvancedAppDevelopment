@@ -24,7 +24,6 @@ class CheckoutViewModel(private val tempVehicle: TempVehicle): ViewModel(){
 			println(start)
 			updateVehicleDB(tempVehicle.vehicle)
 		}
-
 	}
 
 	private fun toTimeStamp(date: String, hour: String): Timestamp? {
