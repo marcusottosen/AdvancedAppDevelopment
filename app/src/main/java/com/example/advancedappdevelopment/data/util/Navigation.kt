@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.advancedappdevelopment.data.model.NavigationRoute
+import com.example.advancedappdevelopment.data.model.dataClass.CurrentUser
 import com.example.advancedappdevelopment.data.model.dataClass.TempVehicle
 import com.example.advancedappdevelopment.data.model.dataClass.Vehicle
 import com.example.advancedappdevelopment.ui.view.pages.CarInfo
@@ -76,7 +77,7 @@ fun Navigation(navController: NavHostController) {
             LoginRegisterPage(navController)
         }
         composable(NavigationRoute.ProfilePage.route) {
-            ProfilePage(navController)
+            ProfilePage(navController, currentUser = CurrentUser)
         }
 
 
