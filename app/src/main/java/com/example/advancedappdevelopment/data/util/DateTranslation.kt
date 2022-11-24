@@ -108,3 +108,18 @@ fun getTimeFromInt(hour: Int): String{
 	}
 	return "$time:00"
 }
+
+/*
+fun stringDateToIntYear(date: String): Int{
+	return date.take(4).toInt()
+}
+
+fun stringDateToIntMonth(date: String): Int{
+	val month = date.drop(5)
+	return month.take(2).toInt()
+}
+
+fun stringDateToIntDay(date: String): Int{
+	return date.takeLast(2).toInt()
+}
+ */

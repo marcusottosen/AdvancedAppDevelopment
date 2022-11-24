@@ -2,6 +2,7 @@ package com.example.advancedappdevelopment.data.model.dataClass
 
 import android.os.Parcelable
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.DocumentId
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -16,6 +17,8 @@ data class Vehicle(
     val range: Short = 0,
     val bootSpace: Short = 0,
     val seats: Short = 0,
+    @DocumentId
+    val documentId: String
 ) : Parcelable
 
 // Used for data transfer between CarInfoPage and Checkout

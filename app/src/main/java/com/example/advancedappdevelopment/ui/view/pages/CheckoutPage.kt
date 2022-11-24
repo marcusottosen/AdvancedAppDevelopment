@@ -32,6 +32,7 @@ import androidx.navigation.NavController
 import com.example.advancedappdevelopment.R
 import com.example.advancedappdevelopment.data.model.NavigationRoute
 import com.example.advancedappdevelopment.data.model.dataClass.TempVehicle
+import com.example.advancedappdevelopment.ui.viewmodel.CheckoutViewModel
 import com.example.bkskjold.data.util.getTimeFromInt
 import kotlinx.coroutines.launch
 
@@ -45,6 +46,7 @@ fun Checkout(
     val checkoutOption = remember { mutableStateOf(true) }
     val coroutineScope = rememberCoroutineScope()
     val scale = remember { Animatable(1f) }
+    val viewmodel = CheckoutViewModel(vehicle)
 
     LazyColumn(
         modifier = Modifier.fillMaxSize()
@@ -168,7 +170,7 @@ fun Checkout(
         Modifier
             .fillMaxSize()
             .padding(top = 40.dp, bottom = 80.dp)
-    ){
+    ) {
         Button(
             onClick = {
                 if (active)
@@ -184,17 +186,25 @@ fun Checkout(
             shape = RoundedCornerShape(12.dp),
             colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.primary))
         ) {
-            Text(text = "Checkout",
+            Text(
+                text = "Checkout",
                 color = Color.Black,
-                modifier = Modifier.padding(7.dp))
+                modifier = Modifier.padding(7.dp)
+            )
         }
     }
 
+
+
+
+
     Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.Bottom) {
-        val interactionSource = MutableInteractionSource()  //Removes ripple-effect when transparent box is pressed
+        val interactionSource =
+            MutableInteractionSource()  //Removes ripple-effect when transparent box is pressed
 
         Column() {
-            Box(    // Transparent box as back button field
+            Box(
+                // Transparent box as back button field
                 Modifier
                     .height(size)
                     .fillMaxWidth()
@@ -242,11 +252,13 @@ fun Checkout(
                                     )
                                 }
                             }
-                            .scale( scale =
-                            if (checkoutOption.value)
-                                scale.value
-                            else
-                                1f)
+                            .scale(
+                                scale =
+                                if (checkoutOption.value)
+                                    scale.value
+                                else
+                                    1f
+                            )
 
                     ) {
                         Row(
@@ -255,15 +267,16 @@ fun Checkout(
                                 .padding(start = 30.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Box(modifier = Modifier
-                                .size(20.dp)
-                                .clip(RoundedCornerShape(100.dp))
-                                .background(
-                                    if (checkoutOption.value)
-                                        colorResource(id = R.color.dark_gray)
-                                    else
-                                        colorResource(id = R.color.light_gray)
-                                )
+                            Box(
+                                modifier = Modifier
+                                    .size(20.dp)
+                                    .clip(RoundedCornerShape(100.dp))
+                                    .background(
+                                        if (checkoutOption.value)
+                                            colorResource(id = R.color.dark_gray)
+                                        else
+                                            colorResource(id = R.color.light_gray)
+                                    )
                             )
                             Image(
                                 modifier = Modifier
@@ -307,11 +320,13 @@ fun Checkout(
                                     )
                                 }
                             }
-                            .scale( scale =
-                            if (!checkoutOption.value)
-                                scale.value
-                            else
-                                1f)
+                            .scale(
+                                scale =
+                                if (!checkoutOption.value)
+                                    scale.value
+                                else
+                                    1f
+                            )
 
                     ) {
                         Row(
@@ -320,15 +335,16 @@ fun Checkout(
                                 .padding(start = 30.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Box(modifier = Modifier
-                                .size(20.dp)
-                                .clip(RoundedCornerShape(100.dp))
-                                .background(
-                                    if (!checkoutOption.value)
-                                        colorResource(id = R.color.dark_gray)
-                                    else
-                                        colorResource(id = R.color.light_gray)
-                                )
+                            Box(
+                                modifier = Modifier
+                                    .size(20.dp)
+                                    .clip(RoundedCornerShape(100.dp))
+                                    .background(
+                                        if (!checkoutOption.value)
+                                            colorResource(id = R.color.dark_gray)
+                                        else
+                                            colorResource(id = R.color.light_gray)
+                                    )
                             )
                             Image(
                                 modifier = Modifier
@@ -351,7 +367,7 @@ fun Checkout(
                             .padding(top = 20.dp, bottom = 50.dp)
                     ) {
                         Button(
-                            onClick = { },
+                            onClick = {viewmodel.updateVehicle()},
                             modifier = Modifier
                                 .align(Alignment.Center)
                                 .width(300.dp),
@@ -369,104 +385,4 @@ fun Checkout(
             }
         }
     }
-    /* AnimatedVisibility(
-		 visible = active,
-		 modifier = Modifier.fillMaxWidth(),
-		 enter = slideInVertically() + fadeIn()
-
-	 ) {
-		 //RoundedRect()
-		 AvailableVehicleCard(vehicle = vehicle.vehicle, navController = navController)
-	 }*/
 }
-
-/**
- * Pop-up panel with payment options
- */
-/*
-@Composable
-fun BuyPanel(size: Dp, sizeState: Dp){
-    val checkoutOption = remember { mutableStateOf(0) }
-
-    Column() {
-        Box(
-            Modifier
-                .height(size)
-                .fillMaxWidth()
-                //.clickable { sizeState = 0.dp}
-                .background(Color.Transparent)
-
-        )
-        Box(
-            modifier = Modifier
-                .height(size)
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(27.dp, 27.dp))
-                .background(Color(0xFF5572f2)) // 5572f2
-        ) {
-            Column(Modifier.fillMaxSize(), Arrangement.SpaceEvenly) {
-                Box(    // MobilePay option
-                    modifier = Modifier
-                        .height(120.dp)
-                        .padding(20.dp)
-                        .fillMaxWidth()
-                        .border(BorderStroke(4.dp, SolidColor(colorResource(id = R.color.primary))))
-                        .clip(RoundedCornerShape(10.dp))
-                        .background(Color.LightGray)
-                        .clickable { checkoutOption.value = 0 }
-                ) {
-                    Row(
-                        Modifier.fillMaxWidth(),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Box(modifier = Modifier
-                            .size(20.dp)
-                            .clip(RoundedCornerShape(100.dp))
-                            .background(Color.Red)
-                        )
-                        Image(
-                            modifier = Modifier
-                                .padding(20.dp)
-                                .size(80.dp),
-                            painter = painterResource(id = R.drawable.mobilepay_logo_white),
-                            contentDescription = null,
-                            contentScale = ContentScale.FillHeight
-                        )
-                        Text(text = "MobilePay")
-                    }
-                }
-
-                Box(
-                    modifier = Modifier
-                        .height(120.dp)
-                        .padding(20.dp)
-                        .fillMaxWidth()
-                        .clip(RoundedCornerShape(10.dp))
-                        .background(Color.LightGray)
-                ) {
-                    Text(text = "Credit Card")
-                }
-
-                Box(
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(top = 20.dp, bottom = 50.dp)
-                ) {
-                    Button(
-                        onClick = { },
-                        modifier = Modifier
-                            .align(Alignment.Center)
-                            .width(300.dp),
-                        colors = ButtonDefaults.buttonColors(backgroundColor = Color.Yellow)
-                    ) {
-                        Text(
-                            text = "Checkout",
-                            color = Color.Black
-                        )
-                    }
-                }
-            }
-        }
-    }
-}
-*/

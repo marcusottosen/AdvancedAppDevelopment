@@ -7,12 +7,13 @@ import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.lifecycle.ViewModel
 import androidx.navigation.NavController
 import com.example.advancedappdevelopment.data.model.firebaseAdapter.vehicles
 import com.example.advancedappdevelopment.ui.view.reusables.AvailableVehicleCard
 import kotlinx.coroutines.launch
 
-class AvailableVehiclesViewModel {
+class AvailableVehiclesViewModel: ViewModel() {
 
     @Composable
     fun GetAssociations(){
@@ -77,20 +78,6 @@ class AvailableVehiclesViewModel {
 			}
 		}
     }
-
 }
-
-/*
-                coroutineScope.launch {
-                    scale.animateTo(
-                        scaleDown,
-                        animationSpec = tween(animationDuration),
-                    )
-                    scale.animateTo(
-                        1f,
-                        animationSpec = tween(animationDuration),
-                    )
-                }
- */
 
 

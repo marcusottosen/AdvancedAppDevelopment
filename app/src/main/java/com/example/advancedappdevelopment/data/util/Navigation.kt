@@ -15,8 +15,6 @@ import com.example.advancedappdevelopment.ui.view.pages.login.LoginPage
 import com.example.advancedappdevelopment.ui.view.pages.login.LoginRegisterPage
 import com.example.advancedappdevelopment.ui.view.pages.login.RegisterPage
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 
 @Composable
 fun Navigation(navController: NavHostController) {
