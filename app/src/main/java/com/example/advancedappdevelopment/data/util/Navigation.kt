@@ -1,13 +1,13 @@
 package com.example.advancedappdevelopment.data.util
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.advancedappdevelopment.data.model.NavigationRoute
 import com.example.advancedappdevelopment.data.model.dataClass.CurrentUser
 import com.example.advancedappdevelopment.data.model.dataClass.TempVehicle
+import com.example.advancedappdevelopment.data.model.dataClass.User
 import com.example.advancedappdevelopment.data.model.dataClass.Vehicle
 import com.example.advancedappdevelopment.ui.view.pages.CarInfo
 import com.example.advancedappdevelopment.ui.view.pages.AvailableVehiclesPage
@@ -66,6 +66,14 @@ fun Navigation(navController: NavHostController) {
             }
         }
 
+        composable(NavigationRoute.ProfilePage.route) {
+          /* val curUser =
+                navController.previousBackStackEntry?.arguments?.getParcelable<User>("currentUser")
+            curUser?.let {*/
+                ProfilePage( navController = navController)
+
+
+        }
         // Authentication pages
         composable(NavigationRoute.LoginPage.route) {
             LoginPage(navController)
@@ -76,13 +84,10 @@ fun Navigation(navController: NavHostController) {
         composable(NavigationRoute.LoginRegisterPage.route) {
             LoginRegisterPage(navController)
         }
-        composable(NavigationRoute.ProfilePage.route) {
-            ProfilePage(navController, currentUser = CurrentUser)
-        }
 
 
 
 
-    }
-}
+    }}
+
 // Change page with argument: check last project
