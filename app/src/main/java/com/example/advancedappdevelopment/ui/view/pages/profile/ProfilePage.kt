@@ -42,7 +42,7 @@ import com.example.advancedappdevelopment.ui.viewmodel.ProfileViewModel
 
 @Composable
 fun ProfilePage(navController: NavController) {
-    val viewModel = ProfileViewModel()
+  //  val viewModel = ProfileViewModel()
     Column(
         Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.SpaceBetween) {
@@ -194,16 +194,50 @@ fun ProfilePage(navController: NavController) {
 
                         // on below line we are updating
                         // boolean value of open dialog.
-                        openDialog.value = !openDialog.value
+                        openDialog.value = true
+                    }) {
+                    // on below line we are checking if dialog is close
+                    if (openDialog.value) {
+                        AlertDialog(
+                            onDismissRequest = {
+                                // Dismiss the dialog when the user clicks outside the dialog or on the back
+                                // button. If you want to disable that functionality, simply use an empty
+                                // onCloseRequest.
+                                openDialog.value = false
+                            },
+                            title = {
+                                Text(text = "Dialog Title")
+                            },
+                            text = {
+                                Text("Here is a text ")
+                            },
+                            confirmButton = {
+                                Button(
 
-                        // on below line we are checking if dialog is close
-                        if (!openDialog.value) {
+                                    onClick = {
+                                        openDialog.value = false
+                                    }) {
+                                    Text("This is the Confirm Button")
+                                }
+                            },
+                            dismissButton = {
+                                Button(
+
+                                    onClick = {
+                                        openDialog.value = false
+                                    }) {
+                                    Text("This is the dismiss Button")
+                                }
+                            }
+                        )
+                    }
+
 
                             // on below line we are updating value
 
-                        }
-                    }
-                ) {
+
+
+
 
                     // on the below line we are creating a text for our button.
                     Text(text = "FAQ", fontSize = 15.sp, color = colorResource(id = R.color.primary))
