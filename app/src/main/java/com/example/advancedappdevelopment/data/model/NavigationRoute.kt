@@ -10,6 +10,9 @@ sealed class NavigationRoute(var route: String) {
     object RegisterPage          : NavigationRoute("registerPage")
     object LoginPage             : NavigationRoute("loginPage")
     object ProfilePage           : NavigationRoute("profilePage")
+    object HiwPage               : NavigationRoute("hiwPage")
+    object HelpPage               : NavigationRoute("helpPage")
+    object ContactPage               : NavigationRoute("contactPage")
 }
 
 /*

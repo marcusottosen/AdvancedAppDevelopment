@@ -9,16 +9,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Face
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.Center
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.CenterStart
-import androidx.compose.ui.Alignment.Companion.TopCenter
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
@@ -26,16 +21,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.font.FontWeight.Companion.Bold
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.advancedappdevelopment.R
 import androidx.navigation.NavController
 import com.example.advancedappdevelopment.data.model.NavigationRoute
-import com.example.advancedappdevelopment.data.model.dataClass.CurrentUser
-import com.example.advancedappdevelopment.data.model.dataClass.User
-import com.example.advancedappdevelopment.ui.viewmodel.ProfileViewModel
+import com.example.advancedappdevelopment.ui.view.reusables.ProfileButtons
 
 
 //fun ProfilerPage(navController: NavController, viewModel: RegisterViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
@@ -122,7 +114,7 @@ fun ProfilePage(navController: NavController) {
                     Icon(
                         modifier = Modifier
                             .padding(start = 25.dp)
-                            .align(Alignment.CenterStart),
+                            .align(CenterStart),
                         imageVector = Icons.Filled.Face,
                         contentDescription = ""
                     )
@@ -135,7 +127,7 @@ fun ProfilePage(navController: NavController) {
             }
 
 
-            Row(
+           /* Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp)
@@ -150,16 +142,28 @@ fun ProfilePage(navController: NavController) {
                             strokeWidth
                         )
                     }
-            ) {
+            ) {*/
 
                 Box(
                     modifier = Modifier
-                        .fillMaxSize()
+                        .fillMaxWidth()
+                        .height(50.dp)
+                        .drawBehind {
+                            val strokeWidth = density
+                            val y = size.height - strokeWidth / 2
+
+                            drawLine(
+                                Color.LightGray,
+                                Offset(0f, y),
+                                Offset(size.width, y),
+                                strokeWidth
+                            )
+                        }
                 ) {
                     Icon(
                         modifier = Modifier
                             .padding(start = 25.dp)
-                            .align(Alignment.CenterStart),
+                            .align(CenterStart),
                         imageVector = Icons.Filled.Email,
                         contentDescription = ""
                     )
@@ -169,111 +173,26 @@ fun ProfilePage(navController: NavController) {
                         text = "abcd@1234.dk"
                     )
                 }
-            }
+           // }
             Box(
                 modifier = Modifier
                     .padding(top = 50.dp)
-                    .height(100.dp)
                     .fillMaxWidth()
             )
             {
 
-                Text(modifier = Modifier.align(TopCenter), text = "Service",fontSize = 20.sp, fontWeight = Bold)
-                val openDialog = remember { mutableStateOf(false) }
-
-                TextButton(
-
-                    // on below line we are adding modifier.
-                    // and padding to it,
-                    modifier = Modifier
-                        .align(Center)
-                        .width(120.dp),
-                    // on below line we are adding
-                    // on click to our button
-                    onClick = {
-
-                        // on below line we are updating
-                        // boolean value of open dialog.
-                        openDialog.value = true
-                    }) {
-                    // on below line we are checking if dialog is close
-                    if (openDialog.value) {
-                        AlertDialog(
-                            onDismissRequest = {
-                                // Dismiss the dialog when the user clicks outside the dialog or on the back
-                                // button. If you want to disable that functionality, simply use an empty
-                                // onCloseRequest.
-                                openDialog.value = false
-                            },
-                            title = {
-                                Text(text = "Dialog Title")
-                            },
-                            text = {
-                                Text("Here is a text ")
-                            },
-                            confirmButton = {
-                                Button(
-
-                                    onClick = {
-                                        openDialog.value = false
-                                    }) {
-                                    Text("This is the Confirm Button")
-                                }
-                            },
-                            dismissButton = {
-                                Button(
-
-                                    onClick = {
-                                        openDialog.value = false
-                                    }) {
-                                    Text("This is the dismiss Button")
-                                }
-                            }
-                        )
-                    }
-
-
-                            // on below line we are updating value
-
-
-
-
-
-                    // on the below line we are creating a text for our button.
-                    Text(text = "FAQ", fontSize = 15.sp, color = colorResource(id = R.color.primary))
-                }
-                TextButton(
-
-                    // on below line we are adding modifier.
-                    // and padding to it,
-                    modifier = Modifier
-                        .align(Center)
-                        .padding(top=55.dp)
-                        .width(120.dp)
-                        .height(35.dp),
-                    // on below line we are adding
-                    // on click to our button
-                    onClick = {
-
-                        // on below line we are updating
-                        // boolean value of open dialog.
-                        openDialog.value = !openDialog.value
-
-                        // on below line we are checking if dialog is close
-                        if (!openDialog.value) {
-
-                            // on below line we are updating value
-
-                        }
-                    }
-                ) {
-
-                    // on the below line we are creating a text for our button.
-                    Text(text = "Contact Us", fontSize = 15.sp, color = colorResource(id = R.color.primary))
-                }
-
-
+                Text(modifier = Modifier
+                    .align(CenterStart)
+                    .padding(start = 10.dp), text = "About", fontSize = 15.sp,color = Color.Gray)
             }
+
+                ProfileButtons(navController = navController, image = Icons.Filled.Info, description = "How it works",pages = 0)
+            ProfileButtons(
+                navController = navController,
+                image = Icons.Filled.Warning, description = "Help", pages = 1)
+            ProfileButtons(navController = navController, image = Icons.Filled.Phone, description = "Contact us", pages = 2)
+
+
         }
             var active by remember {
                 mutableStateOf(false)
@@ -302,6 +221,7 @@ fun ProfilePage(navController: NavController) {
                             sizeState = 400.dp
 
                         active = !active
+                        navController.navigate(NavigationRoute.LoginPage.route)
                     },
                     modifier = Modifier
                         .align(Center)
@@ -319,3 +239,35 @@ fun ProfilePage(navController: NavController) {
 
         }
     }
+
+/*
+
+TextButton(
+
+// on below line we are adding modifier.
+// and padding to it,
+modifier = Modifier
+.align(Center)
+.padding(top = 55.dp)
+.width(120.dp)
+.height(35.dp),
+// on below line we are adding
+// on click to our button
+onClick = {
+
+    // on below line we are updating
+    // boolean value of open dialog.
+    openDialog.value = !openDialog.value
+
+    // on below line we are checking if dialog is close
+    if (!openDialog.value) {
+
+        // on below line we are updating value
+
+    }
+}
+) {
+
+    // on the below line we are creating a text for our button.
+    Text(text = "Contact Us", fontSize = 15.sp, color = colorResource(id = R.color.primary))
+}*/

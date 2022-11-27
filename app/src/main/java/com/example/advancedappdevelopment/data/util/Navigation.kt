@@ -15,6 +15,9 @@ import com.example.advancedappdevelopment.ui.view.pages.Checkout
 import com.example.advancedappdevelopment.ui.view.pages.login.LoginPage
 import com.example.advancedappdevelopment.ui.view.pages.login.LoginRegisterPage
 import com.example.advancedappdevelopment.ui.view.pages.login.RegisterPage
+import com.example.advancedappdevelopment.ui.view.pages.profile.ContactPage
+import com.example.advancedappdevelopment.ui.view.pages.profile.HelpPage
+import com.example.advancedappdevelopment.ui.view.pages.profile.HiwPage
 import com.example.advancedappdevelopment.ui.view.pages.profile.ProfilePage
 import com.google.firebase.auth.FirebaseAuth
 
@@ -84,6 +87,17 @@ fun Navigation(navController: NavHostController) {
         composable(NavigationRoute.LoginRegisterPage.route) {
             LoginRegisterPage(navController)
         }
+
+        composable(NavigationRoute.HiwPage.route) {
+         HiwPage(navController)
+        }
+        composable(NavigationRoute.HelpPage.route) {
+            HelpPage(navController)
+        }
+        composable(NavigationRoute.ContactPage.route) {
+            ContactPage(navController)
+        }
+
 
 
 
