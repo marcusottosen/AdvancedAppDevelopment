@@ -35,7 +35,6 @@ import com.example.advancedappdevelopment.R
 import com.example.advancedappdevelopment.data.model.NavigationRoute
 import com.example.advancedappdevelopment.data.model.dataClass.TempVehicle
 import com.example.advancedappdevelopment.data.util.LoadFromDB
-import com.example.advancedappdevelopment.ui.view.reusables.BuyAnimation
 import com.example.advancedappdevelopment.ui.viewmodel.CheckoutViewModel
 import com.example.bkskjold.data.util.getTimeFromInt
 import kotlinx.coroutines.launch
@@ -379,7 +378,7 @@ fun Checkout(
                                 } catch (e: java.lang.Exception){
                                     Toast.makeText(context, "ERROR! Booking not created", Toast.LENGTH_SHORT).show()
                                 }
-                                navController.navigate(NavigationRoute.Homepage.route)
+                                navController.navigate(NavigationRoute.CheckoutSuccess.route)
                                       },
                             modifier = Modifier
                                 .align(Alignment.Center)
