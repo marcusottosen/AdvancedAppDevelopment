@@ -178,9 +178,7 @@ fun ProfilePage(navController: NavController) {
             }
 
                 ProfileButtons(navController = navController, image = Icons.Filled.Info, description = "How it works",pages = 0)
-            ProfileButtons(
-                navController = navController,
-                image = Icons.Filled.Warning, description = "Help", pages = 1)
+            ProfileButtons( navController = navController,  image = Icons.Filled.Warning, description = "Help", pages = 1)
             ProfileButtons(navController = navController, image = Icons.Filled.Phone, description = "Contact us", pages = 2)
 
 

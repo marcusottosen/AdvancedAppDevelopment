@@ -1,6 +1,7 @@
 package com.example.advancedappdevelopment.data.util
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -9,6 +10,7 @@ import com.example.advancedappdevelopment.data.model.dataClass.CurrentUser
 import com.example.advancedappdevelopment.data.model.dataClass.TempVehicle
 import com.example.advancedappdevelopment.data.model.dataClass.User
 import com.example.advancedappdevelopment.data.model.dataClass.Vehicle
+import com.example.advancedappdevelopment.data.model.updateHIW
 import com.example.advancedappdevelopment.ui.view.pages.CarInfo
 import com.example.advancedappdevelopment.ui.view.pages.AvailableVehiclesPage
 import com.example.advancedappdevelopment.ui.view.pages.Checkout
@@ -33,8 +35,9 @@ fun Navigation(navController: NavHostController) {
         NavigationRoute.LoginRegisterPage.route
     }
 
-    NavHost(navController, startDestination = startingDestination
-    /*if (Firebase.auth.currentUser != null)
+    NavHost(
+        navController, startDestination = startingDestination
+        /*if (Firebase.auth.currentUser != null)
         NavigationRoute.LoadFromDB.route
     else
         "authenticationOption"*/
@@ -51,9 +54,9 @@ fun Navigation(navController: NavHostController) {
         }
 
 
-        composable(NavigationRoute.Checkout.route){
+        composable(NavigationRoute.Checkout.route) {
             val tempCarModel =
-            navController.previousBackStackEntry?.arguments?.getParcelable<TempVehicle>("tempVehicle")
+                navController.previousBackStackEntry?.arguments?.getParcelable<TempVehicle>("tempVehicle")
             tempCarModel?.let {
                 Checkout(vehicle = it, navController = navController)
             }
@@ -70,7 +73,7 @@ fun Navigation(navController: NavHostController) {
         }
 
         composable(NavigationRoute.ProfilePage.route) {
-                ProfilePage( navController = navController)
+            ProfilePage(navController = navController)
         }
 
         // Authentication pages
@@ -85,7 +88,8 @@ fun Navigation(navController: NavHostController) {
         }
 
         composable(NavigationRoute.HiwPage.route) {
-         HiwPage(navController)
+            HiwPage(navController)
+            updateHIW()
         }
         composable(NavigationRoute.HelpPage.route) {
             HelpPage(navController)
@@ -94,10 +98,12 @@ fun Navigation(navController: NavHostController) {
             ContactPage(navController)
         }
 
+    }
+}
 
 
 
 
-    }}
+
 
 // Change page with argument: check last project
