@@ -17,6 +17,7 @@ import com.example.advancedappdevelopment.R
 import com.example.advancedappdevelopment.data.model.NavigationRoute
 import com.example.advancedappdevelopment.data.model.firebaseAdapter.AssociationDBModel
 import com.example.advancedappdevelopment.data.model.firebaseAdapter.VehicleDBModel
+import com.example.advancedappdevelopment.data.model.firebaseAdapter.updateCurrentUser
 
 @Composable
 fun LoadFromDB(navController: NavController){
@@ -37,6 +38,7 @@ fun LoadFromDB(navController: NavController){
             Column() {
                 CircularProgressIndicator(color = colorResource(R.color.primary))
                 Button(onClick = {
+                    updateCurrentUser()
                     navController.navigate(NavigationRoute.Homepage.route)
                 }) {
                     Text(text = "Temporary start button")

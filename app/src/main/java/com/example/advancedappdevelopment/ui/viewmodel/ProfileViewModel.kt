@@ -15,14 +15,14 @@ import com.example.bkskjold.data.util.getDayMonth
 import com.example.bkskjold.data.util.getYear
 
 class ProfileViewModel {
-    val user = CurrentUser
+    var currentUser = CurrentUser
 @Composable
 fun GetProfileView() {
     Column(
         modifier = Modifier.padding(start = 45.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
-        Text(text = user.name)
-        Text(text = user.email)
+        Text(text = currentUser.name)
+        Text(text = currentUser.email)
     }
 }}

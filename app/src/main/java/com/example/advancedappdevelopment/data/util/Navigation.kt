@@ -70,13 +70,9 @@ fun Navigation(navController: NavHostController) {
         }
 
         composable(NavigationRoute.ProfilePage.route) {
-          /* val curUser =
-                navController.previousBackStackEntry?.arguments?.getParcelable<User>("currentUser")
-            curUser?.let {*/
                 ProfilePage( navController = navController)
-
-
         }
+
         // Authentication pages
         composable(NavigationRoute.LoginPage.route) {
             LoginPage(navController)

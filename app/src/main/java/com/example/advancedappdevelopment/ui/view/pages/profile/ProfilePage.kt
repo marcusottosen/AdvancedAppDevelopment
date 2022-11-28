@@ -25,17 +25,26 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.advancedappdevelopment.R
 import androidx.navigation.NavController
 import com.example.advancedappdevelopment.data.model.NavigationRoute
+import com.example.advancedappdevelopment.data.model.dataClass.CurrentUser
+import com.example.advancedappdevelopment.data.model.firebaseAdapter.updateCurrentUser
 import com.example.advancedappdevelopment.ui.view.reusables.ProfileButtons
+import com.example.advancedappdevelopment.ui.viewmodel.ProfileViewModel
+import com.google.firebase.auth.FirebaseAuth
 
 
 //fun ProfilerPage(navController: NavController, viewModel: RegisterViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
 
 @Composable
 fun ProfilePage(navController: NavController) {
-  //  val viewModel = ProfileViewModel()
+
+    val viewModel = ProfileViewModel()
+    var currentUser = CurrentUser
+    val mail = FirebaseAuth.getInstance().currentUser?.email
+
     Column(
         Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.SpaceBetween) {
@@ -48,14 +57,14 @@ fun ProfilePage(navController: NavController) {
             Box(
                 modifier = Modifier
                     .padding(top = 20.dp)
-                    .height(140.dp)
+                    .height(100.dp)
                     .fillMaxWidth())
             {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
                     text = "Profile",
                     fontWeight = FontWeight.Bold,
-                    fontSize = 36.sp,
+                    fontSize = 32.sp,
                     textAlign = TextAlign.Center
                 )
                 IconButton(modifier = Modifier
@@ -71,7 +80,6 @@ fun ProfilePage(navController: NavController) {
                             .fillMaxSize()
                             .clickable { navController.navigate(NavigationRoute.Homepage.route) }
 
-
                     )
                 }
 
@@ -79,13 +87,13 @@ fun ProfilePage(navController: NavController) {
                     painter = painterResource(id = R.drawable.profile_icon),
                     contentDescription = null,
                     modifier = Modifier
-                        .size(90.dp)
+                        .size(65.dp)
                         .align(BottomCenter)
                 )
             }
             Row(
                 modifier = Modifier
-                    .padding(top = 40.dp)
+                    .padding(top = 20.dp)
                     .fillMaxWidth()
                     .height(50.dp)
                     .drawBehind {
@@ -121,7 +129,7 @@ fun ProfilePage(navController: NavController) {
                     Text(
                         modifier = Modifier
                             .align(Center),
-                        text = "Firstname Lastname"
+                        text = CurrentUser.name
                     )
                 }
             }
@@ -152,9 +160,10 @@ fun ProfilePage(navController: NavController) {
                     Text(
                         modifier = Modifier
                             .align(Center),
-                        text = "abcd@1234.dk"
+                        text = CurrentUser.email
                     )
                 }
+
            // }
             Box(
                 modifier = Modifier
