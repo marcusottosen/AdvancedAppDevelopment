@@ -38,7 +38,7 @@ fun ProfileButtons(
                 val y = size.height - strokeWidth / 2
                 drawLine(
                     Color.LightGray,
-                    Offset(0f, y),
+                    Offset(150f, y),
                     Offset(size.width, y),
                     strokeWidth
                 )

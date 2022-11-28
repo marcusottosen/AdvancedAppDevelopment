@@ -4,6 +4,7 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -92,13 +93,13 @@ fun ProfilePage(navController: NavController) {
                         val y = size.height - strokeWidth / 2
                         drawLine(
                             Color.LightGray,
-                            Offset(0f, 0f),
+                            Offset(150f, 0f),
                             Offset(size.width, 0f),
                             strokeWidth
                         )
                         drawLine(
                             Color.LightGray,
-                            Offset(0f, y),
+                            Offset(150f, y),
                             Offset(size.width, y),
                             strokeWidth
                         )
@@ -125,24 +126,6 @@ fun ProfilePage(navController: NavController) {
                 }
             }
 
-
-           /* Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(50.dp)
-                    .drawBehind {
-                        val strokeWidth = density
-                        val y = size.height - strokeWidth / 2
-
-                        drawLine(
-                            Color.LightGray,
-                            Offset(0f, y),
-                            Offset(size.width, y),
-                            strokeWidth
-                        )
-                    }
-            ) {*/
-
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -153,7 +136,7 @@ fun ProfilePage(navController: NavController) {
 
                             drawLine(
                                 Color.LightGray,
-                                Offset(0f, y),
+                                Offset(150f, y),
                                 Offset(size.width, y),
                                 strokeWidth
                             )
@@ -175,14 +158,14 @@ fun ProfilePage(navController: NavController) {
            // }
             Box(
                 modifier = Modifier
-                    .padding(top = 50.dp)
+                    .padding(top = 30.dp)
                     .fillMaxWidth()
             )
             {
 
                 Text(modifier = Modifier
                     .align(CenterStart)
-                    .padding(start = 15.dp, bottom = 5.dp), text = "About", fontSize = 15.sp,color = Color.Gray)
+                    .padding(start = 15.dp), text = "About", fontSize = 15.sp,color = Color.Gray)
             }
 
                 ProfileButtons(navController = navController, image = Icons.Filled.Info, description = "How it works",pages = 0)
