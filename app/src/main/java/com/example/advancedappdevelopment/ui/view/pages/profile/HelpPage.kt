@@ -2,6 +2,8 @@ package com.example.advancedappdevelopment.ui.view.pages.profile
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -16,12 +18,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.advancedappdevelopment.data.model.NavigationRoute
+import com.example.advancedappdevelopment.data.model.helps
+import com.example.advancedappdevelopment.data.model.hiws
+import com.example.advancedappdevelopment.ui.view.reusables.DropDownMenu
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HelpPage (navController: NavController) {
-    Column(
-        Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.SpaceBetween) {
+    Box(modifier = Modifier.fillMaxSize()) {
+
+        LazyColumn(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            item {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -31,7 +40,7 @@ fun HelpPage (navController: NavController) {
             Box(
                 modifier = Modifier
                     .padding(top = 20.dp)
-                    .height(140.dp)
+                    .height(70.dp)
                     .fillMaxWidth()
             )
             {
@@ -61,4 +70,17 @@ fun HelpPage (navController: NavController) {
             }
         }
     }
+            items(helps.size) { help ->
+                Box(modifier = Modifier.padding(horizontal = 35.dp)
+                ) {
+                    DropDownMenu(
+                        question = helps[help].question,
+                        answer = helps[help].answer,
+                        number = helps[help].number)
+                    Spacer(modifier = Modifier.height(15.dp))
+                }
+            }
+            item {Spacer(modifier=Modifier.height(100.dp))}
+        }
+}
 }

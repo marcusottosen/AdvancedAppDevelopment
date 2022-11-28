@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.advancedappdevelopment.data.model.NavigationRoute
 import com.example.advancedappdevelopment.data.model.hiws
+import com.example.advancedappdevelopment.ui.view.reusables.DropDownMenu
 
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -93,82 +94,5 @@ fun HiwPage (navController: NavController) {
     }
 }
 
-@ExperimentalMaterialApi
-@Composable
-fun DropDownMenu(
-    question: String,
-    answer: String,
-    number: Int) {
-   // var openCard: Int
-    var expandedState by remember { mutableStateOf(false) }
-    val rotationState by animateFloatAsState(
-        targetValue = if (expandedState) 180f else 0f
-    )
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .animateContentSize(
-                animationSpec = tween(
-                    durationMillis = 300,
-                    easing = LinearOutSlowInEasing
-                )
-            ),
-        onClick = {
-            expandedState = !expandedState}
 
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                //.padding(10.dp)
-                .drawBehind {
-                    val strokeWidth = density
-                    val y = size.height - strokeWidth / 2
-                    drawLine(
-                        Color.LightGray,
-                        Offset(0f, y),
-                        Offset(size.width, y),
-                        strokeWidth
-                    )
-                }
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    modifier = Modifier
-                        .weight(6f),
-                    text = question,
-                    fontWeight = FontWeight.SemiBold,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-                IconButton(
-                    modifier = Modifier
-                        .weight(1f)
-                        .alpha(ContentAlpha.medium)
-                        .rotate(rotationState),
-                    onClick = {
-
-                        expandedState = !expandedState
-                    }
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowDropDown,
-                        contentDescription = "Drop-Down Arrow"
-                    )
-                }
-            }
-            if (expandedState) {
-
-                Spacer(modifier = Modifier.height(5.dp))
-                Text(modifier = Modifier.padding(bottom = 10.dp),
-                    text = answer,
-                    lineHeight = 20.sp,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
-        }
-    }
-}
 

@@ -11,6 +11,7 @@ import com.example.advancedappdevelopment.data.model.dataClass.TempVehicle
 import com.example.advancedappdevelopment.data.model.dataClass.User
 import com.example.advancedappdevelopment.data.model.dataClass.Vehicle
 import com.example.advancedappdevelopment.data.model.updateHIW
+import com.example.advancedappdevelopment.data.model.updateHelp
 import com.example.advancedappdevelopment.ui.view.pages.CarInfo
 import com.example.advancedappdevelopment.ui.view.pages.AvailableVehiclesPage
 import com.example.advancedappdevelopment.ui.view.pages.Checkout
@@ -93,6 +94,7 @@ fun Navigation(navController: NavHostController) {
         }
         composable(NavigationRoute.HelpPage.route) {
             HelpPage(navController)
+            updateHelp()
         }
         composable(NavigationRoute.ContactPage.route) {
             ContactPage(navController)
