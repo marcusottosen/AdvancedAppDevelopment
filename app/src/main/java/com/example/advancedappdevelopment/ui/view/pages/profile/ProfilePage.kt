@@ -48,8 +48,7 @@ fun ProfilePage(navController: NavController) {
                 modifier = Modifier
                     .padding(top = 20.dp)
                     .height(140.dp)
-                    .fillMaxWidth()
-            )
+                    .fillMaxWidth())
             {
                 Text(
                     modifier = Modifier.fillMaxWidth(),
@@ -113,7 +112,7 @@ fun ProfilePage(navController: NavController) {
                 ) {
                     Icon(
                         modifier = Modifier
-                            .padding(start = 25.dp)
+                            .padding(start = 15.dp)
                             .align(CenterStart),
                         imageVector = Icons.Filled.Face,
                         contentDescription = ""
@@ -162,7 +161,7 @@ fun ProfilePage(navController: NavController) {
                 ) {
                     Icon(
                         modifier = Modifier
-                            .padding(start = 25.dp)
+                            .padding(start = 15.dp)
                             .align(CenterStart),
                         imageVector = Icons.Filled.Email,
                         contentDescription = ""
@@ -183,7 +182,7 @@ fun ProfilePage(navController: NavController) {
 
                 Text(modifier = Modifier
                     .align(CenterStart)
-                    .padding(start = 10.dp), text = "About", fontSize = 15.sp,color = Color.Gray)
+                    .padding(start = 15.dp, bottom = 5.dp), text = "About", fontSize = 15.sp,color = Color.Gray)
             }
 
                 ProfileButtons(navController = navController, image = Icons.Filled.Info, description = "How it works",pages = 0)
@@ -221,7 +220,7 @@ fun ProfilePage(navController: NavController) {
                             sizeState = 400.dp
 
                         active = !active
-                        navController.navigate(NavigationRoute.LoginPage.route)
+                        navController.navigate(NavigationRoute.LoginRegisterPage.route)
                     },
                     modifier = Modifier
                         .align(Center)

@@ -60,6 +60,7 @@ fun ContactPage (navController: NavController) {
                     )
                 }
             }
+
         }
     }
 }
