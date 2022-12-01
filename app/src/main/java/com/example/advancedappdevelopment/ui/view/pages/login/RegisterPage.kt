@@ -64,8 +64,9 @@ fun RegisterPage(navController: NavController, viewModel: RegisterViewModel = vi
                 Toast.makeText(context, "Du er nu oprettet. Kør forsigtigt", Toast.LENGTH_LONG).show()
                 viewModel._showRegisterSuccess.value = false
                 //TODO: Crasher pt. app'en at navigere til Homepage i authentication-branch
-                navController.navigate(NavigationRoute.LoginRegisterPage.route)
+                //navController.navigate(NavigationRoute.LoginRegisterPage.route)
                 //navController.navigate(NavigationRoute.Homepage.route)
+                navController.navigate(NavigationRoute.LoadFromDB.route)
             }
             LazyColumn(
                 horizontalAlignment = Alignment.CenterHorizontally,

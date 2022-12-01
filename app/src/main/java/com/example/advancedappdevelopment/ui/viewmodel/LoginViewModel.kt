@@ -24,13 +24,13 @@ class LoginViewModel : ViewModel() {
     val showLoginSuccess: LiveData<Boolean> = _showLoginSuccess
 
 
-    private val _email = MutableLiveData("")
+    private val _email = MutableLiveData("peteranders@mail.dk")
     val email: LiveData<String> = _email
     fun updateEmail(newEmail: String) {
         _email.value = newEmail
     }
 
-    private val _password = MutableLiveData("")
+    private val _password = MutableLiveData("123456")
     val password: LiveData<String> = _password
     fun updatePassword(newPassword: String) {
         _password.value = newPassword

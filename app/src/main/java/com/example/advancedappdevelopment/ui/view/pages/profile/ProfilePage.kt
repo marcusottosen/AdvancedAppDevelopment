@@ -39,11 +39,10 @@ import com.google.firebase.auth.FirebaseAuth
 //fun ProfilerPage(navController: NavController, viewModel: RegisterViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
 
 @Composable
-fun ProfilePage(navController: NavController) {
+fun ProfilePage(navController: NavController, viewModel: ProfileViewModel = viewModel()) {
 
-    val viewModel = ProfileViewModel()
-    var currentUser = CurrentUser
-    val mail = FirebaseAuth.getInstance().currentUser?.email
+    val currentUser = viewModel.currentUser
+    val mail = viewModel.currentUser.email
 
     Column(
         Modifier.fillMaxSize(),
@@ -129,7 +128,7 @@ fun ProfilePage(navController: NavController) {
                     Text(
                         modifier = Modifier
                             .align(Center),
-                        text = CurrentUser.name
+                        text = currentUser.name
                     )
                 }
             }
