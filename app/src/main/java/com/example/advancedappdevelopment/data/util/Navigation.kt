@@ -26,7 +26,7 @@ import com.google.firebase.auth.FirebaseAuth
 @Composable
 fun Navigation(navController: NavHostController) {
     // Uncomment for at blive logget ud hver gang app'en genstartes
-    FirebaseAuth.getInstance().signOut()
+    //FirebaseAuth.getInstance().signOut()
 
     //var startingDestination
     val startingDestination = if (FirebaseAuth.getInstance().currentUser != null) {
