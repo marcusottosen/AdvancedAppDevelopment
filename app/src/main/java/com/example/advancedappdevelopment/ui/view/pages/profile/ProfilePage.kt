@@ -48,6 +48,7 @@ fun ProfilePage(navController: NavController, viewModel: ProfileViewModel = view
     val currentUser = viewModel.currentUser
     val mail = viewModel.currentUser.email
 
+
     Column(
         Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.SpaceBetween) {
@@ -135,7 +136,7 @@ fun ProfilePage(navController: NavController, viewModel: ProfileViewModel = view
                         text = currentUser.name
                     )
                     Box(modifier = Modifier.align(CenterEnd)){
-                    AlertDialogSample()}
+                    AlertDialogSample(viewModel(),navController)}
                 }
 
 
@@ -247,7 +248,7 @@ fun ProfilePage(navController: NavController, viewModel: ProfileViewModel = view
 
 
 @Composable
-fun AlertDialogSample( viewModel: RegisterViewModel = viewModel()) {
+fun AlertDialogSample( viewModel: RegisterViewModel = viewModel(), navController: NavController) {
     MaterialTheme {
         Column {
             val NameEditAlert = remember { mutableStateOf(false)  }
@@ -291,6 +292,7 @@ fun AlertDialogSample( viewModel: RegisterViewModel = viewModel()) {
                                 viewModel.editUsername()
                                 updateCurrentUser()
                                 NameEditAlert.value = false
+                                navController.navigate(NavigationRoute.ProfilePage.route)
                             },
                             shape = RoundedCornerShape(12.dp),
                             colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.primary))) {
