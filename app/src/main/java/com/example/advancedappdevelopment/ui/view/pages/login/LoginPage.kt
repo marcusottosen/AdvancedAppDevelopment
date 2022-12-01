@@ -52,7 +52,6 @@ fun LoginPage(navController: NavController, viewModel: LoginViewModel = viewMode
             if (loginSuccess and showLoginSucess) {
                 Toast.makeText(context, "Velkommen tilbage. Kør forsigtigt", Toast.LENGTH_LONG).show()
                 viewModel._showLoginSuccess.value = false
-                //TODO: Crasher pt. app'en at navigere til Homepage to authentication-branch
                 navController.navigate(NavigationRoute.LoadFromDB.route)
             }
             LazyColumn(

@@ -60,7 +60,7 @@ fun AvailableVehicleCard(
                     horizontalArrangement = Arrangement.End,
                     modifier = Modifier.padding(20.dp, 15.dp, 0.dp, 0.dp)
                 ) {
-                    Column { //TODO Add battery icon
+                    Column {
                         Row(
                             modifier = Modifier
                                 .padding(top = 5.dp)
