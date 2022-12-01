@@ -29,7 +29,7 @@ import com.google.firebase.auth.FirebaseAuth
 @Composable
 fun Navigation(navController: NavHostController) {
     // Uncomment for at blive logget ud hver gang app'en genstartes
-    //FirebaseAuth.getInstance().signOut()
+    FirebaseAuth.getInstance().signOut()
 
     //var startingDestination
     val startingDestination = if (FirebaseAuth.getInstance().currentUser != null) {
@@ -49,8 +49,7 @@ fun Navigation(navController: NavHostController) {
 
 
         composable(NavigationRoute.Homepage.route) {
-            BackHandler(true) {
-            }
+            BackHandler(true) {}
             AvailableVehiclesPage(navController)
         }
 
@@ -94,6 +93,7 @@ fun Navigation(navController: NavHostController) {
             RegisterPage(navController)
         }
         composable(NavigationRoute.LoginRegisterPage.route) {
+            BackHandler(true) {}
             LoginRegisterPage(navController)
         }
 

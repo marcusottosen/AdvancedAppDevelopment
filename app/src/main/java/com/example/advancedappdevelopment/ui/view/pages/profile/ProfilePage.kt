@@ -34,6 +34,8 @@ import com.example.advancedappdevelopment.data.model.firebaseAdapter.updateCurre
 import com.example.advancedappdevelopment.ui.view.reusables.ProfileButtons
 import com.example.advancedappdevelopment.ui.viewmodel.ProfileViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 
 //fun ProfilerPage(navController: NavController, viewModel: RegisterViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
@@ -210,6 +212,8 @@ fun ProfilePage(navController: NavController, viewModel: ProfileViewModel = view
 
                         active = !active
                         navController.navigate(NavigationRoute.LoginRegisterPage.route)
+                        Firebase.auth.signOut()
+
                     },
                     modifier = Modifier
                         .align(Center)
