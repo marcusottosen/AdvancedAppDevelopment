@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import com.example.advancedappdevelopment.data.model.NavigationRoute
 import com.example.advancedappdevelopment.data.model.dataClass.TempVehicle
 import com.example.advancedappdevelopment.data.model.dataClass.Vehicle
+import com.example.advancedappdevelopment.data.model.firebaseAdapter.updateCurrentUser
 import com.example.advancedappdevelopment.data.model.updateHIW
 import com.example.advancedappdevelopment.data.model.updateHelp
 import com.example.advancedappdevelopment.ui.view.pages.AvailableVehiclesPage
@@ -30,6 +31,7 @@ fun Navigation(navController: NavHostController) {
 
     //var startingDestination
     val startingDestination = if (FirebaseAuth.getInstance().currentUser != null) {
+        updateCurrentUser()
         NavigationRoute.LoadFromDB.route
     } else {
         NavigationRoute.LoginRegisterPage.route
