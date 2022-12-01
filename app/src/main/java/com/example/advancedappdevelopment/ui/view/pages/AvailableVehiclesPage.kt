@@ -60,9 +60,9 @@ fun AvailableVehiclesPage(navController: NavController){
 
 @Composable
 fun PageTop( navController: NavController,
-    showAssociation: MutableState<Int>,
-    animationDuration: Int = 100,
-    scaleDown: Float = 0.9f
+             showAssociation: MutableState<Int>,
+             animationDuration: Int = 100,
+             scaleDown: Float = 0.9f
 ){
     val coroutineScope = rememberCoroutineScope()
 
@@ -81,31 +81,29 @@ fun PageTop( navController: NavController,
                     .fillMaxWidth()
                     .background(colorResource(R.color.dark_gray))
             ){
-                IconButton(
-                    onClick = { navController.navigate(NavigationRoute.ProfilePage.route)}
-                )   {
-                    Icon(
-                        imageVector = Icons.Filled.Person,
-                        tint = Color.White,
-                        contentDescription = "",
+                Column() {
+                    IconButton(
+                        onClick = { navController.navigate(NavigationRoute.ProfilePage.route) },
+                        modifier = Modifier.padding(start = 15.dp, top = 5.dp).size(50.dp)
 
-
-
-
-
-
-                    )
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.Person,
+                            tint = Color.White,
+                            contentDescription = "",
+                            modifier = Modifier.size(30.dp)
+                        )
                     }
-
 
 
                 if (associations.size > 0) {
                     LazyRow(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(20.dp),
+                            .padding(20.dp, 0.dp, 20.dp, 20.dp),
                         verticalAlignment = Alignment.Bottom,
-                        horizontalArrangement = Arrangement.Center)
+                        horizontalArrangement = Arrangement.Center
+                    )
                     {
                         items(associations.size) { i ->         // Button with animation
                             Button(
@@ -125,11 +123,11 @@ fun PageTop( navController: NavController,
                                 },
 
 
-                                if (showAssociation.value == i){
+                                if (showAssociation.value == i) {
                                     Modifier
                                         .padding(bottom = 20.dp, start = 10.dp, end = 10.dp)
-                                        .scale(scale = scale.value)}
-                                else Modifier.padding(bottom = 20.dp, start = 10.dp, end = 10.dp),
+                                        .scale(scale = scale.value)
+                                } else Modifier.padding(bottom = 20.dp, start = 10.dp, end = 10.dp),
 
                                 shape = RoundedCornerShape(12.dp),
                                 colors = ButtonDefaults.buttonColors(
@@ -147,6 +145,7 @@ fun PageTop( navController: NavController,
                             }
                         }
                     }
+                }
                 }
             }
 
