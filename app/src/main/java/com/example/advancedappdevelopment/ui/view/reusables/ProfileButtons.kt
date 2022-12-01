@@ -35,11 +35,11 @@ fun ProfileButtons(
             .height(55.dp)
             .drawBehind {
                 val strokeWidth = density
-                val y = size.height - strokeWidth / 2
+                val end = size.height - strokeWidth / 2
                 drawLine(
                     Color.LightGray,
-                    Offset(150f, y),
-                    Offset(size.width, y),
+                    Offset(150f, end),
+                    Offset(size.width, end),
                     strokeWidth
                 )
             }

@@ -101,7 +101,7 @@ fun ProfilePage(navController: NavController, viewModel: ProfileViewModel = view
                     .height(50.dp)
                     .drawBehind {
                         val strokeWidth = density
-                        val y = size.height - strokeWidth / 2
+                        val end = size.height - strokeWidth / 2
                         drawLine(
                             Color.LightGray,
                             Offset(150f, 0f),
@@ -110,8 +110,8 @@ fun ProfilePage(navController: NavController, viewModel: ProfileViewModel = view
                         )
                         drawLine(
                             Color.LightGray,
-                            Offset(150f, y),
-                            Offset(size.width, y),
+                            Offset(150f, end),
+                            Offset(size.width, end),
                             strokeWidth
                         )
                     })
@@ -136,15 +136,6 @@ fun ProfilePage(navController: NavController, viewModel: ProfileViewModel = view
                     )
                     Box(modifier = Modifier.align(CenterEnd)){
                     AlertDialogSample()}
- /*
-                    if (editName.value == true){
-                        AlertDialog(onDismissRequest = { editName.value = false },
-                        title = {Text(text ="Edit username")}
-                        )
-                            
-
-
-                    }*/
                 }
 
 
@@ -156,12 +147,12 @@ fun ProfilePage(navController: NavController, viewModel: ProfileViewModel = view
                         .height(50.dp)
                         .drawBehind {
                             val strokeWidth = density
-                            val y = size.height - strokeWidth / 2
+                            val end = size.height - strokeWidth / 2
 
                             drawLine(
                                 Color.LightGray,
-                                Offset(150f, y),
-                                Offset(size.width, y),
+                                Offset(150f, end),
+                                Offset(size.width, end),
                                 strokeWidth
                             )
                         }
