@@ -12,8 +12,10 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment.Companion.BottomCenter
 import androidx.compose.ui.Alignment.Companion.Center
+import androidx.compose.ui.Alignment.Companion.CenterEnd
 import androidx.compose.ui.Alignment.Companion.CenterStart
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -33,7 +35,7 @@ import com.example.advancedappdevelopment.data.model.dataClass.CurrentUser
 import com.example.advancedappdevelopment.data.model.firebaseAdapter.updateCurrentUser
 import com.example.advancedappdevelopment.ui.view.reusables.ProfileButtons
 import com.example.advancedappdevelopment.ui.viewmodel.ProfileViewModel
-import com.google.firebase.auth.FirebaseAuth
+import com.example.advancedappdevelopment.ui.viewmodel.RegisterViewModel
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -132,7 +134,20 @@ fun ProfilePage(navController: NavController, viewModel: ProfileViewModel = view
                             .align(Center),
                         text = currentUser.name
                     )
+                    Box(modifier = Modifier.align(CenterEnd)){
+                    AlertDialogSample()}
+ /*
+                    if (editName.value == true){
+                        AlertDialog(onDismissRequest = { editName.value = false },
+                        title = {Text(text ="Edit username")}
+                        )
+                            
+
+
+                    }*/
                 }
+
+
             }
 
                 Box(
@@ -221,6 +236,12 @@ fun ProfilePage(navController: NavController, viewModel: ProfileViewModel = view
                     shape = RoundedCornerShape(12.dp),
                     colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.primary))
                 ) {
+                    Icon(
+                        modifier = Modifier
+                            .padding(start = 5.dp),
+                        imageVector = Icons.Filled.ExitToApp,
+                        contentDescription = ""
+                    )
                     Text(
                         text = "Logout",
                         color = Color.Black,
@@ -232,34 +253,75 @@ fun ProfilePage(navController: NavController, viewModel: ProfileViewModel = view
         }
     }
 
-/*
 
-TextButton(
 
-// on below line we are adding modifier.
-// and padding to it,
-modifier = Modifier
-.align(Center)
-.padding(top = 55.dp)
-.width(120.dp)
-.height(35.dp),
-// on below line we are adding
-// on click to our button
-onClick = {
+@Composable
+fun AlertDialogSample( viewModel: RegisterViewModel = viewModel()) {
+    MaterialTheme {
+        Column {
+            val NameEditAlert = remember { mutableStateOf(false)  }
+            val name: String by viewModel.name.observeAsState("")
 
-    // on below line we are updating
-    // boolean value of open dialog.
-    openDialog.value = !openDialog.value
 
-    // on below line we are checking if dialog is close
-    if (!openDialog.value) {
+            Text(modifier = Modifier
+                .clickable { NameEditAlert.value = true }
+                .padding(end = 10.dp)
+                ,text = "Edit name"
+                , fontSize = 13.sp
+                , fontWeight = FontWeight.SemiBold
+                ,color =colorResource(id = R.color.primary))
 
-        // on below line we are updating value
+            if (NameEditAlert.value) {
+                AlertDialog(
+                    onDismissRequest = {
+                        NameEditAlert.value = false
+                    },
+                    title = {
+                        Box(modifier = Modifier.fillMaxWidth()) {
+                            Text(modifier = Modifier.align(Center),
+                                text = "Enter your name of choice",
+                                fontWeight = FontWeight.SemiBold)
+                        }
+                        },
+
+                    text = {
+                        OutlinedTextField(modifier = Modifier
+                            .width(300.dp)
+                            .height(50.dp)
+                            .background(Color.White, RoundedCornerShape(50)),
+                            value = name,
+                            onValueChange = { viewModel.updateName(it) },
+                        )
+                    },
+                    confirmButton = {
+                        Button(
+
+                            onClick = {
+                                viewModel.editUsername()
+                                updateCurrentUser()
+                                NameEditAlert.value = false
+                            },
+                            shape = RoundedCornerShape(12.dp),
+                            colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.primary))) {
+                            Text(text = "Confirm Name",
+                                color = Color.Black)
+                        }
+                    },
+                    dismissButton = {
+                        Button(
+
+                            onClick = {
+                                NameEditAlert.value = false
+                            },
+                            shape = RoundedCornerShape(12.dp),
+                            colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.primary))) {
+                            Text(text = "Dismiss",
+                                color = Color.Black)
+                        }
+                    }
+                )
+            }
+        }
 
     }
 }
-) {
-
-    // on the below line we are creating a text for our button.
-    Text(text = "Contact Us", fontSize = 15.sp, color = colorResource(id = R.color.primary))
-}*/

@@ -3,6 +3,7 @@ package com.example.advancedappdevelopment.ui.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.advancedappdevelopment.data.model.dataClass.CurrentUser
 import com.example.advancedappdevelopment.data.model.dataClass.User
 import com.example.advancedappdevelopment.data.model.firebaseAdapter.updateCurrentUser
 import com.google.firebase.auth.FirebaseAuth
@@ -44,6 +45,33 @@ class RegisterViewModel : ViewModel() {
     val passwordCheck: LiveData<String> = _passwordCheck
     fun updatePasswordCheck(newPasswordCheck: String) {
         _passwordCheck.value = newPasswordCheck
+    }
+
+    fun editUsername() {
+        updateCurrentUser()
+
+        val email: String = if (_email.value != CurrentUser.email && _email.value != "") {
+            _email.value ?: throw IllegalArgumentException("email expected")
+        } else {
+            CurrentUser.email
+        }
+
+        val name: String =
+            if (_name.value != CurrentUser.name && _name.value != "") {
+                _name.value ?: throw IllegalArgumentException("name expected")
+            } else {
+                CurrentUser.name
+            }
+
+        Firebase.firestore.collection("users")
+            .document(FirebaseAuth.getInstance().uid.toString()).set(
+                User(
+                    CurrentUser.id,
+                    name,
+                    email,
+                    CurrentUser.signUpDate
+                ))
+        updateCurrentUser()
     }
 
     fun registerUser() {

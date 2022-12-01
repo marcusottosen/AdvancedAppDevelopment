@@ -45,6 +45,7 @@ fun Navigation(navController: NavHostController) {
         composable(NavigationRoute.Homepage.route) {
             BackHandler(true) {}
             AvailableVehiclesPage(navController)
+            updateCurrentUser()
         }
 
         //Load before homepage is shown
@@ -74,6 +75,7 @@ fun Navigation(navController: NavHostController) {
 
         composable(NavigationRoute.ProfilePage.route) {
             ProfilePage(navController = navController)
+
         }
 
         // Authentication pages
