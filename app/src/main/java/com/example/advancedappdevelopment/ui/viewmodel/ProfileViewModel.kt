@@ -13,14 +13,14 @@ import com.example.advancedappdevelopment.data.model.dataClass.CurrentUser
 class ProfileViewModel : ViewModel() {
     var currentUser = CurrentUser
 
-//TODO: Burde ikke være composeables her
-@Composable
-fun GetProfileView() {
-    Column(
-        modifier = Modifier.padding(start = 45.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp)
-    ) {
-        Text(text = currentUser.name)
-        Text(text = currentUser.email)
+    @Composable
+    fun GetProfileView() {
+        Column(
+            modifier = Modifier.padding(start = 45.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            Text(text = currentUser.name)
+            Text(text = currentUser.email)
+        }
     }
-}}
+}

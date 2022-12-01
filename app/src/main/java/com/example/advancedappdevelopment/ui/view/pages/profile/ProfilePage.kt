@@ -28,8 +28,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.advancedappdevelopment.R
 import androidx.navigation.NavController
+import com.example.advancedappdevelopment.R
 import com.example.advancedappdevelopment.data.model.NavigationRoute
 import com.example.advancedappdevelopment.data.model.dataClass.CurrentUser
 import com.example.advancedappdevelopment.data.model.firebaseAdapter.updateCurrentUser
@@ -39,15 +39,11 @@ import com.example.advancedappdevelopment.ui.viewmodel.RegisterViewModel
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
-
-//fun ProfilerPage(navController: NavController, viewModel: RegisterViewModel = androidx.lifecycle.viewmodel.compose.viewModel()) {
-
 @Composable
 fun ProfilePage(navController: NavController, viewModel: ProfileViewModel = viewModel()) {
 
     val currentUser = viewModel.currentUser
     val mail = viewModel.currentUser.email
-
 
     Column(
         Modifier.fillMaxSize(),
@@ -57,7 +53,6 @@ fun ProfilePage(navController: NavController, viewModel: ProfileViewModel = view
                 .fillMaxWidth()
 
         ) {
-
             Box(
                 modifier = Modifier
                     .padding(top = 20.dp)
@@ -83,7 +78,6 @@ fun ProfilePage(navController: NavController, viewModel: ProfileViewModel = view
                         modifier = Modifier
                             .fillMaxSize()
                             .clickable { navController.navigate(NavigationRoute.Homepage.route) }
-
                     )
                 }
 
@@ -115,10 +109,8 @@ fun ProfilePage(navController: NavController, viewModel: ProfileViewModel = view
                             Offset(size.width, end),
                             strokeWidth
                         )
-                    })
-
-            {
-
+                    }
+            ) {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
@@ -136,116 +128,106 @@ fun ProfilePage(navController: NavController, viewModel: ProfileViewModel = view
                         text = currentUser.name
                     )
                     Box(modifier = Modifier.align(CenterEnd)){
-                    AlertDialogSample(viewModel(),navController)}
+                        AlertDialogSample(viewModel(),navController)}
                 }
-
-
             }
 
-                Box(
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp)
+                    .drawBehind {
+                        val strokeWidth = density
+                        val end = size.height - strokeWidth / 2
+
+                        drawLine(
+                            Color.LightGray,
+                            Offset(150f, end),
+                            Offset(size.width, end),
+                            strokeWidth
+                        )
+                    }
+            ) {
+                Icon(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(50.dp)
-                        .drawBehind {
-                            val strokeWidth = density
-                            val end = size.height - strokeWidth / 2
+                        .padding(start = 15.dp)
+                        .align(CenterStart),
+                    imageVector = Icons.Filled.Email,
+                    contentDescription = ""
+                )
+                Text(
+                    modifier = Modifier
+                        .align(Center),
+                    text = CurrentUser.email
+                )
+            }
 
-                            drawLine(
-                                Color.LightGray,
-                                Offset(150f, end),
-                                Offset(size.width, end),
-                                strokeWidth
-                            )
-                        }
-                ) {
-                    Icon(
-                        modifier = Modifier
-                            .padding(start = 15.dp)
-                            .align(CenterStart),
-                        imageVector = Icons.Filled.Email,
-                        contentDescription = ""
-                    )
-                    Text(
-                        modifier = Modifier
-                            .align(Center),
-                        text = CurrentUser.email
-                    )
-                }
-
-           // }
             Box(
                 modifier = Modifier
                     .padding(top = 30.dp)
                     .fillMaxWidth()
-            )
-            {
-
+            ) {
                 Text(modifier = Modifier
                     .align(CenterStart)
                     .padding(start = 15.dp), text = "About", fontSize = 15.sp,color = Color.Gray)
             }
 
-                ProfileButtons(navController = navController, image = Icons.Filled.Info, description = "How it works",pages = 0)
-            ProfileButtons( navController = navController,  image = Icons.Filled.Warning, description = "Help", pages = 1)
+            ProfileButtons(navController = navController, image = Icons.Filled.Info, description = "How it works",pages = 0)
+            ProfileButtons(navController = navController,  image = Icons.Filled.Warning, description = "Help", pages = 1)
             ProfileButtons(navController = navController, image = Icons.Filled.Phone, description = "Contact us", pages = 2)
 
-
         }
-            var active by remember {
-                mutableStateOf(false)
-            }
-            var sizeState by remember { mutableStateOf(0.dp) }
-            val size by animateDpAsState(
-                targetValue = sizeState,
-                tween(
-                    durationMillis = 1000,
-                    easing = FastOutSlowInEasing
-                )
+        var active by remember {
+            mutableStateOf(false)
+        }
+        var sizeState by remember { mutableStateOf(0.dp) }
+        val size by animateDpAsState(
+            targetValue = sizeState,
+            tween(
+                durationMillis = 1000,
+                easing = FastOutSlowInEasing
             )
-            Box(
+        )
+        Box(
+            modifier = Modifier
+                .weight(1f, false)
+                .padding(bottom = 50.dp)
+                .height(50.dp)
+                .fillMaxWidth()
+        )
+        {
+            Button(
+                onClick = {
+                    if (active)
+                        sizeState = 0.dp
+                    else
+                        sizeState = 400.dp
+
+                    active = !active
+                    navController.navigate(NavigationRoute.LoginRegisterPage.route)
+                    Firebase.auth.signOut()
+                },
                 modifier = Modifier
-                    .weight(1f, false)
-                    .padding(bottom = 50.dp)
-                    .height(50.dp)
-                    .fillMaxWidth()
-            )
-            {
-                Button(
-                    onClick = {
-                        if (active)
-                            sizeState = 0.dp
-                        else
-                            sizeState = 400.dp
-
-                        active = !active
-                        navController.navigate(NavigationRoute.LoginRegisterPage.route)
-                        Firebase.auth.signOut()
-
-                    },
+                    .align(Center)
+                    .width(300.dp),
+                shape = RoundedCornerShape(12.dp),
+                colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.primary))
+            ) {
+                Icon(
                     modifier = Modifier
-                        .align(Center)
-                        .width(300.dp),
-                    shape = RoundedCornerShape(12.dp),
-                    colors = ButtonDefaults.buttonColors(backgroundColor = colorResource(id = R.color.primary))
-                ) {
-                    Icon(
-                        modifier = Modifier
-                            .padding(start = 5.dp),
-                        imageVector = Icons.Filled.ExitToApp,
-                        contentDescription = ""
-                    )
-                    Text(
-                        text = "Logout",
-                        color = Color.Black,
-                        modifier = Modifier.padding(7.dp)
-                    )
-                }
+                        .padding(start = 5.dp),
+                    imageVector = Icons.Filled.ExitToApp,
+                    contentDescription = ""
+                )
+                Text(
+                    text = "Logout",
+                    color = Color.Black,
+                    modifier = Modifier.padding(7.dp)
+                )
             }
-
         }
     }
-
-
+}
 
 @Composable
 fun AlertDialogSample( viewModel: RegisterViewModel = viewModel(), navController: NavController) {
@@ -253,7 +235,6 @@ fun AlertDialogSample( viewModel: RegisterViewModel = viewModel(), navController
         Column {
             val NameEditAlert = remember { mutableStateOf(false)  }
             val name: String by viewModel.name.observeAsState("")
-
 
             Text(modifier = Modifier
                 .clickable { NameEditAlert.value = true }
@@ -274,7 +255,7 @@ fun AlertDialogSample( viewModel: RegisterViewModel = viewModel(), navController
                                 text = "Enter your name of choice",
                                 fontWeight = FontWeight.SemiBold)
                         }
-                        },
+                    },
 
                     text = {
                         OutlinedTextField(modifier = Modifier
@@ -315,6 +296,5 @@ fun AlertDialogSample( viewModel: RegisterViewModel = viewModel(), navController
                 )
             }
         }
-
     }
 }

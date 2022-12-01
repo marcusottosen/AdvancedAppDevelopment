@@ -10,7 +10,6 @@ import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,7 +22,6 @@ import androidx.navigation.NavController
 import com.example.advancedappdevelopment.R
 import com.example.advancedappdevelopment.data.model.NavigationRoute
 
-
 @Composable
 fun ContactPage (navController: NavController) {
     Column(
@@ -34,7 +32,6 @@ fun ContactPage (navController: NavController) {
                 .fillMaxWidth()
 
         ) {
-
             Box(
                 modifier = Modifier
                     .padding(top = 20.dp)
@@ -61,8 +58,6 @@ fun ContactPage (navController: NavController) {
                         modifier = Modifier
                             .fillMaxSize()
                             .clickable { navController.navigate(NavigationRoute.ProfilePage.route) }
-
-
                     )
                 }
             }
@@ -82,9 +77,9 @@ fun ContactPage (navController: NavController) {
                     .padding(start = 15.dp)
                     .clickable { }
                     .align(CenterVertically),
-                imageVector = Icons.Filled.Email,
-                contentDescription = "",
-                tint = colorResource(id = R.color.primary))
+                    imageVector = Icons.Filled.Email,
+                    contentDescription = "",
+                    tint = colorResource(id = R.color.primary))
 
                 Text(modifier = Modifier
                     .clickable { }
@@ -92,9 +87,6 @@ fun ContactPage (navController: NavController) {
                     .align(CenterVertically)
                     ,text = "advancedapp@support.dk"
                     ,color =colorResource(id = R.color.primary))
-
-
-
             }
             Row(modifier = Modifier
                 .fillMaxWidth()
@@ -113,14 +105,10 @@ fun ContactPage (navController: NavController) {
                     .align(CenterVertically)
                     ,text = "+45 00 00 00 00"
                     ,color =colorResource(id = R.color.primary))
-
-
-
             }
             Text(modifier = Modifier.padding(start = 15.dp),
                 text = "Support from 8:00 to 16:00 monday - friday",
                 fontWeight = FontWeight.SemiBold)
-
         }
     }
 }

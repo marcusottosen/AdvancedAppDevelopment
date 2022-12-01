@@ -19,57 +19,52 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.advancedappdevelopment.data.model.NavigationRoute
 import com.example.advancedappdevelopment.data.model.helps
-import com.example.advancedappdevelopment.data.model.hiws
 import com.example.advancedappdevelopment.ui.view.reusables.DropDownMenu
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HelpPage (navController: NavController) {
     Box(modifier = Modifier.fillMaxSize()) {
-
         LazyColumn(
             modifier = Modifier.fillMaxSize()
         ) {
             item {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
 
-        ) {
-
-            Box(
-                modifier = Modifier
-                    .padding(top = 20.dp)
-                    .height(70.dp)
-                    .fillMaxWidth()
-            )
-            {
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = "Help",
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 36.sp,
-                    textAlign = TextAlign.Center
-                )
-                IconButton(modifier = Modifier
-                    .padding(start = 20.dp)
-                    .size(40.dp),
-                    onClick = {}
                 ) {
-                    Icon(
-                        imageVector = Icons.Filled.ArrowBack,
-                        tint = Color.DarkGray,
-                        contentDescription = "return arrow",
+                    Box(
                         modifier = Modifier
-                            .fillMaxSize()
-                            .clickable { navController.navigate(NavigationRoute.ProfilePage.route) }
-
-
+                            .padding(top = 20.dp)
+                            .height(70.dp)
+                            .fillMaxWidth()
                     )
+                    {
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            text = "Help",
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 36.sp,
+                            textAlign = TextAlign.Center
+                        )
+                        IconButton(modifier = Modifier
+                            .padding(start = 20.dp)
+                            .size(40.dp),
+                            onClick = {}
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.ArrowBack,
+                                tint = Color.DarkGray,
+                                contentDescription = "return arrow",
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .clickable { navController.navigate(NavigationRoute.ProfilePage.route) }
+                            )
+                        }
+                    }
                 }
             }
-        }
-    }
             items(helps.size) { help ->
                 Box(modifier = Modifier.padding(horizontal = 35.dp)
                 ) {
@@ -82,5 +77,5 @@ fun HelpPage (navController: NavController) {
             }
             item {Spacer(modifier=Modifier.height(100.dp))}
         }
-}
+    }
 }

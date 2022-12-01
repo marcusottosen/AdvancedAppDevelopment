@@ -1,34 +1,22 @@
 package com.example.advancedappdevelopment.ui.view.pages.profile
 
-import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.drawBehind
-import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.advancedappdevelopment.data.model.NavigationRoute
 import com.example.advancedappdevelopment.data.model.hiws
 import com.example.advancedappdevelopment.ui.view.reusables.DropDownMenu
-
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -44,7 +32,6 @@ fun HiwPage (navController: NavController) {
                         .fillMaxWidth()
 
                 ) {
-
                     Box(
                         modifier = Modifier
                             .padding(top = 20.dp)
@@ -71,8 +58,6 @@ fun HiwPage (navController: NavController) {
                                 modifier = Modifier
                                     .fillMaxSize()
                                     .clickable { navController.navigate(NavigationRoute.ProfilePage.route) }
-
-
                             )
                         }
                     }
@@ -81,7 +66,7 @@ fun HiwPage (navController: NavController) {
 
             items(hiws.size) { hiw ->
                 Box(modifier = Modifier.padding(horizontal = 35.dp)
-                    ) {
+                ) {
                     DropDownMenu(
                         question = hiws[hiw].question,
                         answer = hiws[hiw].answer,
@@ -93,6 +78,3 @@ fun HiwPage (navController: NavController) {
         }
     }
 }
-
-
-
