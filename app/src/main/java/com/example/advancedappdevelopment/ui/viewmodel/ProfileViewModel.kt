@@ -6,14 +6,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import com.example.advancedappdevelopment.data.model.dataClass.CurrentUser
-import com.example.advancedappdevelopment.data.model.dataClass.CurrentUser.name
-import com.example.advancedappdevelopment.data.model.dataClass.User
-import com.example.bkskjold.data.util.getDayMonth
-import com.example.bkskjold.data.util.getYear
 
 class ProfileViewModel : ViewModel() {
     var currentUser = CurrentUser

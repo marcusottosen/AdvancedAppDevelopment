@@ -2,19 +2,16 @@ package com.example.advancedappdevelopment.data.util
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.advancedappdevelopment.data.model.NavigationRoute
-import com.example.advancedappdevelopment.data.model.dataClass.CurrentUser
 import com.example.advancedappdevelopment.data.model.dataClass.TempVehicle
-import com.example.advancedappdevelopment.data.model.dataClass.User
 import com.example.advancedappdevelopment.data.model.dataClass.Vehicle
 import com.example.advancedappdevelopment.data.model.updateHIW
 import com.example.advancedappdevelopment.data.model.updateHelp
-import com.example.advancedappdevelopment.ui.view.pages.CarInfo
 import com.example.advancedappdevelopment.ui.view.pages.AvailableVehiclesPage
+import com.example.advancedappdevelopment.ui.view.pages.CarInfo
 import com.example.advancedappdevelopment.ui.view.pages.Checkout
 import com.example.advancedappdevelopment.ui.view.pages.CheckoutSuccess
 import com.example.advancedappdevelopment.ui.view.pages.login.LoginPage
@@ -41,12 +38,7 @@ fun Navigation(navController: NavHostController) {
     NavHost(
         navController,
         startDestination = startingDestination
-    /*if (Firebase.auth.currentUser != null)
-        NavigationRoute.LoadFromDB.route
-    else
-        "authenticationOption"*/
     ) {
-
 
         composable(NavigationRoute.Homepage.route) {
             BackHandler(true) {}
@@ -58,10 +50,9 @@ fun Navigation(navController: NavHostController) {
             LoadFromDB(navController)
         }
 
-
         composable(NavigationRoute.Checkout.route){
             val tempCarModel =
-            navController.previousBackStackEntry?.arguments?.getParcelable<TempVehicle>("tempVehicle")
+                navController.previousBackStackEntry?.arguments?.getParcelable<TempVehicle>("tempVehicle")
             tempCarModel?.let {
                 Checkout(vehicle = it, navController = navController)
             }
@@ -70,8 +61,6 @@ fun Navigation(navController: NavHostController) {
         composable(NavigationRoute.CheckoutSuccess.route) {
             CheckoutSuccess(navController)
         }
-
-
 
         composable(NavigationRoute.CarInfo.route) {
             val carModel =
@@ -108,7 +97,6 @@ fun Navigation(navController: NavHostController) {
         composable(NavigationRoute.ContactPage.route) {
             ContactPage(navController)
         }
-
     }
 }
 

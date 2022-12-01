@@ -54,7 +54,6 @@ fun LoginPage(navController: NavController, viewModel: LoginViewModel = viewMode
                 viewModel._showLoginSuccess.value = false
                 //TODO: Crasher pt. app'en at navigere til Homepage to authentication-branch
                 navController.navigate(NavigationRoute.LoadFromDB.route)
-                //navController.navigate(NavigationRoute.Homepage.route)
             }
             LazyColumn(
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -168,6 +167,5 @@ fun LoginPage(navController: NavController, viewModel: LoginViewModel = viewMode
                 }
             }
         }
-
     }
 }

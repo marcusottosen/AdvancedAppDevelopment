@@ -2,19 +2,14 @@ package com.example.advancedappdevelopment.data.model.firebaseAdapter
 
 import android.content.ContentValues
 import android.util.Log
-import androidx.annotation.NonNull
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.navigation.NavController
-import com.example.advancedappdevelopment.data.model.dataClass.TempVehicle
 import com.example.advancedappdevelopment.data.model.dataClass.Vehicle
 import com.google.firebase.Timestamp
-import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-
 
 val vehicles: MutableList<Vehicle> = mutableListOf()
 
@@ -23,8 +18,6 @@ class VehicleDBModel{
     val loading: LiveData<Boolean> = _loading
 
     fun loadVehiclesFromDB(): MutableList<Vehicle>{
-        println("loadVehiclesFromDB starting")
-
         val db = Firebase.firestore
 
         db.collection("vehicles")
@@ -52,8 +45,6 @@ class VehicleDBModel{
             }
             .addOnCompleteListener{
                 if (it.isSuccessful){
-                    println("Successful. Navigating to home from loadVehiclesFromDB")
-                    //navController.navigate(NavigationRoute.CarInfo.route)
                     _loading.value = false
                 }
             }
@@ -90,21 +81,5 @@ fun updateVehicleDB(vehicle: Vehicle): Vehicle {
                 }
                 .addOnFailureListener { e -> Log.w(ContentValues.TAG, "Error updating vehicle document", e) }
         }
-
     return vehicle
-}
-
-fun addVehicleToDB(item: Vehicle) {
-    val db = Firebase.firestore
-    db.collection("vehicles")
-        .add(item)
-        .addOnSuccessListener { documentReference ->
-            Log.d(
-                ContentValues.TAG,
-                "DocumentSnapshot added with ID: ${documentReference.id}"
-            )
-        }
-        .addOnFailureListener { e ->
-            Log.w(ContentValues.TAG, "Error adding document", e)
-        }
 }

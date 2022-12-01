@@ -15,14 +15,3 @@ sealed class NavigationRoute(var route: String) {
     object HelpPage               : NavigationRoute("helpPage")
     object ContactPage               : NavigationRoute("contactPage")
 }
-
-/*
-    ^^ String is only for description.
-    Though you can also do:
-        navController.navigate("homepage")
-    to navigate to the homepage.
-
-    But please do:
-        navController.navigate(NavigationRoute.Homepage.route)
-    instead
- */

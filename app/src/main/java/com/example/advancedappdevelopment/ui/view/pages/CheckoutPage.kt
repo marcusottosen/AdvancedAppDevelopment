@@ -5,12 +5,18 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
@@ -27,17 +33,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.advancedappdevelopment.R
 import com.example.advancedappdevelopment.data.model.NavigationRoute
 import com.example.advancedappdevelopment.data.model.dataClass.TempVehicle
-import com.example.advancedappdevelopment.data.util.LoadFromDB
-import com.example.advancedappdevelopment.data.model.dataClass.Vehicle
+import com.example.advancedappdevelopment.data.util.getTimeFromInt
 import com.example.advancedappdevelopment.ui.viewmodel.CheckoutViewModel
-import com.example.bkskjold.data.util.getTimeFromInt
 import kotlinx.coroutines.launch
 
 @Composable
@@ -51,12 +54,12 @@ fun Checkout(
     val coroutineScope = rememberCoroutineScope()
     val scale = remember { Animatable(1f) }
     val viewmodel = CheckoutViewModel(vehicle)
+    val context = LocalContext.current  // For toasts
 
     LazyColumn(
         modifier = Modifier.fillMaxSize()
     ) {
         item {
-            //Column(Modifier.fillMaxSize()) {
             Box(modifier = Modifier
                 .padding(20.dp)
                 .clickable { navController.navigate(NavigationRoute.Homepage.route) }
@@ -149,7 +152,6 @@ fun Checkout(
                 }
                 Text(
                     text = "30,- per hour",
-                    //fontWeight = FontWeight.Light,
                     fontStyle = FontStyle.Italic,
                     fontSize = 12.sp
                 )
@@ -169,7 +171,6 @@ fun Checkout(
             easing = FastOutSlowInEasing
         )
     )
-
     Box(
         Modifier
             .fillMaxSize()
@@ -197,9 +198,6 @@ fun Checkout(
             )
         }
     }
-
-
-
 
 
     Column(Modifier.fillMaxSize(), verticalArrangement = Arrangement.Bottom) {
@@ -331,7 +329,6 @@ fun Checkout(
                                 else
                                     1f
                             )
-
                     ) {
                         Row(
                             Modifier
@@ -364,7 +361,6 @@ fun Checkout(
                             )
                         }
                     }
-                    val context = LocalContext.current
 
                     Box(
                         Modifier
@@ -380,7 +376,7 @@ fun Checkout(
                                     Toast.makeText(context, "ERROR! Booking not created", Toast.LENGTH_SHORT).show()
                                 }
                                 navController.navigate(NavigationRoute.CheckoutSuccess.route)
-                                      },
+                            },
                             modifier = Modifier
                                 .align(Alignment.Center)
                                 .width(300.dp),

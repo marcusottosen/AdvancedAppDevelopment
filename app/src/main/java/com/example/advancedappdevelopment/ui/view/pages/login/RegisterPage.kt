@@ -27,14 +27,11 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.advancedappdevelopment.data.model.NavigationRoute
-import com.example.advancedappdevelopment.data.model.dataClass.CurrentUser
 import com.example.advancedappdevelopment.ui.viewmodel.RegisterViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 
 // Register with ViewModel, but with two functions in onClick
-
-
 
 @Composable
 fun RegisterPage(navController: NavController, viewModel: RegisterViewModel = viewModel()) {
@@ -63,9 +60,6 @@ fun RegisterPage(navController: NavController, viewModel: RegisterViewModel = vi
             if (registerSuccess and showRegisterSucess) {
                 Toast.makeText(context, "Du er nu oprettet. Kør forsigtigt", Toast.LENGTH_LONG).show()
                 viewModel._showRegisterSuccess.value = false
-                //TODO: Crasher pt. app'en at navigere til Homepage i authentication-branch
-                //navController.navigate(NavigationRoute.LoginRegisterPage.route)
-                //navController.navigate(NavigationRoute.Homepage.route)
                 navController.navigate(NavigationRoute.LoadFromDB.route)
             }
             LazyColumn(
@@ -175,14 +169,8 @@ fun RegisterPage(navController: NavController, viewModel: RegisterViewModel = vi
                             visualTransformation = PasswordVisualTransformation()
                         )
 
-
                         //Spacer
                         Spacer(modifier = Modifier.height(50.dp))
-                        //TODO: Kun signup med kode over 6 karaktere.
-                        //TODO: Toastbesked ved mismatchende kodeer.
-                        //TODO: Toastbesked ved tommefelter i stedet for crash.
-
-
 
                         if ((name.isNotEmpty()) and (email.isNotEmpty()) and (password.length >=6) and (password == passwordCheck)) {
                             // Enabled button
@@ -221,14 +209,13 @@ fun RegisterPage(navController: NavController, viewModel: RegisterViewModel = vi
                                 )
                             ) {
                                 Text(text = "Tilmeld",
-                                color = Color.White)
+                                    color = Color.White)
                             }
                         }
                     }
                 }
             }
         }
-
     }
 }
 

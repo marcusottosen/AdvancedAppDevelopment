@@ -1,20 +1,13 @@
 package com.example.advancedappdevelopment.ui.view.reusables
 
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
@@ -45,7 +38,7 @@ fun AvailableVehicleCard(
         backgroundColor = colorResource(R.color.background),
         elevation = 6.dp,
 
-    ) {
+        ) {
         Row {
             Column(modifier = Modifier.width(95.dp)) {
                 Text(

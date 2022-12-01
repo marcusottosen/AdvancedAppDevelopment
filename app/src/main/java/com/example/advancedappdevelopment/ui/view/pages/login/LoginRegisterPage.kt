@@ -15,7 +15,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.advancedappdevelopment.data.model.NavigationRoute
-import com.example.advancedappdevelopment.data.model.dataClass.CurrentUser
 
 @Composable
 fun LoginRegisterPage(navController: NavController) {
@@ -39,9 +38,9 @@ fun LoginRegisterPage(navController: NavController) {
         Button(
             onClick = { navController.navigate(NavigationRoute.LoginPage.route) },
             modifier = Modifier
-            .width(340.dp)
-            .height(60.dp)
-            .border(1.dp, Color.Black, RoundedCornerShape(50)),
+                .width(340.dp)
+                .height(60.dp)
+                .border(1.dp, Color.Black, RoundedCornerShape(50)),
             shape = RoundedCornerShape(50),
             elevation = null,
             colors = ButtonDefaults.buttonColors(
@@ -78,5 +77,4 @@ fun LoginRegisterPage(navController: NavController) {
             )
         }
     }
-
 }

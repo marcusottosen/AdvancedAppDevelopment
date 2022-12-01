@@ -2,7 +2,6 @@ package com.example.advancedappdevelopment.data.util
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
@@ -19,16 +18,11 @@ import com.example.advancedappdevelopment.R
 import com.example.advancedappdevelopment.data.model.NavigationRoute
 import com.example.advancedappdevelopment.data.model.firebaseAdapter.AssociationDBModel
 import com.example.advancedappdevelopment.data.model.firebaseAdapter.VehicleDBModel
-import com.example.advancedappdevelopment.data.model.firebaseAdapter.associations
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.flow
-import com.example.advancedappdevelopment.data.model.firebaseAdapter.updateCurrentUser
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
 fun LoadFromDB(navController: NavController)  {
-    //val db = Firebase.firestore
-    //val scope = CoroutineScope(Dispatchers.Main + Job()) //rememberCoroutineScope
     val scope = rememberCoroutineScope()
 
     val associations = AssociationDBModel()
@@ -44,22 +38,6 @@ fun LoadFromDB(navController: NavController)  {
         CircularProgressIndicator(color = colorResource(R.color.primary), modifier = Modifier.size(50.dp))
     }
 
-    /*if (vehiclesLoading){
-        println("Loading... Loading...")
-        Box(contentAlignment = Alignment.Center, modifier = Modifier.fillMaxSize()) {
-            Column() {
-                CircularProgressIndicator(color = colorResource(R.color.primary))
-                Button(onClick = {
-                    navController.navigate(NavigationRoute.Homepage.route)
-                }) {
-                    Text(text = "Temporary start button")
-                }
-            }
-        }
-    } else {
-        println("navigating to home...")
-        //navController.navigate(NavigationRoute.Checkout.route)
-    }*/
     scope.launch {
         while (vehiclesLoading)
             delay(1000)

@@ -25,7 +25,7 @@ import com.example.advancedappdevelopment.R
 import com.example.advancedappdevelopment.data.model.dataClass.Vehicle
 import com.example.advancedappdevelopment.ui.viewmodel.CalendarViewModel
 import com.example.advancedappdevelopment.ui.viewmodel.CarBookedDay
-import com.example.bkskjold.data.util.getHour
+import com.example.advancedappdevelopment.data.util.getHour
 import io.github.boguszpawlowski.composecalendar.SelectableCalendar
 import io.github.boguszpawlowski.composecalendar.day.DayState
 import io.github.boguszpawlowski.composecalendar.rememberSelectableCalendarState
@@ -35,6 +35,7 @@ import kotlinx.coroutines.launch
 
 /**
  * Calendar item from https://github.com/boguszpawlowski/ComposeCalendar
+ * But modified to fit our needs
  */
 @Composable
 fun MyCalendarView(viewModel: CalendarViewModel){
@@ -69,7 +70,7 @@ fun MyCalendarView(viewModel: CalendarViewModel){
 
 /**
  * Shows 24-hour time picker.
- * Each hour can be clicked on making it green.
+ * Each hour can be clicked on to making it green.
  * Each hour already booked is red.
  */
 @OptIn(ExperimentalFoundationApi::class)
@@ -80,8 +81,6 @@ fun TimePicker(
     animationDuration: Int = 100,
     scaleDown: Float = 0.9f
 ){
-    // val chosenHours by remember {viewModel.chosenHours}
-
     val bookedDatesAsString = mutableListOf<String>()    // List of all already-booked dates
 
     for (i in 0 until viewModel.bookedDates.size){
@@ -139,7 +138,7 @@ fun TimePicker(
                         )
                     }
 
-                    if (!hourIsBooked)                          // If hour is already booked, remove it from picked hours
+                    if (!hourIsBooked)      // If hour is already booked, remove it from picked hours
                         chosenTime =! chosenTime
                     if (!viewModel.chosenHours.contains(index) && !hourIsBooked)
                         viewModel.chosenHours.add(index)
@@ -191,7 +190,6 @@ fun BookedDay(
     Card(
         modifier = modifier
             .aspectRatio(1f)
-            //.clip(RoundedCornerShape(27.dp))
             .padding(2.dp),
         elevation = if (state.isFromCurrentMonth) 4.dp else 0.dp,
         border = if (state.isCurrentDay) BorderStroke(1.dp, MaterialTheme.colors.primary) else null,

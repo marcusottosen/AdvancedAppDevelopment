@@ -30,7 +30,7 @@ data class TempVehicle(
 ) : Parcelable
 
 
-/* Idea to time management:
+/* Time management system:
 
     var BookingStart: MutableList<com.google.firebase.Timestamp> = mutableListOf(),
     var BookingEnd: MutableList<com.google.firebase.Timestamp> = mutableListOf(),

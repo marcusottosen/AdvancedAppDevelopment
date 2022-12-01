@@ -1,13 +1,9 @@
 package com.example.advancedappdevelopment.ui.viewmodel
 
-import android.widget.Toast
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import com.example.advancedappdevelopment.data.model.dataClass.TempVehicle
 import com.example.advancedappdevelopment.data.model.firebaseAdapter.updateVehicleDB
-import com.example.bkskjold.data.util.getTimeFromInt
+import com.example.advancedappdevelopment.data.util.getTimeFromInt
 import com.google.firebase.Timestamp
 import java.text.SimpleDateFormat
 

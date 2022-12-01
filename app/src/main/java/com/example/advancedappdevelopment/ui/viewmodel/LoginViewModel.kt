@@ -3,13 +3,10 @@ package com.example.advancedappdevelopment.ui.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.advancedappdevelopment.data.model.dataClass.User
 import com.example.advancedappdevelopment.data.model.firebaseAdapter.updateCurrentUser
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import java.lang.IllegalArgumentException
 
 class LoginViewModel : ViewModel() {
     private val auth: FirebaseAuth = Firebase.auth
@@ -60,5 +57,4 @@ class LoginViewModel : ViewModel() {
                 }
         }
     }
-
 }

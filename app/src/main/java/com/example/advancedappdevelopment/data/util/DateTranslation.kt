@@ -1,9 +1,10 @@
-package com.example.bkskjold.data.util
+package com.example.advancedappdevelopment.data.util
 
 import android.icu.util.Calendar
 
 /**
  * To have more control of how our date is displayed, a translation from googles Timestamp value to strings is being done here.
+ * Some functions from former project: github.com/marcusottosen/BKSkjold
  */
 
 //11/1
@@ -108,18 +109,3 @@ fun getTimeFromInt(hour: Int): String{
 	}
 	return "$time:00"
 }
-
-/*
-fun stringDateToIntYear(date: String): Int{
-	return date.take(4).toInt()
-}
-
-fun stringDateToIntMonth(date: String): Int{
-	val month = date.drop(5)
-	return month.take(2).toInt()
-}
-
-fun stringDateToIntDay(date: String): Int{
-	return date.takeLast(2).toInt()
-}
- */

@@ -1,18 +1,14 @@
 package com.example.advancedappdevelopment.ui.view.pages
 
-import android.annotation.SuppressLint
-import android.provider.ContactsContract.Profile
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -20,7 +16,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.InspectableModifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -29,10 +24,8 @@ import com.example.advancedappdevelopment.R
 import com.example.advancedappdevelopment.data.model.NavigationRoute
 import com.example.advancedappdevelopment.data.model.dataClass.Vehicle
 import com.example.advancedappdevelopment.data.model.firebaseAdapter.associations
-import com.example.advancedappdevelopment.ui.view.pages.profile.ProfilePage
 import com.example.advancedappdevelopment.ui.viewmodel.AvailableVehiclesViewModel
 import kotlinx.coroutines.launch
-
 
 @Composable
 fun AvailableVehiclesPage(navController: NavController){
@@ -95,57 +88,55 @@ fun PageTop( navController: NavController,
                         )
                     }
 
+                    if (associations.size > 0) {
+                        LazyRow(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(20.dp, 0.dp, 20.dp, 20.dp),
+                            verticalAlignment = Alignment.Bottom,
+                            horizontalArrangement = Arrangement.Center
+                        )
+                        {
+                            items(associations.size) { i ->         // Button with animation
+                                Button(
+                                    onClick = {
+                                        showAssociation.value = i;
 
-                if (associations.size > 0) {
-                    LazyRow(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(20.dp, 0.dp, 20.dp, 20.dp),
-                        verticalAlignment = Alignment.Bottom,
-                        horizontalArrangement = Arrangement.Center
-                    )
-                    {
-                        items(associations.size) { i ->         // Button with animation
-                            Button(
-                                onClick = {
-                                    showAssociation.value = i;
+                                        coroutineScope.launch {
+                                            scale.animateTo(
+                                                scaleDown,
+                                                animationSpec = tween(animationDuration),
+                                            )
+                                            scale.animateTo(
+                                                1f,
+                                                animationSpec = tween(animationDuration),
+                                            )
+                                        }
+                                    },
 
-                                    coroutineScope.launch {
-                                        scale.animateTo(
-                                            scaleDown,
-                                            animationSpec = tween(animationDuration),
-                                        )
-                                        scale.animateTo(
-                                            1f,
-                                            animationSpec = tween(animationDuration),
-                                        )
-                                    }
-                                },
+                                    if (showAssociation.value == i) {
+                                        Modifier
+                                            .padding(bottom = 20.dp, start = 10.dp, end = 10.dp)
+                                            .scale(scale = scale.value)
+                                    } else Modifier.padding(bottom = 20.dp, start = 10.dp, end = 10.dp),
 
-
-                                if (showAssociation.value == i) {
-                                    Modifier
-                                        .padding(bottom = 20.dp, start = 10.dp, end = 10.dp)
-                                        .scale(scale = scale.value)
-                                } else Modifier.padding(bottom = 20.dp, start = 10.dp, end = 10.dp),
-
-                                shape = RoundedCornerShape(12.dp),
-                                colors = ButtonDefaults.buttonColors(
-                                    backgroundColor =
-                                    if (showAssociation.value == i) colorResource(R.color.primary)
-                                    else colorResource(R.color.inactive)
-                                )
-                            ) {
-                                Text(
-                                    text = associations[i].name,
-                                    fontWeight = FontWeight.Bold,
-                                    color = if (showAssociation.value == i) colorResource(R.color.black)
-                                    else colorResource(R.color.light_gray)
-                                )
+                                    shape = RoundedCornerShape(12.dp),
+                                    colors = ButtonDefaults.buttonColors(
+                                        backgroundColor =
+                                        if (showAssociation.value == i) colorResource(R.color.primary)
+                                        else colorResource(R.color.inactive)
+                                    )
+                                ) {
+                                    Text(
+                                        text = associations[i].name,
+                                        fontWeight = FontWeight.Bold,
+                                        color = if (showAssociation.value == i) colorResource(R.color.black)
+                                        else colorResource(R.color.light_gray)
+                                    )
+                                }
                             }
                         }
                     }
-                }
                 }
             }
 
