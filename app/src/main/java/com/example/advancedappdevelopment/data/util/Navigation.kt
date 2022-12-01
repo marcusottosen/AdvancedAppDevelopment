@@ -7,8 +7,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.advancedappdevelopment.data.model.NavigationRoute
+import com.example.advancedappdevelopment.data.model.dataClass.CurrentUser
 import com.example.advancedappdevelopment.data.model.dataClass.TempVehicle
+import com.example.advancedappdevelopment.data.model.dataClass.User
 import com.example.advancedappdevelopment.data.model.dataClass.Vehicle
+import com.example.advancedappdevelopment.data.model.updateHIW
+import com.example.advancedappdevelopment.data.model.updateHelp
 import com.example.advancedappdevelopment.ui.view.pages.CarInfo
 import com.example.advancedappdevelopment.ui.view.pages.AvailableVehiclesPage
 import com.example.advancedappdevelopment.ui.view.pages.Checkout
@@ -16,6 +20,10 @@ import com.example.advancedappdevelopment.ui.view.pages.CheckoutSuccess
 import com.example.advancedappdevelopment.ui.view.pages.login.LoginPage
 import com.example.advancedappdevelopment.ui.view.pages.login.LoginRegisterPage
 import com.example.advancedappdevelopment.ui.view.pages.login.RegisterPage
+import com.example.advancedappdevelopment.ui.view.pages.profile.ContactPage
+import com.example.advancedappdevelopment.ui.view.pages.profile.HelpPage
+import com.example.advancedappdevelopment.ui.view.pages.profile.HiwPage
+import com.example.advancedappdevelopment.ui.view.pages.profile.ProfilePage
 import com.google.firebase.auth.FirebaseAuth
 
 @Composable
@@ -38,6 +46,7 @@ fun Navigation(navController: NavHostController) {
     else
         "authenticationOption"*/
     ) {
+
 
         composable(NavigationRoute.Homepage.route) {
             BackHandler(true) {
@@ -73,6 +82,10 @@ fun Navigation(navController: NavHostController) {
             }
         }
 
+        composable(NavigationRoute.ProfilePage.route) {
+            ProfilePage(navController = navController)
+        }
+
         // Authentication pages
         composable(NavigationRoute.LoginPage.route) {
             LoginPage(navController)
@@ -84,9 +97,24 @@ fun Navigation(navController: NavHostController) {
             LoginRegisterPage(navController)
         }
 
-
-
+        composable(NavigationRoute.HiwPage.route) {
+            HiwPage(navController)
+            updateHIW()
+        }
+        composable(NavigationRoute.HelpPage.route) {
+            HelpPage(navController)
+            updateHelp()
+        }
+        composable(NavigationRoute.ContactPage.route) {
+            ContactPage(navController)
+        }
 
     }
 }
+
+
+
+
+
+
 // Change page with argument: check last project

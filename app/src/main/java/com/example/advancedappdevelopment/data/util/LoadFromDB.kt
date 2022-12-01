@@ -22,6 +22,7 @@ import com.example.advancedappdevelopment.data.model.firebaseAdapter.VehicleDBMo
 import com.example.advancedappdevelopment.data.model.firebaseAdapter.associations
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.flow
+import com.example.advancedappdevelopment.data.model.firebaseAdapter.updateCurrentUser
 
 @SuppressLint("CoroutineCreationDuringComposition")
 @Composable
